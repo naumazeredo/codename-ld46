@@ -4,12 +4,14 @@ set OUT_EXE=pets
 
 set TARGET=x64
 
+set FLAGS=/std:c++latest /FC
+
 if "%1" == "release" (
   echo [Release build]
-  set FLAGS=/std:c++17 /FC /MD /EHsc /O2
+  set FLAGS=%FLAGS% /MD /EHsc /O2
 ) else (
   echo [Debug build]
-  set FLAGS=/std:c++17 /Zi /FC /MDd /EHsc /Od
+  set FLAGS=%FLAGS% /Zi /MDd /EHsc /Od
 )
 
 set DEFINES=/DIMGUI_IMPL_OPENGL_LOADER_GL3W /DSDL_MAIN_HANDLED
