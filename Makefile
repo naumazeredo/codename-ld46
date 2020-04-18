@@ -42,7 +42,7 @@ SRCS = ${DEP_SRCS} \
 			 src/shaders.cpp \
 			 src/input.cpp \
 			 src/audio.cpp \
-			 src/protagonist.cpp
+			 src/player.cpp
 
 OBJS = $(SRCS:src/%.cpp=${OUT_DIR}/%.o)
 #OBJS = $(patsubst src/%.cpp,${OUT_DIR}/%.o,$(SRC))
@@ -65,7 +65,7 @@ run: all
 clean:
 	rm -rf ${OUT_DIR}
 
-out_dir: clean
+out_dir:
 	mkdir -p ${OUT_DIR}
 	cp -r ${FILES} ${OUT_DIR}
 
