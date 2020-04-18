@@ -24,7 +24,7 @@ IMGUI_SRC = ${DEPS_SRC}/imgui
 IMGUI_INC = ${DEPS_INC}/imgui
 
 LIBS = -lSDL2 \
-			 -lSDL2_mixer
+			 -lSDL2_mixer \
 			 -lGL \
 			 -ldl
 
@@ -41,20 +41,33 @@ SRCS = ${DEP_SRCS} \
 			 src/render.cpp \
 			 src/shaders.cpp \
 			 src/input.cpp \
-			 src/audio.cpp
+			 src/audio.cpp \
+			 src/protagonist.cpp
+
+OBJS = $(SRCS:src/%.cpp=${OUT_DIR}/%.o)
+#OBJS = $(patsubst src/%.cpp,${OUT_DIR}/%.o,$(SRC))
 
 FILES = assets
 
 OUT_DIR = build
 
-all:
-	rm -rf ${OUT_DIR}
-	mkdir -p ${OUT_DIR}
-	cp -r ${FILES} ${OUT_DIR}
-	${CC} ${SRCS} ${DEFS} ${FLAGS} ${INCS} -o ${OUT_DIR}/${OUT_EXE} ${LIBS}
+all: out_dir objs
+	${CC} ${OBJS} ${DEFS} ${FLAGS} ${INCS} ${LIBS} -o ${OUT_DIR}/${OUT_EXE}
+
+objs: ${OBJS}
+
+${OUT_DIR}/%.o: src/%.cpp
+	${CC} ${DEFS} ${FLAGS} ${INCS} ${LIBS} -c $< -o $@
 
 run: all
 	./${OUT_DIR}/${OUT_EXE}
+
+clean:
+	rm -rf ${OUT_DIR}
+
+out_dir: clean
+	mkdir -p ${OUT_DIR}
+	cp -r ${FILES} ${OUT_DIR}
 
 #TODO:
 #  installation of libsdl2-dev
