@@ -19,23 +19,23 @@ int dx[NUM_DIRECTIONS] = {0, 0, -1, 1},
 int speed = 2;
 
 void setup() {
-  tex[0] = render_load_image("assets/gfx/template-32x32-up.png");
-  tex[1] = render_load_image("assets/gfx/template-32x32-down.png");
-  tex[2] = render_load_image("assets/gfx/template-32x32-left.png");
-  tex[3] = render_load_image("assets/gfx/template-32x32-right.png");
+  tex[0] = render::load_image("assets/gfx/template-32x32-up.png");
+  tex[1] = render::load_image("assets/gfx/template-32x32-down.png");
+  tex[2] = render::load_image("assets/gfx/template-32x32-left.png");
+  tex[3] = render::load_image("assets/gfx/template-32x32-right.png");
 
-  add_to_render(x, y, w, h, tex[RIGHT]);
+  render::add_to_render(x, y, w, h, tex[RIGHT]);
 }
 
 void update() {
   for(int i = 0; i < NUM_DIRECTIONS; i++) {
-    if(is_pressed(key[i])) {
+    if(input::is_key_pressed(key[i])) {
       x += dx[i]*speed, y += dy[i]*speed;
       dir = (Direction)i;
     }
   }
 
-  add_to_render(x, y, w, h, tex[dir]);
+  render::add_to_render(x, y, w, h, tex[dir]);
 }
 
 }

@@ -42,6 +42,7 @@ SRCS = ${DEP_SRCS} \
 			 src/shaders.cpp \
 			 src/input.cpp \
 			 src/audio.cpp \
+			 src/game.cpp \
 			 src/player.cpp
 
 OBJS = $(SRCS:src/%.cpp=${OUT_DIR}/%.o)
