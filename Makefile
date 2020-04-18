@@ -24,6 +24,7 @@ IMGUI_SRC = ${DEPS_SRC}/imgui
 IMGUI_INC = ${DEPS_INC}/imgui
 
 LIBS = -lSDL2 \
+			 -lSDL2_mixer
 			 -lGL \
 			 -ldl
 
@@ -39,7 +40,8 @@ SRCS = ${DEP_SRCS} \
 			 src/debug.cpp \
 			 src/render.cpp \
 			 src/shaders.cpp \
-			 src/input.cpp
+			 src/input.cpp \
+			 src/audio.cpp
 
 FILES = assets
 

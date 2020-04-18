@@ -1,5 +1,7 @@
 #include "debug.h"
 
+#include <string> // @TODO(naum): remove when possible
+
 #include <GL/gl3w.h>
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -7,11 +9,14 @@
 
 #include "types.h"
 #include "render.h"
+#include "audio.h"
 
 extern RenderContainer render_container;
 extern u32 tex;
 extern int x;
 extern int y;
+
+extern AudioContainer audio_container;
 
 void setup_debug(SDL_Window* window, SDL_GLContext gl_context) {
   const char* glsl_version = "#version 130";
@@ -58,7 +63,10 @@ void render_debug_window(SDL_Window* window) {
 
     //ImGui::SliderFloat("frequency", &frequency, -5.0f, 5.0f);
 
-    ImGui::Text("tex (%d):", tex);
+    ImGui::Separator();
+
+    ImGui::Text("Render");
+    ImGui::Text("texture (%d):", tex);
 
     for (u32 i = 0; i < render_container.texture.size(); i++) {
       auto texture = render_container.texture[i];
@@ -82,6 +90,56 @@ void render_debug_window(SDL_Window* window) {
 
     ImGui::SliderInt("x", &x, 0, 1280);
     ImGui::SliderInt("y", &y, 0, 720);
+
+    ImGui::Separator();
+
+    ImGui::Text("Audio");
+
+    ImGui::Text("Music: (%s)", Mix_PlayingMusic() ? (Mix_PausedMusic() ? "paused" : "playing") : "not playing" );
+
+    if (Mix_PlayingMusic()) {
+      ImGui::SameLine();
+
+      if (Mix_PausedMusic()) {
+        if (ImGui::Button("resume")) Mix_ResumeMusic();
+      } else {
+        if (ImGui::Button("pause")) Mix_PauseMusic();
+      }
+
+      ImGui::SameLine();
+      if (ImGui::Button("stop")) Mix_HaltMusic();
+    }
+
+    int music_volume = Mix_VolumeMusic(-1);
+    if (ImGui::SliderInt("Music Volume", &music_volume, 0, MIX_MAX_VOLUME)) {
+      Mix_VolumeMusic(music_volume);
+    }
+
+    for (u32 i = 0; i < audio_container.music.size(); i++) {
+      std::string music_name = "music " + std::to_string(i);
+
+      if (i > 0) ImGui::SameLine();
+      if (ImGui::Button(music_name.c_str())) {
+        audio_play_music(i, 0);
+      }
+    }
+
+    ImGui::Text("SFX:");
+
+    int sfx_volume = Mix_Volume(-1, -1);
+    if (ImGui::SliderInt("SFX Volume", &sfx_volume, 0, MIX_MAX_VOLUME)) {
+      Mix_Volume(-1, sfx_volume);
+    }
+
+    for (u32 i = 0; i < audio_container.sfx.size(); i++) {
+      std::string sfx_name = "sfx " + std::to_string(i);
+
+      if (i > 0) ImGui::SameLine();
+      if (ImGui::Button(sfx_name.c_str())) {
+        audio_play_sfx(i);
+      }
+    }
+
 
     //static float f = 0.0f;
     //static int counter = 0;

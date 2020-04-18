@@ -31,11 +31,6 @@ GLint uv_attr;
 
 internal
 void render_setup_window() {
-  if (SDL_Init( SDL_INIT_VIDEO ) < 0) {
-    printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-    exit(1);
-  }
-
   // GL context
 
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);

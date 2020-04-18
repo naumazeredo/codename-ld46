@@ -35,6 +35,7 @@ set DEPS_SRC=deps\src
 @REM SDL2
 set SDL2_LIB=%DEPS_LIB%\SDL2\%TARGET%
 set SDL2_INC=%DEPS_INC%\SDL2
+set SDL2_MIXER_LIB=%DEPS_LIB%\SDL2_mixer\%TARGET%
 
 @REM GL GL3W
 set GL_SRC=%DEPS_SRC%\GL
@@ -47,6 +48,8 @@ set LIBS=^
   /libpath:%SDL2_LIB% ^
   SDL2.lib ^
   SDL2main.lib ^
+  /libpath:%SDL2_MIXER_LIB% ^
+  SDL2_mixer.lib ^
   opengl32.lib
 
 set INCS=^
@@ -63,13 +66,15 @@ set SRCS=%DEP_SRCS% ^
   src\debug.cpp ^
   src\render.cpp ^
   src\shaders.cpp ^
-  src\input.cpp
+  src\input.cpp ^
+  src\audio.cpp
 
 set FOLDERS=^
   assets
 
 set FILES=^
-  %SDL2_LIB%\SDL2.dll
+  %SDL2_LIB%\SDL2.dll ^
+  %SDL2_MIXER_LIB%\*.dll
 
 set OUT_DIR=build
 set OBJ_DIR=%OUT_DIR%\obj
