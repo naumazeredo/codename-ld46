@@ -7,19 +7,37 @@
 #include "render.h"
 #include "shaders.h"
 
-// Screen dimension constants
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 720;
+u32 tex;
+int x = 0, y = 0;
 
-// Test
-ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+void setup();
+void load_textures();
+void run();
 
-SDL_Window* window = nullptr;
-SDL_GLContext gl_context;
+int main(int argc, char* args[]) {
+  setup();
+
+  run();
+
+  render_cleanup();
+
+  return 0;
+}
+
+void setup() {
+  render_setup();
+  load_textures();
+}
+
+void load_textures() {
+  // @TODO(naum): store into names variables
+  tex = render_load_image("assets/graphics/template-32x32-up.png");
+  render_load_image("assets/graphics/template-32x32.png");
+}
 
 void run() {
-  add_to_render(-0.75f, -0.75f, 1.5f, 1.5f, 0.0f);
-  bind_buffers();
+  u32 p = 0;
+  u8 cnt = 1;
 
   u8 running = 1;
   while (running) {
@@ -37,89 +55,13 @@ void run() {
           case SDLK_ESCAPE:
             running = 0;
           break;
-
-          case SDLK_r:
-            clear_color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
-          break;
-
-          case SDLK_g:
-            clear_color = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
-          break;
-
-          case SDLK_b:
-            clear_color = ImVec4(0.0f, 0.0f, 1.0f, 1.0f);
-          break;
         }
       }
     }
 
+    add_to_render(x, y, 200, 200, tex);
+
     // Rendering
-    glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-    glClear(GL_COLOR_BUFFER_BIT);
-
     render();
-
-    render_debug_window(window);
-
-    SDL_GL_SwapWindow(window);
   }
-}
-
-void setup() {
-  if (SDL_Init( SDL_INIT_VIDEO ) < 0) {
-    printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-    exit(1);
-  }
-
-  // GL context
-
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-
-  window = SDL_CreateWindow("Codename Pets",
-                            SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                            SCREEN_WIDTH, SCREEN_HEIGHT,
-                            SDL_WINDOW_OPENGL);
-
-  if (window == nullptr) {
-    printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-    exit(1);
-  }
-
-  gl_context = SDL_GL_CreateContext(window);
-
-  SDL_GL_MakeCurrent(window, gl_context);
-  SDL_GL_SetSwapInterval(1);
-
-  if (gl3wInit() != 0) {
-    fprintf(stderr, "Failed to initialize OpenGL loader!\n");
-    exit(1);
-  }
-
-  setup_debug(window, gl_context);
-
-  setup_rendering();
-}
-
-void cleanup() {
-  cleanup_debug();
-
-  SDL_GL_DeleteContext(gl_context);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
-}
-
-int main(int argc, char* args[]) {
-  setup();
-  run();
-  cleanup();
-
-  return 0;
 }

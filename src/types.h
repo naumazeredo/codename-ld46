@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 
+#define internal static
+
 using s8  = int8_t;
 using s16 = int16_t;
 using s32 = int32_t;
@@ -15,4 +17,4 @@ using u64 = uint64_t;
 using f32 = float;
 using f64 = double;
 
-#define internal static
+//struct Color { f32 r, g, b, a; };

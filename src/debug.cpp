@@ -6,15 +6,12 @@
 #include "imgui_impl_opengl3.h"
 
 #include "types.h"
+#include "render.h"
 
-// @Completeness remove ini file from ImGui
-
-extern ImVec4 clear_color;
-
-//f32 frequency = 1.0f;
-extern GLuint texture;
-extern int texture_width;
-extern int texture_height;
+extern RenderContainer render_container;
+extern u32 tex;
+extern int x;
+extern int y;
 
 void setup_debug(SDL_Window* window, SDL_GLContext gl_context) {
   const char* glsl_version = "#version 130";
@@ -57,13 +54,34 @@ void render_debug_window(SDL_Window* window) {
     ImGui::Begin("Debug");                          // Create a window called "Hello, world!" and append into it.
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
-    ImGui::ColorEdit3("Background color", (float*)&clear_color); // Edit 3 floats representing a color
+    //ImGui::ColorEdit3("Background color", (float*)&clear_color); // Edit 3 floats representing a color
 
     //ImGui::SliderFloat("frequency", &frequency, -5.0f, 5.0f);
 
-    if (texture != 0)
-      ImGui::Image((void*)(intptr_t)texture, ImVec2(texture_width, texture_height));
+    ImGui::Text("tex (%d):", tex);
 
+    for (u32 i = 0; i < render_container.texture.size(); i++) {
+      auto texture = render_container.texture[i];
+      auto texture_w = render_container.texture_w[i];
+      auto texture_h = render_container.texture_h[i];
+
+      if (i > 0) ImGui::SameLine();
+
+      ImVec4 tint = ImVec4(1, 1, 1, 0.5);
+      if (i == tex) tint = ImVec4(1, 1, 1, 1);
+
+      if (ImGui::ImageButton((void*)(intptr_t)texture,
+                             ImVec2(texture_w, texture_h),
+                             ImVec2(0,0), ImVec2(1,1),
+                             3,
+                             ImVec4(0, 0, 0, 0),
+                             tint)) {
+        tex = i;
+      }
+    }
+
+    ImGui::SliderInt("x", &x, 0, 1280);
+    ImGui::SliderInt("y", &y, 0, 720);
 
     //static float f = 0.0f;
     //static int counter = 0;

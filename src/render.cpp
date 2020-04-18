@@ -1,15 +1,18 @@
-// @Todo use indexes
-// @Todo multiple program_ids
-// @Performance use GL_STREAM_DRAW and GL_DYNAMIC_DRAW instead of rebuilding the buffer
+// @TODO(naum): multiple program_ids
+// @TODO(naum): remove std::vector and use a better, more performant, data structure
 
 #include "render.h"
 
-#include <vector>
 #include <SDL.h>
+#include <stb/stb_image.h>
+
 #include "shaders.h"
+#include "debug.h"
 
-#include "stb/stb_image.h"
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
 
+RenderContainer render_container;
 
 GLuint vertex_array_object;
 
@@ -19,39 +22,119 @@ GLuint uv_buffer_object;
 GLuint element_buffer_object;
 
 GLuint program_id;
-
-std::vector<f32> vertex_buffer;
-std::vector<f32> color_buffer;
-std::vector<f32> uv_buffer;
-
-std::vector<GLuint> element_buffer;
-
-GLuint texture;
 GLuint texture_id;
 
-//GLint position_attr = glGetAttribLocation(program_id, "position");
-//GLint color_attr = glGetAttribLocation(program_id, "color");
-//GLint uv_attr = glGetAttribLocation(program_id, "uv");
+GLint position_attr;
+GLint color_attr;
+GLint uv_attr;
 
-//
-// Test
-//
 
-int texture_width, texture_height;
+internal
+void render_setup_window() {
+  if (SDL_Init( SDL_INIT_VIDEO ) < 0) {
+    printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+    exit(1);
+  }
 
-//
-// /Test
-//
+  // GL context
 
-void load_image(const char* filename) {
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+
+  SDL_GL_SetSwapInterval(1); // vsync
+
+  auto& window = render_container.window;
+  window = SDL_CreateWindow("Codename Pets",
+                            SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                            SCREEN_WIDTH, SCREEN_HEIGHT,
+                            SDL_WINDOW_OPENGL);
+
+  if (window == nullptr) {
+    printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+    exit(1);
+  }
+
+  auto& gl_context = render_container.gl_context;
+  gl_context = SDL_GL_CreateContext(window);
+
+  SDL_GL_MakeCurrent(window, gl_context);
+  SDL_GL_SetSwapInterval(1);
+
+  if (gl3wInit() != 0) {
+    fprintf(stderr, "Failed to initialize OpenGL loader!\n");
+    exit(1);
+  }
+}
+
+internal
+void render_cleanup_window() {
+  SDL_GL_DeleteContext(render_container.gl_context);
+  SDL_DestroyWindow(render_container.window);
+  SDL_Quit();
+}
+
+void render_setup() {
+  // window
+  render_setup_window();
+
+  // debug
+  setup_debug(render_container.window, render_container.gl_context);
+
+  // render
+  glGenVertexArrays(1, &vertex_array_object);
+
+  glGenBuffers(1, &vertex_buffer_object);
+  glGenBuffers(1, &color_buffer_object);
+  glGenBuffers(1, &uv_buffer_object);
+  glGenBuffers(1, &element_buffer_object);
+
+  program_id = load_shaders("assets/shaders/regular.vs", "assets/shaders/regular.fs");
+
+  texture_id    = glGetUniformLocation(program_id, "tex");
+  position_attr = glGetAttribLocation(program_id, "position");
+  color_attr    = glGetAttribLocation(program_id, "color");
+  uv_attr       = glGetAttribLocation(program_id, "uv");
+
+  //glEnable(GL_DEPTH_TEST);
+  //glDepthFunc(GL_LESS);
+}
+
+void render_cleanup() {
+  // render
+  glDeleteProgram(program_id);
+
+  glDeleteVertexArrays(1, &vertex_array_object);
+
+  glDeleteBuffers(1, &vertex_buffer_object);
+  glDeleteBuffers(1, &color_buffer_object);
+  glDeleteBuffers(1, &uv_buffer_object);
+  glDeleteBuffers(1, &element_buffer_object);
+
+  // debug
+  cleanup_debug();
+
+  // window
+  render_cleanup_window();
+}
+
+
+u32 render_load_image(const char* filename) {
   int w, h;
   unsigned char* texture_data = stbi_load(filename, &w, &h, nullptr, 4);
 
   if (texture_data == nullptr) {
     printf("Could not load texture: %s\n", filename);
-    return;
+    return 0;
   }
 
+  GLuint texture;
   glGenTextures(1, &texture);
   glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -63,61 +146,42 @@ void load_image(const char* filename) {
 
   stbi_image_free(texture_data);
 
-  texture_width = w;
-  texture_height = h;
+  render_container.texture.push_back(texture);
+  render_container.texture_w.push_back(w);
+  render_container.texture_h.push_back(h);
+
+  return render_container.texture.size() - 1;
 }
 
-internal
-void load_shaders() {
-  program_id = load_shaders("assets/shaders/regular.vs", "assets/shaders/regular.fs");
-  load_image("assets/graphics/template-32x32-up.png");
+void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture) {
+  u32 first_element = render_container.vertex_buffer.size();
 
-  texture_id = glGetUniformLocation(program_id, "tex");
-}
+  f32 x0 = 2 * x/f32(SCREEN_WIDTH) - 1;
+  f32 y0 = 2 * y/f32(SCREEN_HEIGHT) - 1;
 
-void setup_rendering() {
-  glGenVertexArrays(1, &vertex_array_object);
-
-  glGenBuffers(1, &vertex_buffer_object);
-  glGenBuffers(1, &color_buffer_object);
-  glGenBuffers(1, &uv_buffer_object);
-  glGenBuffers(1, &element_buffer_object);
-
-  load_shaders();
-}
-
-void cleanup_rendering() {
-  glDeleteProgram(program_id);
-
-  glDeleteVertexArrays(1, &vertex_array_object);
-
-  glDeleteBuffers(1, &vertex_buffer_object);
-  glDeleteBuffers(1, &color_buffer_object);
-  glDeleteBuffers(1, &uv_buffer_object);
-  glDeleteBuffers(1, &element_buffer_object);
-}
-
-void add_to_render(f32 x, f32 y, f32 w, f32 h, f32 z) {
-  int first_element = vertex_buffer.size();
+  f32 x1 = 2 * (x+w)/f32(SCREEN_WIDTH) - 1;
+  f32 y1 = 2 * (y+h)/f32(SCREEN_HEIGHT) - 1;
 
   // first triangle
-  vertex_buffer.push_back(x);
-  vertex_buffer.push_back(y);
-  vertex_buffer.push_back(z);
+  auto& vertex_buffer = render_container.vertex_buffer;
+  vertex_buffer.push_back(x0);
+  vertex_buffer.push_back(y0);
+  vertex_buffer.push_back(0);
 
-  vertex_buffer.push_back(x+w);
-  vertex_buffer.push_back(y);
-  vertex_buffer.push_back(z);
+  vertex_buffer.push_back(x1);
+  vertex_buffer.push_back(y0);
+  vertex_buffer.push_back(0);
 
-  vertex_buffer.push_back(x+w);
-  vertex_buffer.push_back(y+h);
-  vertex_buffer.push_back(z);
+  vertex_buffer.push_back(x1);
+  vertex_buffer.push_back(y1);
+  vertex_buffer.push_back(0);
 
-  vertex_buffer.push_back(x);
-  vertex_buffer.push_back(y+h);
-  vertex_buffer.push_back(z);
+  vertex_buffer.push_back(x0);
+  vertex_buffer.push_back(y1);
+  vertex_buffer.push_back(0);
 
 
+  auto& uv_buffer = render_container.uv_buffer;
   uv_buffer.push_back(0);
   uv_buffer.push_back(1);
 
@@ -131,26 +195,29 @@ void add_to_render(f32 x, f32 y, f32 w, f32 h, f32 z) {
   uv_buffer.push_back(0);
 
 
-  color_buffer.push_back(1.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
+  auto& color_buffer = render_container.color_buffer;
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
 
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
 
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
-  color_buffer.push_back(1.0f);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
 
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
+  color_buffer.push_back(1);
 
+
+  auto& element_buffer = render_container.element_buffer;
   element_buffer.push_back(first_element+0);
   element_buffer.push_back(first_element+1);
   element_buffer.push_back(first_element+2);
@@ -158,42 +225,68 @@ void add_to_render(f32 x, f32 y, f32 w, f32 h, f32 z) {
   element_buffer.push_back(first_element+2);
   element_buffer.push_back(first_element+3);
   element_buffer.push_back(first_element+0);
+
+  assert(texture < render_container.texture.size());
+  render_container.draw_texture.push_back(texture);
+
+  render_container.draw_count_element.push_back(6);
+
+  if (render_container.draw_start_element.empty()) {
+    render_container.draw_start_element.push_back(0);
+  } else {
+    render_container.draw_start_element.push_back(render_container.draw_start_element.back() +
+                                        render_container.draw_count_element.back());
+  }
 }
 
-void bind_buffers() {
+internal
+void render_start_new_frame() {
+  render_container.vertex_buffer.clear();
+  render_container.color_buffer.clear();
+  render_container.uv_buffer.clear();
+  render_container.element_buffer.clear();
+
+  render_container.draw_texture.clear();
+  render_container.draw_start_element.clear();
+  render_container.draw_count_element.clear();
+}
+
+internal
+void render_bind_buffers() {
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object);
   glBufferData(GL_ARRAY_BUFFER,
-               sizeof(f32) * vertex_buffer.size(),
-               &vertex_buffer[0],
+               sizeof(f32) * render_container.vertex_buffer.size(),
+               &render_container.vertex_buffer[0],
                GL_STREAM_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, uv_buffer_object);
   glBufferData(GL_ARRAY_BUFFER,
-               sizeof(f32) * uv_buffer.size(),
-               &uv_buffer[0],
+               sizeof(f32) * render_container.uv_buffer.size(),
+               &render_container.uv_buffer[0],
                GL_STREAM_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, color_buffer_object);
   glBufferData(GL_ARRAY_BUFFER,
-               sizeof(f32) * color_buffer.size(),
-               &color_buffer[0],
+               sizeof(f32) * render_container.color_buffer.size(),
+               &render_container.color_buffer[0],
                GL_STREAM_DRAW);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, element_buffer_object);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               sizeof(GLuint) * element_buffer.size(),
-               &element_buffer[0],
+               sizeof(GLuint) * render_container.element_buffer.size(),
+               &render_container.element_buffer[0],
                GL_STREAM_DRAW);
 }
 
 void render() {
+  glClearColor(1, 0, 1, 1);
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  render_bind_buffers();
+
   glBindVertexArray(vertex_array_object);
 
   glUseProgram(program_id);
-
-  glActiveTexture(GL_TEXTURE0);
-  glBindBuffer(GL_TEXTURE_2D, texture);
-  glUniform1i(texture_id, 0);
 
   // vertex position
   glEnableVertexAttribArray(0);
@@ -210,18 +303,34 @@ void render() {
   glBindBuffer(GL_ARRAY_BUFFER, color_buffer_object);
   glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-
-  // draw call
-  //glDrawArrays(GL_TRIANGLES, 0, vertex_buffer.size());
+  // element buffer
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, element_buffer_object);
-  glDrawElements(GL_TRIANGLES, element_buffer.size(), GL_UNSIGNED_INT, 0);
+
+  // texture
+  glActiveTexture(GL_TEXTURE0);
+  glUniform1i(texture_id, 0);
+
+  for (u32 i = 0; i < render_container.draw_texture.size(); i++) {
+    auto tex = render_container.texture[render_container.draw_texture[i]];
+    auto start = render_container.draw_start_element[i];
+    auto count = render_container.draw_count_element[i];
+
+    // texture
+    glBindTexture(GL_TEXTURE_2D, tex);
+
+    // draw call
+    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (const void*)(intptr_t)start);
+  }
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
 
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glBindBuffer(GL_TEXTURE_2D, 0);
-  glBindVertexArray(0);
+  // 
+  render_debug_window(render_container.window);
+
+  SDL_GL_SwapWindow(render_container.window);
+
+  render_start_new_frame();
 }
 
 /*
