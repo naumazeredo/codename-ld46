@@ -11,7 +11,7 @@ if "%1" == "release" (
   set FLAGS=%FLAGS% /MD /EHsc /O2
 ) else (
   echo [Debug build]
-  set FLAGS=%FLAGS% /Zi /MDd /EHsc /Od
+  set FLAGS=%FLAGS% /Zi /MDd /EHsc /Od /permissive-
 )
 
 if "%1" == "run" (
