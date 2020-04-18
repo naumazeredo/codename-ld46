@@ -1,11 +1,13 @@
-OUT_EXE = pets
+OUT_EXE = ld46
 TARGET = x64
 CC =  g++
 
 FLAGS = -std=c++17
 
 DEFS = -D_REENTRANT \
-			 -DIMGUI_IMPL_OPENGL_LOADER_GL3W
+			 -DIMGUI_IMPL_OPENGL_LOADER_GL3W \
+			 -DSTBI_ONLY_PNG \
+			 -DSTB_IMAGE_IMPLEMENTATION
 
 DEPS_LIB = deps/lib
 DEPS_INC = deps/inc
@@ -39,7 +41,7 @@ SRCS = ${DEP_SRCS} \
 			 src/shaders.cpp \
 			 src/input.cpp
 
-FILES = data
+FILES = assets
 
 OUT_DIR = build
 

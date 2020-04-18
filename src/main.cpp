@@ -7,10 +7,11 @@
 #include "render.h"
 #include "shaders.h"
 
-//Screen dimension constants
+// Screen dimension constants
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
+// Test
 ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 SDL_Window* window = nullptr;

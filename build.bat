@@ -1,6 +1,6 @@
 @ECHO OFF
 
-set OUT_EXE=pets
+set OUT_EXE=ld46
 
 set TARGET=x64
 
@@ -14,7 +14,19 @@ if "%1" == "release" (
   set FLAGS=%FLAGS% /Zi /MDd /EHsc /Od
 )
 
-set DEFINES=/DIMGUI_IMPL_OPENGL_LOADER_GL3W /DSDL_MAIN_HANDLED
+if "%1" == "run" (
+  pushd build
+  .\%OUT_EXE%.exe
+  popd
+
+  exit
+)
+
+set DEFS= ^
+  /DIMGUI_IMPL_OPENGL_LOADER_GL3W ^
+  /DSDL_MAIN_HANDLED ^
+  /DSTBI_ONLY_PNG ^
+  /DSTB_IMAGE_IMPLEMENTATION
 
 set DEPS_LIB=deps\lib
 set DEPS_INC=deps\inc
@@ -54,7 +66,7 @@ set SRCS=%DEP_SRCS% ^
   src\input.cpp
 
 set FOLDERS=^
-  data
+  assets
 
 set FILES=^
   %SDL2_LIB%\SDL2.dll
@@ -71,7 +83,7 @@ mkdir %OBJ_DIR%
 for %%I in (%FOLDERS%) do xcopy /sei %%I %OUT_DIR%\%%I > nul
 for %%I in (%FILES%) do xcopy %%I %OUT_DIR% > nul
 
-cl /nologo %FLAGS% %INCS% %SRCS% %DEFINES% /Fe%OUT_DIR%\%OUT_EXE%.exe /Fo%OBJ_DIR%\ /Fd%OUT_DIR%\ /link %LIBS% /INCREMENTAL:NO /subsystem:console
+cl /nologo %FLAGS% %INCS% %SRCS% %DEFS% /Fe%OUT_DIR%\%OUT_EXE%.exe /Fo%OBJ_DIR%\ /Fd%OUT_DIR%\ /link %LIBS% /INCREMENTAL:NO /subsystem:console
 
 pushd build
 .\%OUT_EXE%.exe

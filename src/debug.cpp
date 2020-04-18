@@ -1,11 +1,20 @@
 #include "debug.h"
 
+#include <GL/gl3w.h>
+#include "imgui.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl3.h"
+
 #include "types.h"
 
 // @Completeness remove ini file from ImGui
 
 extern ImVec4 clear_color;
-f32 frequency = 1.0f;
+
+//f32 frequency = 1.0f;
+extern GLuint texture;
+extern int texture_width;
+extern int texture_height;
 
 void setup_debug(SDL_Window* window, SDL_GLContext gl_context) {
   const char* glsl_version = "#version 130";
@@ -50,7 +59,10 @@ void render_debug_window(SDL_Window* window) {
 
     ImGui::ColorEdit3("Background color", (float*)&clear_color); // Edit 3 floats representing a color
 
-    ImGui::SliderFloat("frequency", &frequency, -5.0f, 5.0f);
+    //ImGui::SliderFloat("frequency", &frequency, -5.0f, 5.0f);
+
+    if (texture != 0)
+      ImGui::Image((void*)(intptr_t)texture, ImVec2(texture_width, texture_height));
 
 
     //static float f = 0.0f;
