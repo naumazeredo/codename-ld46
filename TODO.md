@@ -5,7 +5,7 @@
 ### Logic
 
 - [ ] Player controls
-  - [ ] Movement
+  - [x] Movement
   - [ ] Item holding
   - [ ] Item throwing (attacking = item throwing?)
   - [ ] Building (barricade)

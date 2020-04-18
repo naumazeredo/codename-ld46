@@ -6,6 +6,8 @@
 #include "debug.h"
 #include "render.h"
 #include "audio.h"
+#include "input.h"
+#include "player.h"
 
 u32 tex;
 int x = 0, y = 0;
@@ -33,6 +35,7 @@ void setup() {
 
   render_setup();
   audio_setup();
+  player::setup();
 
   load_textures();
   load_audio();
@@ -76,7 +79,10 @@ void run() {
       }
     }
 
-    add_to_render(x, y, 200, 200, tex);
+    //add_to_render(x, y, 200, 200, tex);
+
+    player::update();
+
 
     // Rendering
     render();
