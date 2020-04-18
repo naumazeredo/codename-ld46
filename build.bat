@@ -50,7 +50,8 @@ set SRCS=%DEP_SRCS% ^
   src\main.cpp ^
   src\debug.cpp ^
   src\render.cpp ^
-  src\shaders.cpp
+  src\shaders.cpp ^
+  src\input.cpp
 
 set FOLDERS=^
   data

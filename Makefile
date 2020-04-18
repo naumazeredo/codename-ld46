@@ -36,7 +36,8 @@ SRCS = ${DEP_SRCS} \
 			 src/main.cpp \
 			 src/debug.cpp \
 			 src/render.cpp \
-			 src/shaders.cpp
+			 src/shaders.cpp \
+			 src/input.cpp
 
 FILES = data
 
@@ -48,7 +49,7 @@ all:
 	cp -r ${FILES} ${OUT_DIR}
 	${CC} ${SRCS} ${DEFS} ${FLAGS} ${INCS} -o ${OUT_DIR}/${OUT_EXE} ${LIBS}
 
-run:
+run: all
 	./${OUT_DIR}/${OUT_EXE}
 
 #TODO:
