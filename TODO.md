@@ -2,8 +2,17 @@
 
 # v0.0
 
-- [ ] Linux build
-- [ ] OpenGL / Vulkan
-- [ ] Rendering system basics
-- [ ] Input system basics
-- [ ] Audio system basics
+- [ ] Builds
+  - [x] Windows
+  - [x] Linux
+  - [ ] WebGL (Emscripten)
+
+- [ ] Libraries
+  - [x] OpenGL (Vulkan?)
+  - [x] stb_image
+  - [ ] OpenAL (?)
+
+- [ ] Systems
+  - [ ] Rendering system basics
+  - [ ] Input system basics
+  - [ ] Audio system basics
