@@ -149,7 +149,7 @@ u32 render_load_image(const char* filename) {
 }
 
 void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture) {
-  u32 first_element = render_container.vertex_buffer.size();
+  auto start_vertex = render_container.vertex_buffer.size() / 3;
 
   f32 x0 = 2 * x/f32(SCREEN_WIDTH) - 1;
   f32 y0 = 2 * y/f32(SCREEN_HEIGHT) - 1;
@@ -213,13 +213,13 @@ void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture) {
 
 
   auto& element_buffer = render_container.element_buffer;
-  element_buffer.push_back(first_element+0);
-  element_buffer.push_back(first_element+1);
-  element_buffer.push_back(first_element+2);
+  element_buffer.push_back(start_vertex+0);
+  element_buffer.push_back(start_vertex+1);
+  element_buffer.push_back(start_vertex+2);
 
-  element_buffer.push_back(first_element+2);
-  element_buffer.push_back(first_element+3);
-  element_buffer.push_back(first_element+0);
+  element_buffer.push_back(start_vertex+2);
+  element_buffer.push_back(start_vertex+3);
+  element_buffer.push_back(start_vertex+0);
 
   assert(texture < render_container.texture.size());
   render_container.draw_texture.push_back(texture);
@@ -230,7 +230,7 @@ void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture) {
     render_container.draw_start_element.push_back(0);
   } else {
     render_container.draw_start_element.push_back(render_container.draw_start_element.back() +
-                                        render_container.draw_count_element.back());
+                                                  render_container.draw_count_element.back());
   }
 }
 
@@ -314,7 +314,8 @@ void render() {
     glBindTexture(GL_TEXTURE_2D, tex);
 
     // draw call
-    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (const void*)(intptr_t)start);
+    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (void*)(intptr_t)(start * sizeof(GLuint)));
+    //glDrawElementsBaseVertex(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0, start ? 4 : 0);
   }
 
   glDisableVertexAttribArray(0);
