@@ -11,18 +11,27 @@
 #include "stb/stb_image.h"
 
 
-GLuint vertex_array_id;
+GLuint vertex_array_object;
+
 GLuint vertex_buffer_object;
 GLuint color_buffer_object;
 GLuint uv_buffer_object;
+GLuint element_buffer_object;
+
 GLuint program_id;
 
 std::vector<f32> vertex_buffer;
 std::vector<f32> color_buffer;
 std::vector<f32> uv_buffer;
 
+std::vector<GLuint> element_buffer;
+
 GLuint texture;
 GLuint texture_id;
+
+//GLint position_attr = glGetAttribLocation(program_id, "position");
+//GLint color_attr = glGetAttribLocation(program_id, "color");
+//GLint uv_attr = glGetAttribLocation(program_id, "uv");
 
 //
 // Test
@@ -67,11 +76,12 @@ void load_shaders() {
 }
 
 void setup_rendering() {
-  glGenVertexArrays(1, &vertex_array_id);
+  glGenVertexArrays(1, &vertex_array_object);
 
   glGenBuffers(1, &vertex_buffer_object);
   glGenBuffers(1, &color_buffer_object);
   glGenBuffers(1, &uv_buffer_object);
+  glGenBuffers(1, &element_buffer_object);
 
   load_shaders();
 }
@@ -79,14 +89,17 @@ void setup_rendering() {
 void cleanup_rendering() {
   glDeleteProgram(program_id);
 
+  glDeleteVertexArrays(1, &vertex_array_object);
+
   glDeleteBuffers(1, &vertex_buffer_object);
   glDeleteBuffers(1, &color_buffer_object);
   glDeleteBuffers(1, &uv_buffer_object);
-
-  glDeleteVertexArrays(1, &vertex_array_id);
+  glDeleteBuffers(1, &element_buffer_object);
 }
 
 void add_to_render(f32 x, f32 y, f32 w, f32 h, f32 z) {
+  int first_element = vertex_buffer.size();
+
   // first triangle
   vertex_buffer.push_back(x);
   vertex_buffer.push_back(y);
@@ -100,43 +113,16 @@ void add_to_render(f32 x, f32 y, f32 w, f32 h, f32 z) {
   vertex_buffer.push_back(y+h);
   vertex_buffer.push_back(z);
 
-  uv_buffer.push_back(0);
-  uv_buffer.push_back(1);
-
-  uv_buffer.push_back(1);
-  uv_buffer.push_back(1);
-
-  uv_buffer.push_back(1);
-  uv_buffer.push_back(0);
-
-  color_buffer.push_back(1.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
-
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
-
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
-  color_buffer.push_back(1.0f);
-
-
-  // second triangle
-  vertex_buffer.push_back(x+w);
-  vertex_buffer.push_back(y+h);
-  vertex_buffer.push_back(z);
-
   vertex_buffer.push_back(x);
   vertex_buffer.push_back(y+h);
   vertex_buffer.push_back(z);
 
-  vertex_buffer.push_back(x);
-  vertex_buffer.push_back(y);
-  vertex_buffer.push_back(z);
+
+  uv_buffer.push_back(0);
+  uv_buffer.push_back(1);
+
+  uv_buffer.push_back(1);
+  uv_buffer.push_back(1);
 
   uv_buffer.push_back(1);
   uv_buffer.push_back(0);
@@ -144,8 +130,16 @@ void add_to_render(f32 x, f32 y, f32 w, f32 h, f32 z) {
   uv_buffer.push_back(0);
   uv_buffer.push_back(0);
 
-  uv_buffer.push_back(0);
-  uv_buffer.push_back(1);
+
+  color_buffer.push_back(1.0f);
+  color_buffer.push_back(0.0f);
+  color_buffer.push_back(0.0f);
+  color_buffer.push_back(1.0f);
+
+  color_buffer.push_back(0.0f);
+  color_buffer.push_back(1.0f);
+  color_buffer.push_back(0.0f);
+  color_buffer.push_back(1.0f);
 
   color_buffer.push_back(0.0f);
   color_buffer.push_back(0.0f);
@@ -157,10 +151,13 @@ void add_to_render(f32 x, f32 y, f32 w, f32 h, f32 z) {
   color_buffer.push_back(0.0f);
   color_buffer.push_back(1.0f);
 
-  color_buffer.push_back(1.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(0.0f);
-  color_buffer.push_back(1.0f);
+  element_buffer.push_back(first_element+0);
+  element_buffer.push_back(first_element+1);
+  element_buffer.push_back(first_element+2);
+
+  element_buffer.push_back(first_element+2);
+  element_buffer.push_back(first_element+3);
+  element_buffer.push_back(first_element+0);
 }
 
 void bind_buffers() {
@@ -168,27 +165,29 @@ void bind_buffers() {
   glBufferData(GL_ARRAY_BUFFER,
                sizeof(f32) * vertex_buffer.size(),
                &vertex_buffer[0],
-               GL_STATIC_DRAW);
+               GL_STREAM_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, uv_buffer_object);
   glBufferData(GL_ARRAY_BUFFER,
                sizeof(f32) * uv_buffer.size(),
                &uv_buffer[0],
-               GL_STATIC_DRAW);
+               GL_STREAM_DRAW);
 
   glBindBuffer(GL_ARRAY_BUFFER, color_buffer_object);
   glBufferData(GL_ARRAY_BUFFER,
                sizeof(f32) * color_buffer.size(),
                &color_buffer[0],
-               GL_STATIC_DRAW);
+               GL_STREAM_DRAW);
 
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, element_buffer_object);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+               sizeof(GLuint) * element_buffer.size(),
+               &element_buffer[0],
+               GL_STREAM_DRAW);
 }
 
 void render() {
-  glBindVertexArray(vertex_array_id);
-
-  //update_buffers();
+  glBindVertexArray(vertex_array_object);
 
   glUseProgram(program_id);
 
@@ -211,8 +210,11 @@ void render() {
   glBindBuffer(GL_ARRAY_BUFFER, color_buffer_object);
   glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
+
   // draw call
-  glDrawArrays(GL_TRIANGLES, 0, vertex_buffer.size());
+  //glDrawArrays(GL_TRIANGLES, 0, vertex_buffer.size());
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, element_buffer_object);
+  glDrawElements(GL_TRIANGLES, element_buffer.size(), GL_UNSIGNED_INT, 0);
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
