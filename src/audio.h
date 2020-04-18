@@ -7,31 +7,33 @@
 
 #include "types.h"
 
-struct AudioContainer {
+struct AudioInfo {
   std::vector<Mix_Music*> music;
   std::vector<Mix_Chunk*> sfx;
 };
 
-void audio_setup();
-void audio_cleanup();
+namespace audio {
 
-s32 audio_load_music(const char* filename);
-s32 audio_load_sfx(const char* filename);
+void setup();
+void cleanup();
 
-void audio_play_music(u32 music_id, int loops);
-void audio_play_sfx(u32 sfx_id);
+s32 load_music(const char* filename);
+s32 load_sfx(const char* filename);
 
-/*
-inline int audio_get_music_volume() { return Mix_VolumeMusic(-1); }
-inline void audio_set_music_volume(int volume) { Mix_VolumeMusic(volume); }
+void play_music(u32 music_id, int loops);
+void play_sfx(u32 sfx_id);
 
-inline int audio_get_sfx_volume() { return Mix_Volume(-1, -1); }
-inline void audio_set_sfx_volume(int volume) { Mix_VolumeMusic(-1, volume); }
+inline int get_music_volume() { return Mix_VolumeMusic(-1); }
+inline void set_music_volume(int volume) { Mix_VolumeMusic(volume); }
 
-inline void audio_pause_music() { return Mix_PauseMusic(); }
-inline void audio_resume_music() { return Mix_ResumeMusic(); }
-inline void audio_stop_music() { return Mix_StopMusic(); }
+inline int get_sfx_volume() { return Mix_Volume(-1, -1); }
+inline void set_sfx_volume(int volume) { Mix_Volume(-1, volume); }
 
-inline bool audio_is_music_playing() { return Mix_PlayingMusic(); }
-inline bool audio_is_music_paused()  { return Mix_PlayingMusic() and Mix_PausedMusic(); }
-*/
+inline void pause_music  () { Mix_PauseMusic();  }
+inline void resume_music () { Mix_ResumeMusic(); }
+inline void stop_music   () { Mix_HaltMusic();   }
+
+inline bool is_music_playing () { return Mix_PlayingMusic(); }
+inline bool is_music_paused  () { return Mix_PlayingMusic() and Mix_PausedMusic(); }
+
+}

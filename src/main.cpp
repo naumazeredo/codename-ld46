@@ -22,7 +22,7 @@ int main(int argc, char* args[]) {
 
   run();
 
-  render_cleanup();
+  render::cleanup();
 
   return 0;
 }
@@ -33,8 +33,8 @@ void setup() {
     exit(1);
   }
 
-  render_setup();
-  audio_setup();
+  render::setup();
+  audio::setup();
   player::setup();
 
   load_textures();
@@ -43,16 +43,16 @@ void setup() {
 
 void load_textures() {
   // @TODO(naum): store into names variables
-  render_load_image("assets/gfx/template-32x32-up.png");
-  render_load_image("assets/gfx/template-32x32.png");
+  render::load_image("assets/gfx/template-32x32-up.png");
+  render::load_image("assets/gfx/template-32x32.png");
 
   tex = 0;
 }
 
 void load_audio() {
-  audio_load_music("assets/sfx/MetalTheme.ogg");
-  audio_load_sfx("assets/sfx/player-shoot.wav");
-  audio_load_sfx("assets/sfx/piercing-shoot.wav");
+  audio::load_music("assets/sfx/MetalTheme.ogg");
+  audio::load_sfx("assets/sfx/player-shoot.wav");
+  audio::load_sfx("assets/sfx/piercing-shoot.wav");
 }
 
 void run() {
@@ -64,7 +64,7 @@ void run() {
     // Input
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-      handle_debug_input(&event);
+      debug::handle_input(&event);
 
       if (event.type == SDL_QUIT) {
         running = 0;
@@ -83,8 +83,7 @@ void run() {
 
     player::update();
 
-
     // Rendering
-    render();
+    render::render();
   }
 }

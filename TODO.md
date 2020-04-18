@@ -43,17 +43,17 @@
 
 ## Engine
 
-- [ ] Builds
+- Builds
   - [x] Windows
   - [x] Linux
   - [ ] WebGL (Emscripten)
 
-- [ ] Libraries
+- Libraries
   - [x] OpenGL (Vulkan?)
   - [x] stb_image
-  - [ ] SDL_mixer (OpenAL?)
+  - [x] SDL_mixer (OpenAL?)
 
-- [ ] Systems
+- Systems
   - [x] Rendering system basics
   - [ ] Input system basics
   - [x] Audio system basics
@@ -63,6 +63,10 @@
   - [ ] Debugger window
     - [ ] Show "object fields"
 
-- [ ] Refactor
-  - [ ] Change debug function names to debug_
+-  Refactor
+  - [ ] Change design to Game object with all objects
   - [ ] Remove unused SDL_mixer dependencies
+  - [ ] Build with DEBUG to add debug window
+  - [ ] Create debug window on each system
+
+- Bugs

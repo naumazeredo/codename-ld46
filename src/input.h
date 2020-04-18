@@ -1,9 +1,13 @@
 #pragma once
 
-#include<SDL.h>
+#include <SDL.h>
 
-void setup_input();
-void update_keyboard();
-bool is_pressed(SDL_Scancode code);
-bool unpress(SDL_Scancode code);
-bool press(SDL_Scancode code);
+namespace input {
+
+//void setup();
+void update();
+bool is_key_pressed(SDL_Scancode code);
+bool is_key_down(SDL_Scancode code);
+bool is_key_up(SDL_Scancode code);
+
+}

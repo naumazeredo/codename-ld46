@@ -4,8 +4,12 @@
 
 #include "imgui.h"
 
-void setup_debug(SDL_Window*, SDL_GLContext);
-void cleanup_debug();
-void handle_debug_input(SDL_Event*);
+namespace debug {
 
-void render_debug_window(SDL_Window*);
+void setup(SDL_Window*, SDL_GLContext);
+void cleanup();
+void handle_input(SDL_Event*);
+
+void render(SDL_Window*);
+
+}
