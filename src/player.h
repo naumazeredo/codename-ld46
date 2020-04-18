@@ -1,6 +1,8 @@
 #pragma once
 
 namespace player {
-  void setup();
-  void update();
+
+void setup();
+void update();
+
 }
