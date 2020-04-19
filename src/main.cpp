@@ -8,6 +8,8 @@
 #include "audio.h"
 #include "input.h"
 #include "player.h"
+#include "physics.h"
+#include "shop.h"
 #include "externs.h"
 
 void setup();
@@ -35,6 +37,7 @@ void setup() {
   render::setup();
   audio::setup();
   player::setup();
+  shop::setup();
 
   load_textures();
   load_audio();
@@ -79,6 +82,10 @@ void run() {
     input::handle_input();
 
     player::render();
+
+    physics::update();
+
+    shop::update();
 
     // Rendering
     render::render();

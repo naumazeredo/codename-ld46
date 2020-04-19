@@ -68,6 +68,8 @@ set SRCS=%DEP_SRCS% ^
   src\geometry.cpp ^
   src\input.cpp ^
   src\audio.cpp ^
+  src\physics.cpp ^
+  src\shop.cpp ^
   src\time.cpp ^
   src\player.cpp
 
