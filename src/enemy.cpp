@@ -52,6 +52,7 @@ u32 closest_enemy_in(geom::Point position, f64 range) {
     f64 distance = (e.position - position).abs2();
     if(distance < smallest_distance) {
       enemy_id = e_id;
+      smallest_distance = distance;
     }
   }
 
