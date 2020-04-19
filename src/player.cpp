@@ -14,7 +14,7 @@ void setup() {
   player_info.x = SCREEN_WIDTH/2 - player_info.w/2;
   player_info.y = SCREEN_HEIGHT/2 - player_info.h/2;
   player_info.direction = DOWN;
-  player_info.speed = 2;
+  player_info.speed = 100;
 
   player_info.textures[0] = render::load_image("assets/gfx/template-32x32-up.png");
   player_info.textures[1] = render::load_image("assets/gfx/template-32x32-down.png");

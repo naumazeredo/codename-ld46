@@ -1,7 +1,7 @@
 #include "input.h"
 
-#include<vector>
-#include<algorithm>
+#include <vector>
+#include <algorithm>
 
 #include "externs.h"
 
@@ -19,7 +19,9 @@ void setup() {
   input_info.direction_keys[3] = SDL_SCANCODE_RIGHT;
 }
 
-void update() {
+void handle_input() {
+  f64 delta_time = time::get_frame_duration();
+
   SDL_PumpEvents();
 
   for (int code = 0; code < SDL_NUM_SCANCODES; code++) {
@@ -28,7 +30,8 @@ void update() {
 
   for(int i = 0; i < NUM_DIRECTIONS; i++) {
     if(input::is_key_pressed(input_info.direction_keys[i])) {
-      player_info.x += dx[i]*player_info.speed, player_info.y += dy[i]*player_info.speed;
+      player_info.x += dx[i] * player_info.speed * delta_time;
+      player_info.y += dy[i] * player_info.speed * delta_time;
       player_info.direction = (Direction) i;
     }
   }

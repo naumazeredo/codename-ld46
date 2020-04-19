@@ -7,7 +7,8 @@ struct PlayerInfo {
   Direction direction;
   u32 textures[NUM_DIRECTIONS];
 
-  int x, y, w, h;
+  f32 x, y;
+  int w, h;
   int speed;
 };
 

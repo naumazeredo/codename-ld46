@@ -83,9 +83,10 @@ void run() {
       }
     }
 
+    input::handle_input();
+
     //add_to_render(x, y, 200, 200, tex);
 
-    input::update();
     player::update();
 
     // Rendering

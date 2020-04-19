@@ -11,7 +11,7 @@ struct InputInfo {
 namespace input {
 
 void setup();
-void update();
+void handle_input();
 bool is_key_pressed(SDL_Scancode code);
 bool is_key_down(SDL_Scancode code);
 bool is_key_up(SDL_Scancode code);
