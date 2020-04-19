@@ -67,7 +67,7 @@ void setup() {
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 10;
-  tmp.fire_rate = 0.1; // Shots Per Second
+  tmp.fire_rate = 1; // Shots Per Second
   item_info.models.push_back(tmp);
 }
 
@@ -103,7 +103,7 @@ void update() {
 
     if (item_model.type == TURRET) {
       const f64 current_time = game_time::get_current_time();
-      if(current_time < item.last_action_time + 1000/item_model.fire_rate)
+      if(current_time < item.last_action_time + 1/item_model.fire_rate)
        continue;
 
       item.last_action_time = current_time;
