@@ -30,8 +30,8 @@ void handle_input() {
 
   for(int i = 0; i < NUM_DIRECTIONS; i++) {
     if(input::is_key_pressed(input_info.direction_keys[i])) {
-      player_info.x += dx[i] * player_info.speed * delta_time;
-      player_info.y += dy[i] * player_info.speed * delta_time;
+      player_info.position += Point(dx[i] * player_info.speed * delta_time,
+                                    dy[i] * player_info.speed * delta_time);
       player_info.direction = (Direction) i;
     }
   }
