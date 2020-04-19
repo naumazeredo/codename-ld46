@@ -21,6 +21,10 @@ void cap_framerate() {
   }
 }
 
+u32 get_current_frame() {
+  return time_info.frame_count;
+}
+
 void new_frame() {
   time_info.frame_count++;
 

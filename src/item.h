@@ -6,8 +6,8 @@
 
 enum ItemType {
   FOOD,
-  WEAPON,
-  TRAP
+  TRAP,
+  TURRET,
 };
 
 struct ItemModel {
@@ -21,6 +21,7 @@ struct ItemModel {
     };
     struct {
       u8 damage;
+      f64 fire_rate;
     };
   };
 };
@@ -29,6 +30,7 @@ struct Item {
   u32 id;
   u32 model;
   geom::Point position;
+  f64 last_action_time;
 };
 
 struct ItemInfo {

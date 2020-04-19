@@ -4,6 +4,7 @@
 #include "render.h"
 #include "enemy.h"
 #include "debug.h"
+#include "time.h"
 
 ItemInfo item_info;
 
@@ -37,6 +38,14 @@ void setup() {
   tmp.h = 30;
   tmp.damage = 10;
   item_info.models.push_back(tmp);
+
+  tmp.type = TURRET;
+  tmp.texture = render::load_image("assets/gfx/turret-must-replace.png");
+  tmp.w = 40;
+  tmp.h = 30;
+  tmp.damage = 10;
+  tmp.fire_rate = 0.1; // Shots Per Second
+  item_info.models.push_back(tmp);
 }
 
 bool exists_item(u32 id) {
@@ -63,10 +72,21 @@ void update() {
   for(auto &[item_id, item]: item_info.items) {
     const auto &item_model = item_info.models[item.model];
     if (item_model.type == TRAP) {
-      u32 enemy_id = enemy::closest_enemy_in(item.position, 30);
+      u32 enemy_id = enemy::closest_enemy_in(item.position, 50);
       if(enemy_id >= 0 && enemy::hit_enemy(enemy_id, item_model.damage)) {
         destroy_item(item_id);
       }
+    }
+
+    if (item_model.type == TURRET) {
+      const f64 current_time = game_time::get_current_time();
+      if(current_time < item.last_action_time + 1000/item_model.fire_rate)
+       continue;
+
+      item.last_action_time = current_time;
+
+      u32 enemy_id = enemy::closest_enemy_in(item.position, 500);
+      enemy_id >= 0 && enemy::hit_enemy(enemy_id, item_model.damage);
     }
   }
 }
@@ -98,6 +118,7 @@ u32 create_item(u32 model, geom::Point position) {
 
   item.id = id;
   item.model = model;
+  item.last_action_time = game_time::get_current_time();
 
   item.position = position;
 

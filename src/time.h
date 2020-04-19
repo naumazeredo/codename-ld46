@@ -23,5 +23,6 @@ namespace game_time {
 void new_frame();
 
 f64 get_frame_duration();
+f64 get_current_time();
 
 }

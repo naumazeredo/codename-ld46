@@ -38,7 +38,7 @@ void setup() {
     geom::Point position = player_info.position;
     position.y += player_info.h/2;
 
-    player_info.item = item::create_item(1, position);
+    player_info.item = item::create_item(2, position);
   }
 
   // add debug window
