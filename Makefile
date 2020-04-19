@@ -44,7 +44,10 @@ SRCS = ${DEP_SRCS} \
 			 src/player.cpp \
 			 src/item.cpp \
 			 src/time.cpp \
-			 src/geometry.cpp
+			 src/geometry.cpp \
+			 src/shop.cpp \
+			 src/game.cpp \
+			 src/physics.cpp
 
 
 OBJS = $(SRCS:src/%.cpp=${OUT_DIR}/%.o)
