@@ -35,6 +35,7 @@ void setup() {
   input::setup();
   render::setup();
   audio::setup();
+  item::setup();
   player::setup();
   shop::setup();
   physics::setup();
@@ -83,11 +84,15 @@ void run() {
 
     input::handle_input();
 
-    player::render();
-
     physics::update();
 
     shop::update();
+
+    player::update();
+
+    player::render();
+
+    item::render();
 
     // Rendering
     render::render();

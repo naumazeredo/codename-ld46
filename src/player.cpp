@@ -30,12 +30,26 @@ void setup() {
   player_info.textures[2] = render::load_image("assets/gfx/template-32x32-left.png");
   player_info.textures[3] = render::load_image("assets/gfx/template-32x32-right.png");
 
+
+  { //teste
+    Point position = player_info.position;
+    position.y += player_info.h/2;
+
+    player_info.item = item::create_item(0, position);
+  }
+
   // add debug window
   debug::add_window(debug_window);
 }
 
 void render() {
   render::add_to_render(player_info.position.x - player_info.w / 2, player_info.position.y - player_info.h / 2, player_info.w, player_info.h, player_info.textures[player_info.direction]);
+}
+
+void update() {
+  Point position = player_info.position;
+  position.y += player_info.h/2;
+  item::update_position(player_info.item, position);
 }
 
 }

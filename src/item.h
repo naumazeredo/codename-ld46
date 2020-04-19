@@ -37,5 +37,6 @@ namespace item {
 void setup();
 u32 create_item(u32 model, Point position);
 void update_position(u32 id, Point position);
+void render();
 
 }
