@@ -1,5 +1,6 @@
 #include <imgui.h>
 #include <string>
+#include <iostream>
 #include "game.h"
 #include "externs.h"
 
@@ -29,9 +30,15 @@ void debug_window(){
   ImGui::Text(game_state_text.c_str());
 }
 
+void on_game_over_debug() {
+  std::cout << "game over!" ;
+}
+
 void setup() {
   game_info.king_health = KING_MAX_HEALTH;
   game_info.current_state = RUNNING;
+
+  game_info.on_game_over.push_back(on_game_over_debug);
 
   debug::add_window(debug_window);
 }
