@@ -20,10 +20,10 @@ void debug_window() {
 }
 
 void setup() {
-  player_info.position = {(float) SCREEN_WIDTH/2 - player_info.w/2,
-                          (float) SCREEN_HEIGHT/2 - player_info.h/2};
   player_info.w = 50;
   player_info.h = 100;
+  player_info.position = {(float) SCREEN_WIDTH/3 - player_info.w/2,
+                          (float) SCREEN_HEIGHT/3 - player_info.h/2};
   player_info.direction = DOWN;
   player_info.speed = 100;
 
