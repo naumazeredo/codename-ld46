@@ -4,14 +4,15 @@ set OUT_EXE=ld46
 
 set TARGET=x64
 
-set FLAGS=/std:c++latest /FC
+set FLAGS=/std:c++latest /FC /MP
 
 if "%1" == "release" (
   echo [Release build]
   set FLAGS=%FLAGS% /MD /EHsc /O2
 ) else (
   echo [Debug build]
-  set FLAGS=%FLAGS% /Zi /MDd /EHsc /Od /permissive-
+  @REM set FLAGS=%FLAGS% /Zi /MDd /EHsc /Od /permissive-
+  set FLAGS=%FLAGS% /MD /EHsc /Od /permissive-
 )
 
 if "%1" == "run" (
@@ -95,7 +96,7 @@ mkdir %OBJ_DIR%
 for %%I in (%FOLDERS%) do xcopy /sei %%I %OUT_DIR%\%%I > nul
 for %%I in (%FILES%) do xcopy %%I %OUT_DIR% > nul
 
-cl /nologo %FLAGS% %INCS% %SRCS% %DEFS% /Fe%OUT_DIR%\%OUT_EXE%.exe /Fo%OBJ_DIR%\ /Fd%OUT_DIR%\ /link %LIBS% /INCREMENTAL:NO /subsystem:console
+cl /nologo %FLAGS% %INCS% %SRCS% %DEFS% /Fe%OUT_DIR%\%OUT_EXE%.exe /Fo%OBJ_DIR%\ /Fd%OUT_DIR%\ /link %LIBS% /INCREMENTAL:NO /subsystem:console /CGTHREADS:8
 
 pushd build
 .\%OUT_EXE%.exe
