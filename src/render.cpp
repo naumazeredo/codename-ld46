@@ -379,6 +379,9 @@ void render() {
   glClearColor(1, 0, 1, 1);
   glClear(GL_COLOR_BUFFER_BIT);
 
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
   bind_buffers();
 
   glBindVertexArray(render_info.vertex_array_object);

@@ -3,12 +3,6 @@
 
 #include <SDL.h>
 
-#include "debug.h"
-#include "render.h"
-#include "audio.h"
-#include "input.h"
-#include "player.h"
-#include "game.h"
 #include "externs.h"
 
 void setup();
@@ -56,7 +50,13 @@ void load_audio() {
   audio::load_sfx("assets/sfx/piercing-shoot.wav");
 }
 
+void test_setup() {
+  item::create_item(1, { 700.0, 100.0 });
+}
+
 void run() {
+  test_setup();
+
   u32 p = 0;
   u8 cnt = 1;
 

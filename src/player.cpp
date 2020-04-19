@@ -35,14 +35,6 @@ void setup() {
   player_info.textures[2] = render::load_image("assets/gfx/template-32x32-left.png");
   player_info.textures[3] = render::load_image("assets/gfx/template-32x32-right.png");
 
-
-  { //teste
-    geom::Point position = player_info.position;
-    position.y += player_info.h/2;
-
-    player_info.item = item::create_item(2, position);
-  }
-
   // add debug window
   debug::add_window(debug_window);
 }

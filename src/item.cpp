@@ -56,7 +56,7 @@ void setup() {
   item_info.models.push_back(tmp);
 
   tmp.type = TRAP;
-  tmp.texture = render::load_image("assets/gfx/trap-must-replace.png");
+  tmp.texture = render::load_image("assets/gfx/temp-trap.png");
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 10;
