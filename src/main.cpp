@@ -3,6 +3,12 @@
 
 #include <SDL.h>
 
+#include "debug.h"
+#include "render.h"
+#include "audio.h"
+#include "input.h"
+#include "player.h"
+#include "game.h"
 #include "externs.h"
 
 void setup();
@@ -32,6 +38,7 @@ void setup() {
   player::setup();
   shop::setup();
   physics::setup();
+  game::setup();
 
   load_textures();
   load_audio();
@@ -54,6 +61,7 @@ void run() {
   u8 running = 1;
   while (running) {
     time::new_frame();
+    game::update();
 
     // Input
     SDL_Event event;

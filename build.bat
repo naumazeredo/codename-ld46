@@ -71,7 +71,8 @@ set SRCS=%DEP_SRCS% ^
   src\physics.cpp ^
   src\shop.cpp ^
   src\time.cpp ^
-  src\player.cpp
+  src\player.cpp ^
+  src\game.cpp
 
 set FOLDERS=^
   assets
