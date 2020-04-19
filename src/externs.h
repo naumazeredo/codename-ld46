@@ -5,8 +5,9 @@
 #include "audio.h"
 #include "input.h"
 #include "player.h"
+#include "time.h"
 
-//extern GameInfo game_info;
+extern TimeInfo time_info;
 extern RenderInfo render_info;
 extern AudioInfo audio_info;
 extern InputInfo input_info;

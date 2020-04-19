@@ -2,6 +2,7 @@
 
 #include "render.h"
 #include "types.h"
+#include "externs.h"
 
 PlayerInfo player_info;
 

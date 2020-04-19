@@ -8,6 +8,7 @@
 #include "audio.h"
 #include "input.h"
 #include "player.h"
+#include "externs.h"
 
 u32 tex;
 int x = 0, y = 0;
@@ -62,6 +63,8 @@ void run() {
 
   u8 running = 1;
   while (running) {
+    time::new_frame();
+
     // Input
     SDL_Event event;
     while (SDL_PollEvent(&event)) {

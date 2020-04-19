@@ -62,9 +62,10 @@
   - [ ] Logger
   - [ ] Debugger window
     - [ ] Show "object fields"
+  - [ ] Game info
+    - [x] Time
 
 -  Refactor
-  - [ ] Change design to Game object with all objects
   - [ ] Remove unused SDL_mixer dependencies
   - [ ] Build with DEBUG to add debug window
   - [ ] Create debug window on each system

@@ -67,7 +67,7 @@ set SRCS=%DEP_SRCS% ^
   src\render.cpp ^
   src\input.cpp ^
   src\audio.cpp ^
-  src\game.cpp ^
+  src\time.cpp ^
   src\player.cpp
 
 set FOLDERS=^
