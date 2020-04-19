@@ -60,7 +60,7 @@ void run() {
 
   u8 running = 1;
   while (running) {
-    time::new_frame();
+    game_time::new_frame();
     game::update();
 
     // Input

@@ -19,7 +19,7 @@ void setup() {
 }
 
 void update() {
-    f64 delta_time = time::get_frame_duration();
+    f64 delta_time = game_time::get_frame_duration();
 
     for (auto& shop : shops_info.shops) {
         if (geometry::point_inside_Rect(player_info.position, shop.collider)) {

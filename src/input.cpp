@@ -20,7 +20,7 @@ void setup() {
 }
 
 void handle_input() {
-  f64 delta_time = time::get_frame_duration();
+  f64 delta_time = game_time::get_frame_duration();
 
   SDL_PumpEvents();
 
