@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 #include "externs.h"
+#include "king.h"
 
 void setup();
 void load_textures();
@@ -35,6 +36,7 @@ void setup() {
   shop::setup();
   physics::setup();
   game::setup();
+  king::setup();
 
   load_textures();
   load_audio();
@@ -98,6 +100,7 @@ void run() {
     player::render();
     item::render();
     game::render();
+    king::render();
 
     // Rendering
     render::render();
