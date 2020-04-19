@@ -15,6 +15,6 @@ struct PlayerInfo {
 namespace player {
 
 void setup();
-void update();
+void render();
 
 }

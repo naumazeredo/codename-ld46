@@ -1,18 +1,73 @@
 #include "audio.h"
 
 #include <cassert>
+#include <string>
 
 #include <SDL_mixer.h>
+
+#include "externs.h"
 
 AudioInfo audio_info;
 
 namespace audio {
+
+void debug_window() {
+  ImGui::Text("Audio");
+
+  ImGui::Text("Music: (%s)", is_music_playing() ? (is_music_paused() ? "paused" : "playing") : "not playing" );
+
+  if (is_music_playing()) {
+    ImGui::SameLine();
+
+    if (is_music_paused()) {
+      if (ImGui::Button("resume")) Mix_ResumeMusic();
+    } else {
+      if (ImGui::Button("pause")) Mix_PauseMusic();
+    }
+
+    ImGui::SameLine();
+    if (ImGui::Button("stop")) Mix_HaltMusic();
+  }
+
+  int music_volume = get_music_volume();
+  if (ImGui::SliderInt("Music Volume", &music_volume, 0, MIX_MAX_VOLUME)) {
+    set_music_volume(music_volume);
+  }
+
+  for (u32 i = 0; i < audio_info.music.size(); i++) {
+    std::string music_name = "music " + std::to_string(i);
+
+    if (i > 0) ImGui::SameLine();
+    if (ImGui::Button(music_name.c_str())) {
+      audio::play_music(i, 0);
+    }
+  }
+
+  ImGui::Text("SFX:");
+
+  int sfx_volume = get_sfx_volume();
+  if (ImGui::SliderInt("SFX Volume", &sfx_volume, 0, MIX_MAX_VOLUME)) {
+    set_sfx_volume(sfx_volume);
+  }
+
+  for (u32 i = 0; i < audio_info.sfx.size(); i++) {
+    std::string sfx_name = "sfx " + std::to_string(i);
+
+    if (i > 0) ImGui::SameLine();
+    if (ImGui::Button(sfx_name.c_str())) {
+      audio::play_sfx(i);
+    }
+  }
+}
 
 void setup() {
   if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
     printf("Could not start mixer: %s\n", Mix_GetError());
     exit(1);
   }
+
+  // add debug window
+  debug::add_window(debug_window);
 }
 
 void cleanup() {

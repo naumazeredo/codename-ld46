@@ -10,9 +10,6 @@
 #include "player.h"
 #include "externs.h"
 
-u32 tex;
-int x = 0, y = 0;
-
 void setup();
 void load_textures();
 void load_audio();
@@ -45,10 +42,6 @@ void setup() {
 
 void load_textures() {
   // @TODO(naum): store into names variables
-  render::load_image("assets/gfx/template-32x32-up.png");
-  render::load_image("assets/gfx/template-32x32.png");
-
-  tex = 0;
 }
 
 void load_audio() {
@@ -85,9 +78,7 @@ void run() {
 
     input::handle_input();
 
-    //add_to_render(x, y, 200, 200, tex);
-
-    player::update();
+    player::render();
 
     // Rendering
     render::render();

@@ -22,6 +22,8 @@ void cap_framerate() {
 }
 
 void new_frame() {
+  time_info.frame_count++;
+
   cap_framerate();
 
   time_info.real_frame_duration = get_current_time() - time_info.real_time;

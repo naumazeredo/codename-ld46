@@ -10,13 +10,29 @@
 #include <vector>
 #include <string>
 
+#include <imgui.h>
 #include <stb/stb_image.h>
 
-#include "debug.h"
+#include "externs.h"
 
 RenderInfo render_info;
 
 namespace render {
+
+void debug_window() {
+  ImGui::Text("Render");
+  ImGui::Text("textures:");
+
+  for (u32 i = 0; i < render_info.texture.size(); i++) {
+    auto texture = render_info.texture[i];
+    auto texture_w = render_info.texture_w[i];
+    auto texture_h = render_info.texture_h[i];
+
+    if (i > 0) ImGui::SameLine();
+
+    ImGui::Image((void*)(intptr_t)texture, ImVec2(texture_w, texture_h));
+  }
+}
 
 GLuint load_shader(const char* shader_code, GLenum shader_type) {
   GLuint shader_id = glCreateShader(shader_type);
@@ -143,6 +159,9 @@ void setup_window() {
     fprintf(stderr, "Failed to initialize OpenGL loader!\n");
     exit(1);
   }
+
+  // add to debug
+  debug::add_window(debug_window);
 }
 
 //internal
