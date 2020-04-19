@@ -6,7 +6,7 @@
 
 TimeInfo time_info;
 
-namespace time {
+namespace game_time {
 
 f64 get_current_time() {
   return SDL_GetPerformanceCounter() / f64(SDL_GetPerformanceFrequency());

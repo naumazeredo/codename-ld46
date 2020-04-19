@@ -18,7 +18,7 @@ struct TimeInfo {
   f64 time_scale = 1.0;
 };
 
-namespace time {
+namespace game_time {
 
 void new_frame();
 
