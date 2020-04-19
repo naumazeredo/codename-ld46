@@ -1,15 +1,8 @@
 //Using SDL and standard IO
-#include <stdio.h>
+#include <cstdio>
 
 #include <SDL.h>
 
-#include "debug.h"
-#include "render.h"
-#include "audio.h"
-#include "input.h"
-#include "player.h"
-#include "physics.h"
-#include "shop.h"
 #include "externs.h"
 
 void setup();
@@ -38,6 +31,7 @@ void setup() {
   audio::setup();
   player::setup();
   shop::setup();
+  physics::setup();
 
   load_textures();
   load_audio();

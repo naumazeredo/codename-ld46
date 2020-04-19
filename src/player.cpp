@@ -35,7 +35,7 @@ void setup() {
 }
 
 void render() {
-  render::add_to_render(player_info.position.x, player_info.position.y, player_info.w, player_info.h, player_info.textures[player_info.direction]);
+  render::add_to_render(player_info.position.x - player_info.w / 2, player_info.position.y - player_info.h / 2, player_info.w, player_info.h, player_info.textures[player_info.direction]);
 }
 
 }
