@@ -39,11 +39,13 @@ SRCS = ${DEP_SRCS} \
 			 src/main.cpp \
 			 src/debug.cpp \
 			 src/render.cpp \
-			 src/shaders.cpp \
 			 src/input.cpp \
 			 src/audio.cpp \
-			 src/game.cpp \
-			 src/player.cpp
+			 src/player.cpp \
+			 src/item.cpp \
+			 src/time.cpp \
+			 src/geometry.cpp
+
 
 OBJS = $(SRCS:src/%.cpp=${OUT_DIR}/%.o)
 #OBJS = $(patsubst src/%.cpp,${OUT_DIR}/%.o,$(SRC))
