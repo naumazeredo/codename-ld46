@@ -1,23 +1,46 @@
 #include "item.h"
 
-#include <string>
-#include "render.h"
-#include "enemy.h"
-#include "debug.h"
-#include "time.h"
+#include "externs.h"
 
 ItemInfo item_info;
 
 namespace item {
 
 void debug_window() {
-  if (ImGui::CollapsingHeader("Items")) {
-    ImGui::Indent(10);
-    for(const auto &[item_id, item] : item_info.items) {
-      const std::string text = std::to_string(item_id) + " - Model: " + std::to_string(item.model);
-      ImGui::Text(text.c_str());
+  if (ImGui::TreeNode("Items")) {
+    if (ImGui::TreeNode("Models")) {
+      int model_id = 0;
+      for (auto& model : item_info.models) {
+        ImGui::PushID(&model);
+
+        ImGui::Text("Model %d", model_id);
+        model_id++;
+
+        ImGui::SliderU32("texture", &model.texture, 0, render_info.texture.size()-1);
+        ImGui::SliderU32("w", &model.w, 0, 128);
+        ImGui::SliderU32("h", &model.h, 0, 128);
+
+        switch (model.type) {
+          case FOOD:
+            ImGui::SliderU8("hunger count", &model.hunger_count, 0, 255);
+          break;
+          case TRAP:
+            ImGui::SliderU8("damage", &model.damage, 0, 255);
+          break;
+        }
+
+        ImGui::PopID();
+      }
+
+      ImGui::TreePop();
     }
-    ImGui::Indent(-10);
+
+    for (auto &[item_id, item] : item_info.items) {
+      ImGui::Text("Item %d", item_id);
+      ImGui::SliderU32("model", &item.model, 0, item_info.models.size()-1);
+    }
+
+    ImGui::TreePop();
   }
 }
 

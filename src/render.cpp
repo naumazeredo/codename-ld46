@@ -20,7 +20,7 @@ RenderInfo render_info;
 namespace render {
 
 void debug_window() {
-  if (ImGui::CollapsingHeader("Render")) {
+  if (ImGui::TreeNode("Render")) {
     ImGui::Text("textures:");
 
     for (u32 i = 0; i < render_info.texture.size(); i++) {
@@ -32,6 +32,8 @@ void debug_window() {
 
       ImGui::Image((void*)(intptr_t)texture, ImVec2(texture_w, texture_h));
     }
+
+    ImGui::TreePop();
   }
 }
 

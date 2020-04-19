@@ -12,7 +12,7 @@ AudioInfo audio_info;
 namespace audio {
 
 void debug_window() {
-  if (ImGui::CollapsingHeader("Audio")) {
+  if (ImGui::TreeNode("Audio")) {
     ImGui::Text("Music: (%s)", is_music_playing() ? (is_music_paused() ? "paused" : "playing") : "not playing" );
 
     if (is_music_playing()) {
@@ -57,6 +57,8 @@ void debug_window() {
         audio::play_sfx(i);
       }
     }
+
+    ImGui::TreePop();
   }
 }
 

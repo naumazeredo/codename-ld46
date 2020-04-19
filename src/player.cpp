@@ -7,13 +7,15 @@ PlayerInfo player_info;
 namespace player {
 
 void debug_window() {
-  if (ImGui::CollapsingHeader("Player")) {
+  if (ImGui::TreeNode("Player")) {
     ImGui::InputFloat("x", &player_info.position.x, 1.0f, 10.0f);
     ImGui::InputFloat("y", &player_info.position.y, 1.0f, 10.0f);
     ImGui::InputInt("w", &player_info.w);
     ImGui::InputInt("h", &player_info.h);
     //ImGui:: enum
     ImGui::InputInt("speed", &player_info.speed);
+
+    ImGui::TreePop();
   }
 }
 

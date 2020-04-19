@@ -9,7 +9,7 @@ GameInfo game_info;
 namespace game {
 
 void debug_window(){
-  if (ImGui::CollapsingHeader("Game")) {
+  if (ImGui::TreeNode("Game")) {
     f64 health_percentage = game_info.king_health / KING_MAX_HEALTH;
 
     ImGui::Text("Health");
@@ -27,6 +27,8 @@ void debug_window(){
 
     game_state_text = "Game State: " + game_state_text;
     ImGui::Text(game_state_text.c_str());
+
+    ImGui::TreePop();
   }
 }
 

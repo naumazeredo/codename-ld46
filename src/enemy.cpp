@@ -8,17 +8,17 @@ EnemyInfo enemy_info;
 namespace enemy {
 
 void debug_window() {
-  if (ImGui::CollapsingHeader("Enemy")) {
-    ImGui::Indent(10);
+  if (ImGui::TreeNode("Enemy")) {
     ImGui::SliderFloat("tx", &enemy_info.target.x, 0, SCREEN_WIDTH);
     ImGui::SliderFloat("ty", &enemy_info.target.y, 0, SCREEN_HEIGHT);
     if(ImGui::CollapsingHeader("Enemies")) {
       for(auto &[enemy_id, enemy] : enemy_info.enemies) {
-        std::string text = std::to_string(enemy_id) + " - Heath: " + std::to_string(enemy.health);
+        std::string text = std::to_string(enemy_id) + " - Health: " + std::to_string(enemy.health);
         ImGui::Text(text.c_str());
       }
     }
-    ImGui::Indent(-10.0);
+
+    ImGui::TreePop();
   }
 }
 
