@@ -35,9 +35,9 @@ void update() {
   f64 delta_time = game_time::get_frame_duration();
   for(auto &[e_id, e] : enemy_info.enemies) {
     geom::Point diff = enemy_info.target - e.position;
-    if(diff.abs2() < geom::EPS)
+    if(diff.abs() < geom::EPS)
       continue;
-    if(diff.abs2() > 1)
+    if(diff.abs() > 1)
       diff.normalize();
     diff.x *= delta_time * e.speed, diff.y *= delta_time * e.speed;
     e.position += diff;
@@ -49,7 +49,7 @@ u32 closest_enemy_in(geom::Point position, f64 range) {
   f64 smallest_distance = range + geom::EPS;
 
   for(const auto &[e_id, e] : enemy_info.enemies) {
-    f64 distance = (e.position - position).abs2();
+    f64 distance = (e.position - position).abs();
     if(distance < smallest_distance) {
       enemy_id = e_id;
       smallest_distance = distance;

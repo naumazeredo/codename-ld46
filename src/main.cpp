@@ -52,6 +52,7 @@ void load_audio() {
 
 void test_setup() {
   item::create_item(1, { 700.0, 100.0 });
+  item::create_item(2, { 700.0, 600.0 });
 }
 
 void run() {
