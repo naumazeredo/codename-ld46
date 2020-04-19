@@ -65,6 +65,7 @@ set SRCS=%DEP_SRCS% ^
   src\main.cpp ^
   src\debug.cpp ^
   src\render.cpp ^
+  src\geometry.cpp ^
   src\input.cpp ^
   src\audio.cpp ^
   src\time.cpp ^
