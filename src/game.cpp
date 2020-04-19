@@ -40,6 +40,11 @@ void setup() {
 
   game_info.on_game_over.push_back(on_game_over_debug);
 
+  game_info.bar_texture = render::load_image("assets/gfx/blank.png");
+  game_info.bar_h = 32;
+  game_info.bar_w = 320;
+  game_info.bar_position = Point{};
+
   debug::add_window(debug_window);
 }
 
@@ -62,6 +67,13 @@ void take_damage(f64 damage) {
     for (auto callback : game_info.on_damage_taken){
       callback();
     }
+}
+
+void render() {
+  float health_percentage = game_info.king_health / KING_MAX_HEALTH;
+  int w = game_info.bar_w * health_percentage;
+  render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, game_info.bar_w, game_info.bar_h, game_info.bar_texture);
+  render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, w, game_info.bar_h, game_info.bar_texture, Color{1,0,0,0});
 }
 
 }

@@ -245,7 +245,7 @@ u32 load_image(const char* filename) {
   return render_info.texture.size() - 1;
 }
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex) {
+void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint) {
   auto start_vertex = render_info.vertex_buffer.size() / 3;
 
   f32 x0 = 2 * x/f32(SCREEN_WIDTH) - 1;
@@ -288,26 +288,25 @@ void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex) {
 
 
   auto& color_buffer = render_info.color_buffer;
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
+  color_buffer.push_back(tint.r);
+  color_buffer.push_back(tint.g);
+  color_buffer.push_back(tint.b);
+  color_buffer.push_back(tint.a);
 
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
+  color_buffer.push_back(tint.r);
+  color_buffer.push_back(tint.g);
+  color_buffer.push_back(tint.b);
+  color_buffer.push_back(tint.a);
 
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
+  color_buffer.push_back(tint.r);
+  color_buffer.push_back(tint.g);
+  color_buffer.push_back(tint.b);
+  color_buffer.push_back(tint.a);
 
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
-  color_buffer.push_back(1);
-
+  color_buffer.push_back(tint.r);
+  color_buffer.push_back(tint.g);
+  color_buffer.push_back(tint.b);
+  color_buffer.push_back(tint.a);
 
   auto& element_buffer = render_info.element_buffer;
   element_buffer.push_back(start_vertex+0);

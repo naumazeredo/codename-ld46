@@ -11,6 +11,12 @@
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
+struct Color {
+  f32 r,g,b,a;
+};
+
+const Color WHITE = Color{1,1,1,1};
+
 struct RenderInfo {
   // window info
   SDL_Window* window;
@@ -55,7 +61,7 @@ void cleanup();
 
 u32 load_image(const char* filename);
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture);
+void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture, Color tint = WHITE);
 void render();
 
 }

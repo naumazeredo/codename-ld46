@@ -21,6 +21,10 @@ struct GameInfo {
 
   GameState current_state;
 
+  u32 bar_texture;
+  Point bar_position;
+  int bar_h, bar_w;
+
   std::vector<Callback> on_game_over;
   std::vector<Callback> on_damage_taken;
 };

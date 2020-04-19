@@ -93,6 +93,7 @@ void run() {
     player::render();
 
     item::render();
+    game::render();
 
     // Rendering
     render::render();
