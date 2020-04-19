@@ -21,7 +21,7 @@ ShopsInfo shops_info;
 namespace shop {
 
 void debug_window() {
-  if (ImGui::CollapsingHeader("Shops")) {
+  if (ImGui::TreeNode("Shops")) {
     int cnt = 0;
     for(auto& shop : shops_info.shops) {
       ImGui::Text("shop %d: ", ++cnt);
@@ -33,6 +33,8 @@ void debug_window() {
     }
 
     //ImGui:: enum
+
+    ImGui::TreePop();
   }
 }
 

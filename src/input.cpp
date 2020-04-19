@@ -14,11 +14,13 @@ Uint8 cur_state[SDL_NUM_SCANCODES];
 Uint8 old_state[SDL_NUM_SCANCODES];
 
 void debug_window() {
-  if (ImGui::CollapsingHeader("Input")) {
+  if (ImGui::TreeNode("Input")) {
     ImGui::Text("U %d %d\n", old_state[input_info.direction_keys[0]], cur_state[input_info.direction_keys[0]]);
     ImGui::Text("D %d %d\n", old_state[input_info.direction_keys[1]], cur_state[input_info.direction_keys[1]]);
     ImGui::Text("L %d %d\n", old_state[input_info.direction_keys[2]], cur_state[input_info.direction_keys[2]]);
     ImGui::Text("R %d %d\n", old_state[input_info.direction_keys[3]], cur_state[input_info.direction_keys[3]]);
+
+    ImGui::TreePop();
   }
 }
 

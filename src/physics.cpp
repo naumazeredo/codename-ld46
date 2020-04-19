@@ -26,7 +26,7 @@ void update() {
       geom::Point escape = geom::min_abs_point({out_right, out_left, out_up, out_down});
 
       player_info.position += escape;
-    } 
+    }
   }
   for (auto& shop : shops_info.shops) {
     shop.state = geom::point_inside_rect(player_info.position, shop.trigger)
