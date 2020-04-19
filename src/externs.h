@@ -12,6 +12,7 @@
 #include "item.h"
 #include "enemy.h"
 #include "geom.h"
+#include "game.h"
 
 extern TimeInfo time_info;
 extern RenderInfo render_info;
