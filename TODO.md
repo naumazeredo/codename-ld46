@@ -22,6 +22,9 @@
   - [ ] Types of enemies
   - [ ] AI
 
+- [ ] Items
+  - [x] Item types
+
 ### Graphics
 
 - [ ] Player
