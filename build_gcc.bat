@@ -65,20 +65,11 @@ set DEP_SRCS=^
   %IMGUI_SRC%\imgui_widgets.cpp ^
   %GL_SRC%\gl3w.c
 
-set SRCS=%DEP_SRCS% ^
-  src\main.cpp ^
-  src\debug.cpp ^
-  src\render.cpp ^
-  src\geometry.cpp ^
-  src\input.cpp ^
-  src\audio.cpp ^
-  src\physics.cpp ^
-  src\shop.cpp ^
-  src\time.cpp ^
-  src\player.cpp ^
-  src\enemy.cpp ^
-  src\item.cpp ^
-  src\game.cpp
+set SRCS=%DEP_SRCS%
+setlocal EnableDelayedExpansion
+for /R src %%I in (*.cpp) do SET SRCS="%%I" !SRCS!
+setlocal DisableDelayedExpansion
+echo %SRCS%
 
 set FOLDERS=^
   assets
