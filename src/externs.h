@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "shop.h"
 #include "item.h"
+#include "enemy.h"
 
 extern TimeInfo time_info;
 extern RenderInfo render_info;
@@ -20,3 +21,4 @@ extern PlayerInfo player_info;
 extern DebugInfo debug_info;
 extern ShopsInfo shops_info;
 extern ItemInfo item_info;
+extern EnemyInfo enemy_info;

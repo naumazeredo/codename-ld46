@@ -36,6 +36,7 @@ void setup() {
   render::setup();
   audio::setup();
   item::setup();
+  enemy::setup();
   player::setup();
   shop::setup();
   physics::setup();
@@ -60,6 +61,7 @@ void run() {
   u8 cnt = 1;
 
   u8 running = 1;
+  game_time::new_frame();
   while (running) {
     game_time::new_frame();
     game::update();
@@ -89,8 +91,10 @@ void run() {
     shop::update();
 
     player::update();
+    enemy::update();
 
     player::render();
+    enemy::render();
 
     item::render();
     game::render();

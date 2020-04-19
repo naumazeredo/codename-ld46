@@ -76,6 +76,8 @@ set SRCS=%DEP_SRCS% ^
   src\shop.cpp ^
   src\time.cpp ^
   src\player.cpp ^
+  src\enemy.cpp ^
+  src\item.cpp ^
   src\game.cpp
 
 set FOLDERS=^

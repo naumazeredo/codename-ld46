@@ -19,6 +19,8 @@ struct Point {
     Point& operator-=(Point p);
 
     float operator ~() const;
+
+    Point& normalize();
 };
 
 struct Rect {

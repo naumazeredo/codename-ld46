@@ -1,5 +1,7 @@
 #include "geometry.h"
 
+#include <cmath>
+
 namespace geometry {
 
 Point::Point(): x(0), y(0) {}
@@ -10,6 +12,12 @@ Point& Point::operator+=(Point p) { *this = Point(x+p.x, y+p.y); return *this; }
 
 Point Point::operator-(Point p) const { return Point(x-p.x, y-p.y); }
 Point& Point::operator-=(Point p) { *this = Point(x-p.x, y-p.y); return *this; }
+
+Point& Point::normalize() {
+  float mod = hypot(x, y);
+  x /= mod, y /= mod;
+  return *this;
+}
 
 float Point::operator~() const { return x*x + y*y; }
 
