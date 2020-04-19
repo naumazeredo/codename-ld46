@@ -2,12 +2,22 @@
 
 #include<vector>
 #include<algorithm>
-#include<iostream>
+
+#include "externs.h"
+
+InputInfo input_info;
 
 namespace input {
 
 const Uint8 *state = SDL_GetKeyboardState(NULL);
 Uint8 old_state[SDL_NUM_SCANCODES];
+
+void setup() {
+  input_info.direction_keys[0] = SDL_SCANCODE_UP;
+  input_info.direction_keys[1] = SDL_SCANCODE_DOWN;
+  input_info.direction_keys[2] = SDL_SCANCODE_LEFT;
+  input_info.direction_keys[3] = SDL_SCANCODE_RIGHT;
+}
 
 void update() {
   SDL_PumpEvents();
@@ -15,6 +25,14 @@ void update() {
   for (int code = 0; code < SDL_NUM_SCANCODES; code++) {
     old_state[code] = state[code];
   }
+
+  for(int i = 0; i < NUM_DIRECTIONS; i++) {
+    if(input::is_key_pressed(input_info.direction_keys[i])) {
+      player_info.x += dx[i]*player_info.speed, player_info.y += dy[i]*player_info.speed;
+      player_info.direction = (Direction) i;
+    }
+  }
+
 }
 
 bool is_key_pressed (SDL_Scancode code) { return state[code]; }

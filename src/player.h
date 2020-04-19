@@ -1,5 +1,16 @@
 #pragma once
 
+#include "types.h"
+
+struct PlayerInfo {
+
+  Direction direction;
+  u32 textures[NUM_DIRECTIONS];
+
+  int x, y, w, h;
+  int speed;
+};
+
 namespace player {
 
 void setup();

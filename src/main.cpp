@@ -33,6 +33,7 @@ void setup() {
     exit(1);
   }
 
+  input::setup();
   render::setup();
   audio::setup();
   player::setup();
@@ -81,6 +82,7 @@ void run() {
 
     //add_to_render(x, y, 200, 200, tex);
 
+    input::update();
     player::update();
 
     // Rendering
