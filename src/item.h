@@ -50,6 +50,7 @@ bool update_position(u32 id, geom::Point position);
 
 u32 create_item(u32 model, geom::Point position);
 bool update_position(u32 id, geom::Point position);
+void update();
 void render();
 
 }

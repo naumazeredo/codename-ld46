@@ -89,6 +89,7 @@ void run() {
 
     shop::update();
     player::update();
+    item::update();
     enemy::update();
     physics::update();
     game::update();

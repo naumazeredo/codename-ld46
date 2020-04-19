@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include "types.h"
 #include "geom.h"
@@ -12,8 +13,9 @@ struct Enemy {
 };
 
 struct EnemyInfo {
+  u32 num_enemies;
   std::vector<u32> textures;
-  std::vector<Enemy> enemies;
+  std::map<u32, Enemy> enemies;
   geom::Point target;
 };
 
@@ -23,5 +25,7 @@ void setup();
 void render();
 void update();
 void spawn_enemy(geom::Point position, u32 health, u32 speed);
+u32 closest_enemy_in(geom::Point position, f64 range);
+bool hit_enemy(u32 id, u32 damage);
 
 }

@@ -1,12 +1,27 @@
 #include "item.h"
 
+#include <string>
 #include "render.h"
+#include "enemy.h"
+#include "debug.h"
 
 ItemInfo item_info;
 
 namespace item {
 
+void debug_window() {
+  if (ImGui::CollapsingHeader("Items")) {
+    ImGui::Indent(10);
+    for(const auto &[item_id, item] : item_info.items) {
+      const std::string text = std::to_string(item_id) + " - Model: " + std::to_string(item.model);
+      ImGui::Text(text.c_str());
+    }
+    ImGui::Indent(-10);
+  }
+}
+
 void setup() {
+  debug::add_window(debug_window);
   ItemModel tmp;
 
   tmp.type = FOOD;
@@ -16,8 +31,8 @@ void setup() {
   tmp.hunger_count = 5;
   item_info.models.push_back(tmp);
 
-  tmp.type = WEAPON;
-  tmp.texture = render::load_image("assets/gfx/template-32x32-right.png");
+  tmp.type = TRAP;
+  tmp.texture = render::load_image("assets/gfx/trap-must-replace.png");
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 10;
@@ -29,13 +44,31 @@ bool exists_item(u32 id) {
   return true;
 }
 
+bool destroy_item(u32 id) {
+  if(!exists_item(id)) return false;
+  item_info.items.erase(id);
+  return true;
+}
+
 bool update_position(u32 id, geom::Point position) {
-  if(item_info.items.find(id) == item_info.items.end()) return false;
+  if(!exists_item(id)) return false;
 
   Item &item = item_info.items[id];
 
   item.position = position;
   return true;
+}
+
+void update() {
+  for(auto &[item_id, item]: item_info.items) {
+    const auto &item_model = item_info.models[item.model];
+    if (item_model.type == TRAP) {
+      u32 enemy_id = enemy::closest_enemy_in(item.position, 30);
+      if(enemy_id >= 0 && enemy::hit_enemy(enemy_id, item_model.damage)) {
+        destroy_item(item_id);
+      }
+    }
+  }
 }
 
 float dist_to_item(geom::Point position, u32 item) {
