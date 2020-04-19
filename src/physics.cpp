@@ -33,6 +33,11 @@ void update() {
             player_info.position += escape;
         } 
     }
+    for (auto& shop : shops_info.shops) {
+        shop.state = geometry::point_inside_Rect(player_info.position, shop.trigger)
+                        ? shop::OPEN 
+                        : shop::CLOSED;
+    }
 }
 
 
