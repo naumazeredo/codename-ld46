@@ -35,8 +35,14 @@ struct ItemInfo {
 namespace item {
 
 void setup();
+
+float dist_to_item(Point position, u32 item);
+u32 closest_item(Point position);
 u32 create_item(u32 model, Point position);
-void update_position(u32 id, Point position);
+
+bool exists_item(u32 id);
+bool update_position(u32 id, Point position);
+
 void render();
 
 }

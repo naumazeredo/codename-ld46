@@ -9,8 +9,10 @@ struct PlayerInfo {
   u32 item;
 
   Point position;
+  Point item_position;
   int w, h;
   int speed;
+  float item_max_dist;
 };
 
 namespace player {
@@ -18,5 +20,6 @@ namespace player {
 void setup();
 void render();
 void update();
+void item_interaction();
 
 }

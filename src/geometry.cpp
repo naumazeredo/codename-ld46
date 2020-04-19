@@ -21,6 +21,8 @@ Point& Point::normalize() {
 
 float Point::operator~() const { return x*x + y*y; }
 
+float Point::abs() const {return sqrt(x*x + y*y); }
+
 bool point_inside_Rect(Point p, Rect r) {
     return p.x <= r.center.x + r.width / 2 and
            p.x >= r.center.x - r.width / 2 and

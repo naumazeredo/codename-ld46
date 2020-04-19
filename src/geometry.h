@@ -21,7 +21,9 @@ struct Point {
     float operator ~() const;
 
     Point& normalize();
+    float abs() const;
 };
+
 
 struct Rect {
     Point center;

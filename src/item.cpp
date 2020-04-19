@@ -24,12 +24,38 @@ void setup() {
   item_info.models.push_back(tmp);
 }
 
-void update_position(u32 id, Point position) {
-  if(item_info.items.find(id) == item_info.items.end()) return;
+bool exists_item(u32 id) {
+  if(item_info.items.find(id) == item_info.items.end()) return false;
+  return true;
+}
+
+bool update_position(u32 id, Point position) {
+  if(item_info.items.find(id) == item_info.items.end()) return false;
 
   Item &item = item_info.items[id];
 
   item.position = position;
+  return true;
+}
+
+float dist_to_item(Point position, u32 item) {
+  return (position - item_info.items[item].position).abs();
+}
+
+u32 closest_item(Point position) {
+  u32 ans = item_info.items.begin()->first;
+  float dist = dist_to_item(position, item_info.items.begin()->first);
+
+  for(auto p: item_info.items) {
+    float d = dist_to_item(position, p.first);
+
+    if(d < dist) {
+      dist = d;
+      ans = p.first;
+    }
+  }
+
+  return ans;
 }
 
 u32 create_item(u32 model, Point position) {

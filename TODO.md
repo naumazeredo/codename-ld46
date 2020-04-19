@@ -7,7 +7,7 @@
 - [ ] Player controls
   - [x] Movement
   - [x] Item holding
-  - [ ] Item throwing (attacking = item throwing?)
+  - [x] Item throwing (attacking = item throwing?)
   - [ ] Building (barricade)
 
 - [ ] King

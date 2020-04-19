@@ -25,6 +25,9 @@ void setup() {
   player_info.direction = DOWN;
   player_info.speed = 100;
 
+  player_info.item_position = {0, (float) player_info.h};
+  player_info.item_max_dist = 40;
+
   player_info.textures[0] = render::load_image("assets/gfx/template-32x32-up.png");
   player_info.textures[1] = render::load_image("assets/gfx/template-32x32-down.png");
   player_info.textures[2] = render::load_image("assets/gfx/template-32x32-left.png");
@@ -43,13 +46,30 @@ void setup() {
 }
 
 void render() {
-  render::add_to_render(player_info.position.x - player_info.w / 2, player_info.position.y - player_info.h / 2, player_info.w, player_info.h, player_info.textures[player_info.direction]);
+  render::add_to_render(player_info.position.x - player_info.w / 2, player_info.position.y, player_info.w, player_info.h, player_info.textures[player_info.direction]);
 }
 
 void update() {
-  Point position = player_info.position;
-  position.y += player_info.h/2;
-  item::update_position(player_info.item, position);
+  item::update_position(player_info.item, player_info.position + player_info.item_position);
+}
+
+void drop_item() {
+  item::update_position(player_info.item, player_info.position);
+  player_info.item = 0;
+}
+
+void item_interaction() {
+  if(item::exists_item(player_info.item)) {
+    drop_item();
+  }
+  else {
+    Point position = player_info.position;
+
+    u32 item = item::closest_item(position);
+    if(item::dist_to_item(position, item) < player_info.item_max_dist) {
+      player_info.item = item;
+    }
+  }
 }
 
 }

@@ -6,6 +6,7 @@
 
 struct InputInfo {
    SDL_Scancode direction_keys[NUM_DIRECTIONS];
+   SDL_Scancode action_key;
 };
 
 namespace input {
