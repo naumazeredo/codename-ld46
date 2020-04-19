@@ -1,9 +1,14 @@
 #include <vector>
 #include <map>
 
+#include "geom.h"
 #include "types.h"
 
-enum ItemType {FOOD, WEAPON, TRAP};
+enum ItemType {
+  FOOD,
+  WEAPON,
+  TRAP
+};
 
 struct ItemModel {
   ItemType type;
@@ -23,7 +28,7 @@ struct ItemModel {
 struct Item {
   u32 id;
   u32 model;
-  Point position;
+  geom::Point position;
 };
 
 struct ItemInfo {
@@ -36,13 +41,15 @@ namespace item {
 
 void setup();
 
-float dist_to_item(Point position, u32 item);
-u32 closest_item(Point position);
+float dist_to_item(geom::Point position, u32 item);
+u32 closest_item(geom::Point position);
 u32 create_item(u32 model, Point position);
 
 bool exists_item(u32 id);
-bool update_position(u32 id, Point position);
+bool update_position(u32 id, geom::Point position);
 
+u32 create_item(u32 model, geom::Point position);
+void update_position(u32 id, geom::Point position);
 void render();
 
 }

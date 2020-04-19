@@ -57,7 +57,7 @@ void render(SDL_Window* window) {
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
     for (auto& window : debug_info.windows) {
-      ImGui::Separator();
+      //ImGui::Separator();
 
       window();
     }

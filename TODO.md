@@ -9,21 +9,33 @@
   - [x] Item holding
   - [x] Item throwing (attacking = item throwing?)
   - [ ] Building (barricade)
+  - [ ] Attack enemies on interaction (idea)
 
 - [ ] King
   - [ ] Feed
   - [ ] Die
 
-- [ ] Shops
+- [ ] Shops / Factories
   - [ ] Money
   - [ ] Buy item
+  - [ ] Resolve collision on polygon
+  - [ ] Upgrade (which key? idea: dont have upgrades and always swap)
+  - [ ] Place shop
 
 - [ ] Enemies
   - [ ] Types of enemies
   - [ ] AI
+  - [ ] Drop money? Drop food? (idea)
+
+- [ ] Items
+  - [ ] Traps
+  - [ ] Turret
+  - [ ] Barricade (idea)
 
 - [ ] Items
   - [x] Item types
+
+- [ ] Extra: Mercenary
 
 ### Graphics
 
@@ -61,6 +73,7 @@
   - [ ] Input system basics
   - [x] Audio system basics
   - [ ] Improved rendering
+    - [ ] Render from back to front
     - [ ] Animations
   - [ ] Logger
   - [ ] Debugger window

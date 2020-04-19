@@ -20,17 +20,18 @@ RenderInfo render_info;
 namespace render {
 
 void debug_window() {
-  ImGui::Text("Render");
-  ImGui::Text("textures:");
+  if (ImGui::CollapsingHeader("Render")) {
+    ImGui::Text("textures:");
 
-  for (u32 i = 0; i < render_info.texture.size(); i++) {
-    auto texture = render_info.texture[i];
-    auto texture_w = render_info.texture_w[i];
-    auto texture_h = render_info.texture_h[i];
+    for (u32 i = 0; i < render_info.texture.size(); i++) {
+      auto texture = render_info.texture[i];
+      auto texture_w = render_info.texture_w[i];
+      auto texture_h = render_info.texture_h[i];
 
-    if (i > 0) ImGui::SameLine();
+      if (i > 0) ImGui::SameLine();
 
-    ImGui::Image((void*)(intptr_t)texture, ImVec2(texture_w, texture_h));
+      ImGui::Image((void*)(intptr_t)texture, ImVec2(texture_w, texture_h));
+    }
   }
 }
 

@@ -1,8 +1,6 @@
-#include "geometry.h"
+#include "geom.h"
 
-#include <cmath>
-
-namespace geometry {
+namespace geom{
 
 Point::Point(): x(0), y(0) {}
 Point::Point(float x, float y): x(x), y(y) {}
@@ -13,24 +11,19 @@ Point& Point::operator+=(Point p) { *this = Point(x+p.x, y+p.y); return *this; }
 Point Point::operator-(Point p) const { return Point(x-p.x, y-p.y); }
 Point& Point::operator-=(Point p) { *this = Point(x-p.x, y-p.y); return *this; }
 
-Point& Point::normalize() {
-  float mod = hypot(x, y);
-  x /= mod, y /= mod;
-  return *this;
-}
-
-float Point::operator~() const { return x*x + y*y; }
-
-float Point::abs() const {return sqrt(x*x + y*y); }
-
-bool point_inside_Rect(Point p, Rect r) {
+bool point_inside_rect(Point p, Rect r) {
     return p.x <= r.center.x + r.width / 2 and
            p.x >= r.center.x - r.width / 2 and
            p.y <= r.center.y + r.height / 2 and
            p.y >= r.center.y - r.height / 2;
 }
 
-Point min_abs_point(Point a, Point b) { return ~a - ~b > EPS ? b : a; }
+/*
+bool point_inside_polygon(const Point p, const Polygon& polygon) {
+}
+*/
+
+Point min_abs_point(Point a, Point b) { return a.abs() - b.abs() > EPS ? b : a; }
 
 Point min_abs_point(std::vector<Point> points) {
     if (points.empty()) return Point();

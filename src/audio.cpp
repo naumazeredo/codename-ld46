@@ -12,50 +12,50 @@ AudioInfo audio_info;
 namespace audio {
 
 void debug_window() {
-  ImGui::Text("Audio");
+  if (ImGui::CollapsingHeader("Audio")) {
+    ImGui::Text("Music: (%s)", is_music_playing() ? (is_music_paused() ? "paused" : "playing") : "not playing" );
 
-  ImGui::Text("Music: (%s)", is_music_playing() ? (is_music_paused() ? "paused" : "playing") : "not playing" );
+    if (is_music_playing()) {
+      ImGui::SameLine();
 
-  if (is_music_playing()) {
-    ImGui::SameLine();
+      if (is_music_paused()) {
+        if (ImGui::Button("resume")) Mix_ResumeMusic();
+      } else {
+        if (ImGui::Button("pause")) Mix_PauseMusic();
+      }
 
-    if (is_music_paused()) {
-      if (ImGui::Button("resume")) Mix_ResumeMusic();
-    } else {
-      if (ImGui::Button("pause")) Mix_PauseMusic();
+      ImGui::SameLine();
+      if (ImGui::Button("stop")) Mix_HaltMusic();
     }
 
-    ImGui::SameLine();
-    if (ImGui::Button("stop")) Mix_HaltMusic();
-  }
-
-  int music_volume = get_music_volume();
-  if (ImGui::SliderInt("Music Volume", &music_volume, 0, MIX_MAX_VOLUME)) {
-    set_music_volume(music_volume);
-  }
-
-  for (u32 i = 0; i < audio_info.music.size(); i++) {
-    std::string music_name = "music " + std::to_string(i);
-
-    if (i > 0) ImGui::SameLine();
-    if (ImGui::Button(music_name.c_str())) {
-      audio::play_music(i, 0);
+    int music_volume = get_music_volume();
+    if (ImGui::SliderInt("Music Volume", &music_volume, 0, MIX_MAX_VOLUME)) {
+      set_music_volume(music_volume);
     }
-  }
 
-  ImGui::Text("SFX:");
+    for (u32 i = 0; i < audio_info.music.size(); i++) {
+      std::string music_name = "music " + std::to_string(i);
 
-  int sfx_volume = get_sfx_volume();
-  if (ImGui::SliderInt("SFX Volume", &sfx_volume, 0, MIX_MAX_VOLUME)) {
-    set_sfx_volume(sfx_volume);
-  }
+      if (i > 0) ImGui::SameLine();
+      if (ImGui::Button(music_name.c_str())) {
+        audio::play_music(i, 0);
+      }
+    }
 
-  for (u32 i = 0; i < audio_info.sfx.size(); i++) {
-    std::string sfx_name = "sfx " + std::to_string(i);
+    ImGui::Text("SFX:");
 
-    if (i > 0) ImGui::SameLine();
-    if (ImGui::Button(sfx_name.c_str())) {
-      audio::play_sfx(i);
+    int sfx_volume = get_sfx_volume();
+    if (ImGui::SliderInt("SFX Volume", &sfx_volume, 0, MIX_MAX_VOLUME)) {
+      set_sfx_volume(sfx_volume);
+    }
+
+    for (u32 i = 0; i < audio_info.sfx.size(); i++) {
+      std::string sfx_name = "sfx " + std::to_string(i);
+
+      if (i > 0) ImGui::SameLine();
+      if (ImGui::Button(sfx_name.c_str())) {
+        audio::play_sfx(i);
+      }
     }
   }
 }

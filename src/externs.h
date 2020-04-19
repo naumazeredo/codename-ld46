@@ -2,7 +2,6 @@
 
 #include "types.h"
 #include "physics.h"
-
 #include "time.h"
 #include "render.h"
 #include "audio.h"
@@ -12,6 +11,7 @@
 #include "shop.h"
 #include "item.h"
 #include "enemy.h"
+#include "geom.h"
 
 extern TimeInfo time_info;
 extern RenderInfo render_info;

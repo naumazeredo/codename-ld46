@@ -63,19 +63,7 @@ set DEP_SRCS=^
   %GL_SRC%\gl3w.c
 
 set SRCS=%DEP_SRCS% ^
-  src\main.cpp ^
-  src\debug.cpp ^
-  src\render.cpp ^
-  src\geometry.cpp ^
-  src\input.cpp ^
-  src\audio.cpp ^
-  src\physics.cpp ^
-  src\shop.cpp ^
-  src\time.cpp ^
-  src\player.cpp ^
-  src\enemy.cpp ^
-  src\item.cpp ^
-  src\game.cpp
+  src\*.cpp
 
 set FOLDERS=^
   assets

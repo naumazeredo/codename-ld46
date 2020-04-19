@@ -1,6 +1,5 @@
 #pragma once
 
-#include "geometry.h"
 #include <stdint.h>
 
 //#define internal static
@@ -18,8 +17,6 @@ using u64 = uint64_t;
 using f32 = float;
 using f64 = double;
 
-using Point = geometry::Point;
-using Rect = geometry::Rect;
 //struct Color { f32 r, g, b, a; };
 
 //Direction

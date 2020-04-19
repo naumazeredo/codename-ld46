@@ -1,30 +1,33 @@
 #pragma once
 
-#include "types.h"
 #include <vector>
 
-namespace shop {
+#include "types.h"
+#include "geom.h"
 
-enum State {CLOSED, OPEN};
+enum ShopState {CLOSED, OPEN};
+
+struct Shop {
+  geom::Point center;
+  geom::Rect collider, trigger;
+
+  ShopState state;
+
+  u32 textures[2];
+
+  Shop(geom::Point p, geom::Rect c, geom::Rect t);
+
+  void sell();
+};
+
+struct ShopsInfo {
+    std::vector<Shop> shops;
+};
+
+namespace shop {
 
 void setup();
 void update();
 
 } // namespace shop
 
-struct Shop {
-    Point center;
-    Rect collider, trigger;
-
-    shop::State state; 
-
-    u32 textures[2];
-
-    Shop(Point p, Rect c, Rect t);
-
-    void sell();
-};
-
-struct ShopsInfo {
-    std::vector<Shop> shops;
-};

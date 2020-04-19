@@ -29,7 +29,7 @@ bool exists_item(u32 id) {
   return true;
 }
 
-bool update_position(u32 id, Point position) {
+bool update_position(u32 id, geom::Point position) {
   if(item_info.items.find(id) == item_info.items.end()) return false;
 
   Item &item = item_info.items[id];
@@ -58,7 +58,7 @@ u32 closest_item(Point position) {
   return ans;
 }
 
-u32 create_item(u32 model, Point position) {
+u32 create_item(u32 model, geom::Point position) {
   u32 id = ++item_info.num_item;
   u32 w = item_info.models[model].w;
   Item item;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "geom.h"
 
 struct PlayerInfo {
 
@@ -8,8 +9,9 @@ struct PlayerInfo {
   u32 textures[NUM_DIRECTIONS];
   u32 item;
 
-  Point position;
-  Point item_position;
+  geom::Point position;
+  geom::Point item_position;
+
   int w, h;
   int speed;
   float item_max_dist;

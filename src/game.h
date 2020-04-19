@@ -4,6 +4,7 @@
 #include <functional>
 
 #include "types.h"
+#include "geom.h"
 
 const f64 KING_HUNGER_RATE = f64(1.0);
 const f64 KING_MAX_HEALTH = f64(600.0);
@@ -22,7 +23,7 @@ struct GameInfo {
   GameState current_state;
 
   u32 bar_texture;
-  Point bar_position;
+  geom::Point bar_position;
   int bar_h, bar_w;
 
   std::vector<Callback> on_game_over;

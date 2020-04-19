@@ -60,11 +60,12 @@ void run() {
   u32 p = 0;
   u8 cnt = 1;
 
+  game_time::new_frame();
+
   u8 running = 1;
   game_time::new_frame();
   while (running) {
     game_time::new_frame();
-    game::update();
 
     // Input
     SDL_Event event;
@@ -86,16 +87,14 @@ void run() {
 
     input::handle_input();
 
-    physics::update();
-
     shop::update();
-
     player::update();
     enemy::update();
+    physics::update();
+    game::update();
 
-    player::render();
     enemy::render();
-
+    player::render();
     item::render();
     game::render();
 
