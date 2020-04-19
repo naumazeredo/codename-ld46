@@ -56,10 +56,6 @@ void handle_input() {
   if(is_key_down(input_info.action_key)) {
     player::item_interaction();
   }
-
-  for (int code = 0; code < SDL_NUM_SCANCODES; code++) {
-    old_state[code] = state[code];
-  }
 }
 
 bool is_key_pressed (SDL_Scancode code) { return cur_state[code]; }

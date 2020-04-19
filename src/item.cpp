@@ -38,11 +38,11 @@ bool update_position(u32 id, geom::Point position) {
   return true;
 }
 
-float dist_to_item(Point position, u32 item) {
+float dist_to_item(geom::Point position, u32 item) {
   return (position - item_info.items[item].position).abs();
 }
 
-u32 closest_item(Point position) {
+u32 closest_item(geom::Point position) {
   u32 ans = item_info.items.begin()->first;
   float dist = dist_to_item(position, item_info.items.begin()->first);
 

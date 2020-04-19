@@ -43,13 +43,13 @@ void setup();
 
 float dist_to_item(geom::Point position, u32 item);
 u32 closest_item(geom::Point position);
-u32 create_item(u32 model, Point position);
+u32 create_item(u32 model, geom::Point position);
 
 bool exists_item(u32 id);
 bool update_position(u32 id, geom::Point position);
 
 u32 create_item(u32 model, geom::Point position);
-void update_position(u32 id, geom::Point position);
+bool update_position(u32 id, geom::Point position);
 void render();
 
 }
