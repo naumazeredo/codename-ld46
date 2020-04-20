@@ -9,7 +9,8 @@
 #include "geom.h"
 
 struct EnemyModel {
-  TextureCode texture;
+  u32 animation_set_id;
+
   u32 w, h;
 
   u32 health;
@@ -22,6 +23,7 @@ struct Enemy {
   u32 model_id;
   geom::Point position;
   u32 current_health;
+  u32 animation_instance_id;
 };
 
 struct EnemyInfo {

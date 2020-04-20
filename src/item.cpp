@@ -82,19 +82,6 @@ void setup() {
   tmp.h = 30;
   item_info.models.push_back(tmp);
 
-  tmp.type = ItemType::TURRET;
-  tmp.texture = TextureCode::TEX_TURRET;
-  tmp.shadow = TextureCode::INVALID;
-  tmp.texture_pivot_x = 15;
-  tmp.texture_pivot_y = 10;
-  tmp.animation_set_id = -1;
-  tmp.w = 40;
-  tmp.h = 30;
-  tmp.damage = 1;
-  tmp.action_rate = 1; // Shots Per Second
-  tmp.action_range = 70;
-  item_info.models.push_back(tmp);
-
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_SHOP;
   tmp.shadow = TextureCode::INVALID;
@@ -224,6 +211,8 @@ void update_render_info(u32 id) {
     else z = item.position.y;
   }
 
+  bool flip_horizontal = item.position.x < SCREEN_WIDTH/2; // TODO: refactor to is_on_left_side();
+
   if (item.animation_instance_id != -1) {
     animation::set_animation_instance_pos(
       item.animation_instance_id,
@@ -231,7 +220,8 @@ void update_render_info(u32 id) {
       item.position.y - item_model.texture_pivot_y,
       (f32) item_model.w,
       (f32) item_model.h,
-      z
+      z,
+      flip_horizontal
     );
   }
 }

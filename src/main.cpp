@@ -30,7 +30,6 @@ void setup() {
   input::setup();
   render::setup();
   audio::setup();
-  enemy::setup();
   shop::setup();
   shop_place::setup();
   physics::setup();
@@ -41,6 +40,7 @@ void setup() {
   item::setup();
   player::setup();
   king::setup();
+  enemy::setup();
 
   load_audio();
 

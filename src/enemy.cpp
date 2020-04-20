@@ -19,7 +19,7 @@ void debug_window() {
         ImGui::Text("Model %d", model_id++);
 
         //ImGui::SliderContainer("texture", &model.texture, render_info.texture);
-        ImGui::Text("texture: %u", (u32)model.texture);
+        //ImGui::Text("texture: %u", (u32)model.texture);
         ImGui::SliderU32("w", &model.w, 0, 128);
         ImGui::SliderU32("h", &model.h, 0, 128);
         ImGui::SliderU32("health", &model.health, 0, 128);
@@ -57,12 +57,24 @@ void debug_window() {
 void setup() {
   EnemyModel tmp;
 
+  auto fox_animation = animation::generate_animation_from_files(
+    "assets/gfx/animations/fox",
+    1
+  );
+
+  tmp.w = 48;
+  tmp.h = 32;
+
+  auto rect = geom::Rect{0, 0, (f32) tmp.w, (f32) tmp.h};
+  std::vector<Animation> animations{fox_animation};
+  AnimationSet set {animations};
+
+  auto animation_set_id = animation::add_animation_set(set);
+
   tmp.speed = 20;
+  tmp.animation_set_id = animation_set_id;
   tmp.health = 100;
   tmp.damage = 15;
-  tmp.w = 32;
-  tmp.h = 32;
-  tmp.texture = TextureCode::TEX_ARROW_UP; 
   tmp.drop_model_ids = {0, 1};
 
   enemy_info.models.push_back(tmp);
@@ -86,6 +98,21 @@ bool try_attack_king(u32 enemy_id) {
   return false;
 }
 
+void update_render_info(EnemyModel model, Enemy enemy) {
+  bool flip_horizontal = enemy_info.target.x - enemy.position.x < 0;
+  if (enemy.animation_instance_id != -1) {
+    animation::set_animation_instance_pos(
+      enemy.animation_instance_id,
+      enemy.position.x,
+      enemy.position.y,
+      (f32) model.w,
+      (f32) model.h,
+      enemy.position.y,
+      flip_horizontal
+    );
+  }
+}
+
 void update() {
   f64 delta_time = game_time::get_frame_duration();
   std::vector<u32> enemy_ids;
@@ -94,6 +121,8 @@ void update() {
     enemy_ids.push_back(enemy_id);
 
     const auto &model = get_enemy_model(enemy_id);
+
+    update_render_info(model, enemy);
 
     geom::Point diff = enemy_info.target - enemy.position;
     if(diff.abs() < geom::EPS)
@@ -138,6 +167,11 @@ bool enemy_exists(u32 id) {
 
 bool try_destroy_enemy(u32 id) {
   if(!enemy_exists(id)) return false;
+
+  auto animation_instance_id = enemy_info.enemies[id].animation_instance_id;
+  if (animation_instance_id != -1)
+    animation::destroy_instance(animation_instance_id);
+
   enemy_info.enemies.erase(id);
 
   return true;
@@ -173,22 +207,30 @@ void create_enemy(geom::Point position, u32 model_id) {
   Enemy enemy;
   enemy.position = position;
   enemy.model_id = model_id;
-  enemy.current_health = enemy_info.models[enemy.model_id].health; 
+  auto& model = enemy_info.models[enemy.model_id]; 
+  enemy.current_health = model.health;
+
+  auto animation_set_id = model.animation_set_id;
+  if (animation_set_id != -1) {
+    auto rect = geom::Rect { 0.0f, 0.0f, (f32)model.w, (f32)model.h };
+    enemy.animation_instance_id = animation::add_animation_instance(animation_set_id, rect);
+  }
+
   enemy_info.enemies[++enemy_info.num_enemies] = enemy;
 }
 
 void render() {
-  for(const auto &[enemy_id, enemy] : enemy_info.enemies) {
-    const auto &model = get_enemy_model(enemy_id);
-    render::add_to_render(
-      enemy.position.x - model.w/ 2,
-      enemy.position.y,
-      model.w,
-      model.h,
-      model.texture,
-      enemy.position.y
-    );
-  }
+// for(const auto &[enemy_id, enemy] : enemy_info.enemies) {
+//   const auto &model = get_enemy_model(enemy_id);
+//   render::add_to_render(
+//     enemy.position.x - model.w/ 2,
+//     enemy.position.y,
+//     model.w,
+//     model.h,
+//     model.texture,
+//     enemy.position.y
+//   );
+// }
 }
 
 }
