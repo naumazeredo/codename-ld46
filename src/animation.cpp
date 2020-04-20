@@ -94,10 +94,12 @@ namespace animation {
   }
 
   void set_is_animation_disabled(u32 set_id, bool is_disabled) {
+    if(set_id >= animation_system.animations_sets.size()) return;
     animation_system.animations_sets[set_id].is_disabled = is_disabled;
   }
 
   void force_play(u32 set_id,u32 animation_id){
+    if(set_id >= animation_system.animations_sets.size()) return;
     animation_system.animations_sets[set_id].current_animation = animation_id;
   }
 };
