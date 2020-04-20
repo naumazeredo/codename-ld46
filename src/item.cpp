@@ -174,9 +174,9 @@ void setup() {
   tmp.type = ItemType::TURRET;
   tmp.animation_set_id = animation_set_id;
   tmp.shadow = TextureCode::INVALID;
-  tmp.damage = 1;
-  tmp.action_rate = 1; // Shots Per Second
-  tmp.action_range = 70;
+  tmp.damage = 10;
+  tmp.action_rate = 2; // Shots Per Second
+  tmp.action_range = 100;
   item_info.models.push_back(tmp);
 
 // tmp.type = ItemType::UNPICKABLE;
