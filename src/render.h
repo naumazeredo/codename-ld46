@@ -64,7 +64,8 @@ void render();
 
 u32 load_image(const char* filename);
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint = WHITE);
+void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture, Color tint = WHITE, bool flip_horizontal = false);
 void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, Color tint = WHITE);
+void render();
 
 }

@@ -31,7 +31,6 @@ void setup() {
   audio::setup();
   item::setup();
   enemy::setup();
-  player::setup();
   shop::setup();
   shop_place::setup();
   physics::setup();
@@ -39,6 +38,8 @@ void setup() {
   king::setup();
 
   texture::load();
+
+  player::setup();
 
   load_audio();
 

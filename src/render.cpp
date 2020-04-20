@@ -249,7 +249,7 @@ void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, Color tint) {
   add_to_render(x, y, w, h, (u32)tex, tint);
 }
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint) {
+void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint, bool flip_horizontal) {
   auto start_vertex = render_info.vertex_buffer.size() / 3;
 
   f32 x0 = 2 * x/f32(SCREEN_WIDTH) - 1;
@@ -278,16 +278,16 @@ void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint) {
 
 
   auto& uv_buffer = render_info.uv_buffer;
-  uv_buffer.push_back(0);
+  uv_buffer.push_back(flip_horizontal);
   uv_buffer.push_back(1);
 
-  uv_buffer.push_back(1);
+  uv_buffer.push_back(!flip_horizontal);
   uv_buffer.push_back(1);
 
-  uv_buffer.push_back(1);
+  uv_buffer.push_back(!flip_horizontal);
   uv_buffer.push_back(0);
 
-  uv_buffer.push_back(0);
+  uv_buffer.push_back(flip_horizontal);
   uv_buffer.push_back(0);
 
 

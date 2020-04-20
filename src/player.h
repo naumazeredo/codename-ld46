@@ -14,6 +14,8 @@ struct PlayerInfo {
   bool is_holding_item;
   u32 holding_item_id;
 
+  u32 animation_set_id;
+
   geom::Point position;
   geom::Point item_position;
 
@@ -21,6 +23,7 @@ struct PlayerInfo {
   int speed;
   int money;
   float item_max_dist;
+  s8 dir_x, dir_y;
 };
 
 namespace player {

@@ -26,6 +26,14 @@ namespace animation {
     }
   }
 
+  void set_animation_pos(u32 set_id, f32 x, f32 y, f32 w, f32 h, bool flip_horizontal) {
+    animation_system.animations_sets[set_id].rect.x = x;
+    animation_system.animations_sets[set_id].rect.y = y;
+    animation_system.animations_sets[set_id].rect.w = w;
+    animation_system.animations_sets[set_id].rect.h = h;
+    animation_system.animations_sets[set_id].flip_horizontal = flip_horizontal;
+  }
+
   void update() {
     auto dt = game_time::get_frame_duration();
     for (u32 i = 0; i < animation_system.animations_sets.size(); i++) {
@@ -36,7 +44,7 @@ namespace animation {
     }
   }
 
-  Animation generate_animation_from_files(const char* prefix, geom::Rect rect, u32 n_of_frames){
+  Animation generate_animation_from_files(const char* prefix, u32 n_of_frames){
     std::vector<Frame> frames;
 
     u32 texture_id;
@@ -48,14 +56,15 @@ namespace animation {
       frames.push_back({texture_id, 0.2});
     }
 
-    Animation animation = {frames, rect, 0.0, 0, 0, 10,  true};
+    Animation animation = {frames, 0.0, 0, 0, 0,  true};
     return animation;
   }
 
   void debug_animation() {
-    auto animation = generate_animation_from_files("assets/gfx/animations/goose", {0, 0, 84, 84}, 4);
+    auto rect = geom::Rect{0, 0, 84, 84};
+    auto animation = generate_animation_from_files("assets/gfx/animations/goose", 4);
     std::vector<Animation> animations{animation};
-    AnimationSet set{animations, 0};
+    AnimationSet set{rect, animations, 0};
 
     add_animation_set(set);
   }
@@ -66,11 +75,13 @@ namespace animation {
       auto& animation = animation_set.animations[animation_id];
 
       render::add_to_render(
-        animation.rect.x,
-        animation.rect.y,
-        animation.rect.w,
-        animation.rect.h,
-        animation.frames[animation.current_frame].texture_id
+        animation_set.rect.x - animation_set.rect.w/2,
+        animation_set.rect.y,
+        animation_set.rect.w,
+        animation_set.rect.h,
+        animation.frames[animation.current_frame].texture_id,
+        WHITE,
+        animation_set.flip_horizontal
       );
     }
   }
@@ -78,5 +89,9 @@ namespace animation {
   u32 add_animation_set(AnimationSet set) {
     animation_system.animations_sets.push_back(set);
     return animation_system.animations_sets.size() - 1;
+  }
+
+  void force_play(u32 set_id,u32 animation_id){
+    animation_system.animations_sets[set_id].current_animation = animation_id;
   }
 };
