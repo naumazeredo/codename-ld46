@@ -59,7 +59,7 @@ void setup() {
 
   auto fox_animation = animation::generate_animation_from_files(
     "assets/gfx/animations/fox",
-    1
+    2
   );
 
   tmp.w = 48;
