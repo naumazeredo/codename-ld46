@@ -33,4 +33,6 @@ void render();
 void debug_window();
 void update();
 
+u32 create_shop_place(geom::Point center, u32 w, u32 h);
+
 }

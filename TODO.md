@@ -4,7 +4,7 @@
 
 - [ ] Terrain
   - [ ] Position king
-  - [ ] Position shop places
+  - [x] Position shop places
   - [ ] Position enemies spawn points
   - [ ] Position out-of-bounds
   - [ ] Position colliders

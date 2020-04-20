@@ -15,6 +15,7 @@ void debug_window() {
     for(auto& shop_place : shop_place_info.shop_places) {
       std::string label = "Shops place: " + cnt++;
 
+        ImGui::Point("Shop_place center", &shop_place.center);
       if (ImGui::TreeNode(label.c_str())) {
         ImGui::Text("center: %d %d", shop_place.center.x, shop_place.center.y);
         ImGui::Text("player inside? %s", geom::point_inside_convex_polygon(player_info.position, shop_place.collider) ? "YES" : "NO");
@@ -32,26 +33,13 @@ void debug_window() {
 }
 
 void setup() {
-  ShopPlace shop_place;
-  shop_place.texture = TextureCode::TEX_BLANK;
-  geom::Point trigger_center = { 3.0f * SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2.0f - 100 };
-  geom::Point trigger_h_offset = { 200, 0 };
-  geom::Point trigger_v_offset = { 0, 200 };
-  shop_place.trigger = { trigger_center - trigger_h_offset - trigger_v_offset,
-                         trigger_center + trigger_h_offset - trigger_v_offset,
-                         trigger_center + trigger_h_offset + trigger_v_offset,
-                         trigger_center - trigger_h_offset + trigger_v_offset};
-  geom::Point collider_center = { 3.0f * SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2.0f - 100 };
-  geom::Point collider_h_offset = { 100, 0 };
-  geom::Point collider_v_offset = { 0, 75 };
-  shop_place.collider = { collider_center - collider_h_offset - collider_v_offset,
-                          collider_center + collider_h_offset - collider_v_offset,
-                          collider_center + collider_h_offset + collider_v_offset,
-                          collider_center - collider_h_offset + collider_v_offset};
-  shop_place.w = 200; shop_place.h = 150;
-  shop_place.center = collider_center;
-  shop_place.state = ShopPlaceState::FREE;
-  shop_place_info.shop_places.push_back(shop_place);
+
+  create_shop_place({440, 153}, 200, 128);
+  create_shop_place({640, 133}, 200, 128);
+  create_shop_place({840, 153}, 200, 128);
+  create_shop_place({440, 566}, 200, 128);
+  create_shop_place({640, 586}, 200, 128);
+  create_shop_place({840, 566}, 200, 128);
 }
 
 void update() {
@@ -89,5 +77,35 @@ void render() {
   }
 }
 
+u32 create_shop_place(geom::Point center, u32 w, u32 h) {
+  ShopPlace shop_place;
+
+  shop_place.texture = TextureCode::TEX_BLANK;
+  shop_place.center = center;
+  shop_place.w = w;
+  shop_place.h = h;
+
+  geom::Point trigger_center = center;
+  geom::Point trigger_h_offset = { shop_place.w/2, 0 };
+  geom::Point trigger_v_offset = { 0, shop_place.h/2 };
+  shop_place.trigger = { trigger_center - trigger_h_offset - trigger_v_offset,
+                         trigger_center + trigger_h_offset - trigger_v_offset,
+                         trigger_center + trigger_h_offset + trigger_v_offset,
+                         trigger_center - trigger_h_offset + trigger_v_offset};
+
+  geom::Point collider_center = center;
+  geom::Point collider_h_offset = {shop_place.w/2, 0 };
+  geom::Point collider_v_offset = { 0, shop_place.h/2};
+  shop_place.collider = { collider_center - collider_h_offset - collider_v_offset,
+                          collider_center + collider_h_offset - collider_v_offset,
+                          collider_center + collider_h_offset + collider_v_offset,
+                          collider_center - collider_h_offset + collider_v_offset};
+
+  shop_place.state = ShopPlaceState::FREE;
+
+  shop_place_info.shop_places.push_back(shop_place);
+
+  return shop_place_info.shop_places.size()-1;
+}
 
 } // namespace shop_place
