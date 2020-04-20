@@ -54,8 +54,8 @@ void setup() {
 
   game_info.spawn_pool.push_back({0, SCREEN_HEIGHT / 2.0f - 25, 50, 50});
   game_info.spawn_pool.push_back({SCREEN_WIDTH - 50, SCREEN_HEIGHT / 2.0f - 25, 50, 50});
-  game_info.spawn_pool.push_back({SCREEN_WIDTH / 2.0f - 25, 0, 50, 50});
-  game_info.spawn_pool.push_back({SCREEN_WIDTH / 2.0f - 25, SCREEN_HEIGHT - 50, 50, 50});
+  //game_info.spawn_pool.push_back({SCREEN_WIDTH / 2.0f - 25, 0, 50, 50});
+  //game_info.spawn_pool.push_back({SCREEN_WIDTH / 2.0f - 25, SCREEN_HEIGHT - 50, 50, 50});
 
   game_info.current_state = GameState::RUNNING;
 
