@@ -16,9 +16,9 @@
   - [x] Die
 
 - [ ] Shops / Factories
-  - [ ] Money
-  - [ ] Buy item
-  - [ ] Resolve collision on polygon
+  - [x] Money
+  - [x] Buy item
+  - [x] Resolve collision on polygon
   - [x] Place shop
   - [~] (removed) Upgrade (which key? idea: dont have upgrades and always swap)
 
@@ -48,11 +48,11 @@
 ### Graphics
 
 - [ ] Player
-  - [ ] Idle
-  - [ ] Running
+  - [x] Idle
+  - [x] Running
   - [ ] Holding item
   - [ ] Throwing
-- [ ] King
+- [x] King
 - [ ] Shops
 - [ ] Enemies
 
@@ -60,7 +60,7 @@
   - [ ] (use ImGui?)
   - [ ] Money HUD
   - [ ] King hunger
-  - [ ] King health (maybe just use hunger)
+  - [x] King health (maybe just use hunger)
 
 ### Audio
 
