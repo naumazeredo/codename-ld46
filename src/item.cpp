@@ -65,6 +65,8 @@ void setup() {
   tmp.type = ItemType::CANDY;
   tmp.texture = TextureCode::TEX_CANDY;
   tmp.shadow = TextureCode::INVALID;
+  tmp.texture_pivot_x = 15;
+  tmp.texture_pivot_y = 10;
   tmp.animation_set_id = -1;
   tmp.w = 30;
   tmp.h = 30;
@@ -74,13 +76,30 @@ void setup() {
   tmp.type = ItemType::MONEY;
   tmp.texture = TextureCode::TEX_MONEY;
   tmp.shadow = TextureCode::INVALID;
+  tmp.texture_pivot_x = 15;
+  tmp.texture_pivot_y = 5;
   tmp.w = 30;
   tmp.h = 30;
+  item_info.models.push_back(tmp);
+
+  tmp.type = ItemType::TURRET;
+  tmp.texture = TextureCode::TEX_TURRET;
+  tmp.shadow = TextureCode::INVALID;
+  tmp.texture_pivot_x = 15;
+  tmp.texture_pivot_y = 10;
+  tmp.animation_set_id = -1;
+  tmp.w = 40;
+  tmp.h = 30;
+  tmp.damage = 1;
+  tmp.action_rate = 1; // Shots Per Second
+  tmp.action_range = 70;
   item_info.models.push_back(tmp);
 
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_SHOP;
   tmp.shadow = TextureCode::INVALID;
+  tmp.texture_pivot_x = 20;
+  tmp.texture_pivot_y = 10;
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
@@ -90,6 +109,8 @@ void setup() {
   tmp.type = ItemType::FACTORY;
   tmp.texture = TextureCode::TEX_FACTORY;
   tmp.shadow = TextureCode::INVALID;
+  tmp.texture_pivot_x = 20;
+  tmp.texture_pivot_y = 10;
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
@@ -122,6 +143,8 @@ void setup() {
   tmp.animation_set_id = animation_set_id;
 
   tmp.shadow = TextureCode::INVALID;
+  tmp.texture_pivot_x = 16;
+  tmp.texture_pivot_y = 16;
   tmp.damage = 1;
   tmp.action_rate = 5;
   tmp.action_range = 20;
@@ -148,6 +171,16 @@ void setup() {
   tmp.damage = 1;
   tmp.action_rate = 1; // Shots Per Second
   tmp.action_range = 70;
+  item_info.models.push_back(tmp);
+
+  tmp.type = ItemType::UNPICKABLE;
+  tmp.texture = TextureCode::TEX_LOG;
+  tmp.shadow = TextureCode::TEX_LOG_SHADOW;
+  tmp.texture_pivot_x = 32;
+  tmp.texture_pivot_y = 16;
+  tmp.animation_set_id = -1;
+  tmp.w = 64;
+  tmp.h = 64;
   item_info.models.push_back(tmp);
 }
 
@@ -204,8 +237,8 @@ void update_render_info(u32 id) {
   if (item.animation_instance_id != -1) {
     animation::set_animation_instance_pos(
       item.animation_instance_id,
-      item.position.x,
-      item.position.y,
+      item.position.x - item_model.texture_pivot_x,
+      item.position.y - item_model.texture_pivot_y,
       (f32) item_model.w,
       (f32) item_model.h,
       z
@@ -323,13 +356,11 @@ void render() {
     auto& model = item_info.models[item.model_id];
     if (item.animation_instance_id == -1) {
       auto z = (item.being_held ? player_info.position.y : item.position.y);
-      render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.texture, z);
+      render::add_to_render(item.position.x - model.w/2 - model.texture_pivot_x, item.position.y - model.texture_pivot_y, model.w, model.h, model.texture, z);
 
-      /*
       if (model.shadow != TextureCode::INVALID) {
-        render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.shadow, 99999);
+        render::add_to_render(item.position.x - model.w/2 - model.texture_pivot_x, item.position.y - model.texture_pivot_y, model.w, model.h, model.shadow, 99999);
       }
-      */
     }
   }
 }
