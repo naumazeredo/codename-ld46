@@ -122,14 +122,14 @@ void setup() {
   tmp.texture = TextureCode::TEX_KING_ROCK;
   tmp.shadow = TextureCode::TEX_KING_ROCK_SHADOW;
   tmp.animation_set_id = -1;
-  tmp.w = 128;
-  tmp.h = 64;
+  tmp.w = 180;
+  tmp.h = 100;
   tmp.texture_pivot_x = -((f32)tmp.w/2);
   tmp.texture_pivot_y = -((f32)tmp.h/2 + 5);
   item_info.models.push_back(tmp);
 
   create_item(item_info.models.size()-1,
-              {(float) SCREEN_WIDTH/2, (float) SCREEN_HEIGHT/2});
+              {(float) SCREEN_WIDTH/2, (float) SCREEN_HEIGHT/2 + 2});
 
   auto spike_animation = animation::generate_animation_from_files(
     "assets/gfx/animations/spike",
