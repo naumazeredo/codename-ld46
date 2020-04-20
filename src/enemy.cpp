@@ -39,11 +39,6 @@ void setup() {
   enemy_info.models.push_back(tmp);
 
   enemy_info.target = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
-
-  for(int i = 0; i < 5; ++i) {
-    geom::Point pos({rand()%SCREEN_WIDTH*1.0f, rand()%SCREEN_HEIGHT*1.0f});
-    create_enemy(pos, 0);
-  }
 }
 
 EnemyModel& get_enemy_model(u32 id) {

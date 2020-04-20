@@ -44,7 +44,7 @@ geom::Point get_position() {
 }
 
 void feed_king(f64 amount){
-  king_info.king_health = min(king_info.king_health + amount, KING_MAX_HEALTH);
+  king_info.king_health = std::min(king_info.king_health + amount, KING_MAX_HEALTH);
 
   for (auto callback : king_info.on_feed_king){
     callback();

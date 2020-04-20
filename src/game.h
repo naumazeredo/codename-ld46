@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <functional>
+#include <random>
 
 #include "texture.h"
 #include "types.h"
@@ -24,6 +25,11 @@ struct GameInfo {
   geom::Point bar_position;
   int bar_h, bar_w;
 
+  std::vector<geom::Rect> spawn_pool;
+  f64 wave_remaining_time, wave_time;
+  u32 last_wave_cnt, wave_enemy_increase;
+  std::mt19937_64 rand;
+
   std::vector<Callback> on_game_over;
 };
 
@@ -35,6 +41,7 @@ void render();
 void debug_window();
 
 void take_damage(f64);
+void spawn_wave(u32 enemy_count);
 void feed_king(f64);
 
 }

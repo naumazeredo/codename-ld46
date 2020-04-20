@@ -69,7 +69,6 @@ set SRCS=%DEP_SRCS%
 setlocal EnableDelayedExpansion
 for /R src %%I in (*.cpp) do SET SRCS="%%I" !SRCS!
 setlocal DisableDelayedExpansion
-echo %SRCS%
 
 set FOLDERS=^
   assets

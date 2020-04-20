@@ -1,6 +1,8 @@
 #include <imgui.h>
 #include <string>
 #include <iostream>
+#include <chrono>
+
 #include "game.h"
 #include "externs.h"
 
@@ -28,6 +30,9 @@ void debug_window() {
     game_state_text = "Game State: " + game_state_text;
     ImGui::Text(game_state_text.c_str());
 
+    ImGui::InputDouble("Wave delay", &game_info.wave_time);
+    ImGui::Text("Wave in %fs", game_info.wave_remaining_time);
+
     ImGui::TreePop();
   }
 }
@@ -37,6 +42,17 @@ void on_game_over_debug() {
 }
 
 void setup() {
+  game_info.rand = std::mt19937_64(std::chrono::system_clock::now().time_since_epoch().count());
+  game_info.last_wave_cnt = 0;
+  game_info.wave_enemy_increase = 1;
+  game_info.wave_time = 2.0f;
+  game_info.wave_remaining_time = game_info.wave_time;
+  
+  game_info.spawn_pool.push_back({0, SCREEN_HEIGHT / 2.0f - 25, 50, 50});
+  game_info.spawn_pool.push_back({SCREEN_WIDTH - 50, SCREEN_HEIGHT / 2.0f - 25, 50, 50});
+  game_info.spawn_pool.push_back({SCREEN_WIDTH / 2.0f - 25, 0, 50, 50});
+  game_info.spawn_pool.push_back({SCREEN_WIDTH / 2.0f - 25, SCREEN_HEIGHT - 50, 50, 50});
+
   game_info.current_state = GameState::RUNNING;
 
   game_info.on_game_over.push_back(on_game_over_debug);
@@ -48,6 +64,15 @@ void setup() {
 }
 
 void update() {
+  f64 delta_time = game_time::get_frame_duration();
+  game_info.wave_remaining_time -= delta_time;
+  if(enemy_info.enemies.size() != 0)
+    game_info.wave_remaining_time = game_info.wave_time;
+  if(game_info.wave_remaining_time < 0) {
+    game_info.last_wave_cnt += game_info.wave_enemy_increase;
+    spawn_wave(game_info.last_wave_cnt);
+  }
+
   if (king::get_king_health() < 0 ) {
     if (game_info.current_state != GameState::GAME_OVER) {
       game_info.current_state = GameState::GAME_OVER;
@@ -55,6 +80,16 @@ void update() {
         callback();
       }
     }
+  }
+}
+
+void spawn_wave(u32 enemy_count) {
+  for(int i = 0; i < enemy_count; ++i) {
+    geom::Rect &spawn_area = game_info.spawn_pool[game_info.rand() % game_info.spawn_pool.size()];
+    geom::Point pos;
+    pos.x = spawn_area.x + game_info.rand() * spawn_area.w / (LLONG_MAX);
+    pos.y = spawn_area.y + game_info.rand() * spawn_area.h / (LLONG_MAX);
+    enemy::create_enemy(pos, 0);
   }
 }
 
