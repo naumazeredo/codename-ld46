@@ -139,6 +139,10 @@ bool item_exists(u32 id) {
 
 bool destroy_item(u32 id) {
   if (!item_exists(id)) return false;
+
+  auto set_id = item_info.models[item_info.items[id].model_id].animation_set_id;
+  animation::set_is_animation_disabled(set_id, true);
+
   item_info.items.erase(id);
   return true;
 }

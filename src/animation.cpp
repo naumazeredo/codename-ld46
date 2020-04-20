@@ -74,6 +74,8 @@ namespace animation {
       auto animation_id = animation_set.current_animation;
       auto& animation = animation_set.animations[animation_id];
 
+      if (animation_set.is_disabled) continue;
+
       render::add_to_render(
         animation_set.rect.x - animation_set.rect.w/2,
         animation_set.rect.y,
@@ -89,6 +91,10 @@ namespace animation {
   u32 add_animation_set(AnimationSet set) {
     animation_system.animations_sets.push_back(set);
     return animation_system.animations_sets.size() - 1;
+  }
+
+  void set_is_animation_disabled(u32 set_id, bool is_disabled) {
+    animation_system.animations_sets[set_id].is_disabled = is_disabled;
   }
 
   void force_play(u32 set_id,u32 animation_id){
