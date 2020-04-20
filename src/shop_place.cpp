@@ -45,7 +45,7 @@ void setup() {
   shop_place.center = collider_center;
   shop_place.state = ShopPlaceState::FREE;
   shop_place_info.shop_places.push_back(shop_place);
-  printf("%d\n", shop_place_info.shop_places.back().trigger.size());
+  printf("%zd\n", shop_place_info.shop_places.back().trigger.size());
 }
 
 void render() {

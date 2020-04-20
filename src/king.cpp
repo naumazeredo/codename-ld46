@@ -1,6 +1,9 @@
 #include "king.h"
 
+#include <algorithm>
 #include "externs.h"
+#undef min
+#undef max
 
 KingInfo king_info;
 
@@ -51,10 +54,6 @@ void take_damage(f64 damage) {
   }
 }
 
-void update() {
-  take_damage(game_time::get_frame_duration()*KING_HUNGER_RATE);
-}
-
 geom::Point get_position() {
   return king_info.position;
 }
@@ -73,6 +72,7 @@ u32 get_king_health() {
 }
 
 void update() {
+  take_damage(game_time::get_frame_duration()*KING_HUNGER_RATE);
   animation::set_animation_pos(
       king_info.animation_set_id,
       king_info.position.x,
