@@ -122,9 +122,7 @@ void run() {
     king::update();
     game::update();
     animation::update();
-    king::update();
     shop_place::update();
-
     physics::update();
 
     enemy::render();
