@@ -21,6 +21,11 @@ void update() {
       player_info.position = geom::resolve_collision(player_info.position, shop_place.collider);
     }
   }
+  for (auto& bound: bound_info.bounds) {
+    if (geom::point_inside_convex_polygon(player_info.position, bound)) {
+      player_info.position = geom::resolve_collision(player_info.position, bound);
+    }
+  }
 }
 
 

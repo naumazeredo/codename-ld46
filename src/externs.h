@@ -20,6 +20,7 @@
 #include "shop_place.h"
 #include "king.h"
 #include "animation.h"
+#include "bound.h"
 #undef min
 #undef max
 
@@ -36,3 +37,4 @@ extern ShopPlaceInfo shop_place_info;
 extern KingInfo king_info;
 extern GameInfo game_info;
 extern AnimationInfo animation_info;
+extern BoundInfo bound_info;

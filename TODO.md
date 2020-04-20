@@ -6,7 +6,7 @@
   - [x] Position king
   - [x] Position shop places
   - [ ] Position enemies spawn points
-  - [ ] Position out-of-bounds
+  - [x] Position out-of-bounds
   - [ ] Position colliders
   - [x] Position king rock
   - [x] Position logs (bounds)
