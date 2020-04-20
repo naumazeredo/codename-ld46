@@ -96,7 +96,7 @@ void drop_item() {
 
 void use_item() {
   for(auto& shop_place : shop_place_info.shop_places) {
-    if (geom::point_inside_rect(player_info.position, shop_place.trigger)) {
+    if (geom::point_inside_convex_polygon(player_info.position, shop_place.trigger)) {
       auto [exist, item_model] = item::get_model_by_item_id(player_info.holding_item_id);
 
       if (exist) {
@@ -133,7 +133,7 @@ bool try_buy_item(u32 shop_id) {
 
 void shop_interaction() {
   for(auto& shop_place : shop_place_info.shop_places) {
-    if (geom::point_inside_rect(player_info.position, shop_place.trigger)) {
+    if (geom::point_inside_convex_polygon(player_info.position, shop_place.trigger)) {
       if (shop_place.state == ShopPlaceState::OCCUPIED) {
         try_buy_item(shop_place.shop_id);
       }

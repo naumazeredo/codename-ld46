@@ -18,8 +18,13 @@ struct Point {
   Point operator+(Point p) const;
   Point& operator+=(Point p);
 
+  Point operator-() const;
   Point operator-(Point p) const;
   Point& operator-=(Point p);
+
+  Point operator*(f32 k) const;
+
+  f32 operator%(Point p) const;
 
   inline f64 abs2() const { return x * x + y * y; }
   inline f32 abs() const { return std::sqrt(abs2()); }
@@ -35,14 +40,13 @@ struct Rect {
   f32 x, y, w, h;
 };
 
-struct Polygon {
-  std::vector<Point> points;
-};
+using Polygon = std::vector<Point>;
 
 bool point_inside_rect(Point p, Rect r);
-bool point_inside_polygon(const Point p, const Polygon& polygon);
+bool point_inside_convex_polygon(Point p, Polygon polygon);
 
 Point resolve_collision(Point p, Rect r);
+Point resolve_collision(Point p, Polygon polygon);
 
 Point min_abs_point(Point a, Point b);
 Point min_abs_point(std::vector<Point> points);
