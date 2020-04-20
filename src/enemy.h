@@ -7,15 +7,20 @@
 #include "types.h"
 #include "geom.h"
 
-struct Enemy {
-  geom::Point position;
-  u32 w, h, health;
+struct EnemyModel {
+  u32 width, height, health;
   u32 texture, speed;
+};
+
+struct Enemy {
+  u32 model_id;
+  geom::Point position;
+  u32 current_health;
 };
 
 struct EnemyInfo {
   u32 num_enemies;
-  std::vector<u32> textures;
+  std::vector<EnemyModel> models;
   std::map<u32, Enemy> enemies;
   geom::Point target;
 };
@@ -25,7 +30,7 @@ namespace enemy {
 void setup();
 void render();
 void update();
-void spawn_enemy(geom::Point position, u32 health, u32 speed);
+void create_enemy(geom::Point position, u32 model_id);
 bool try_hit_enemy(u32 id, u32 damage);
 
 std::pair<bool, u32> closest_enemy_in(geom::Point position, f64 range);

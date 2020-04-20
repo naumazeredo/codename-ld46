@@ -13,7 +13,7 @@ void debug_window() {
     ImGui::SliderFloat("ty", &enemy_info.target.y, 0, SCREEN_HEIGHT);
     if(ImGui::TreeNode("Enemies")) {
       for(auto &[enemy_id, enemy] : enemy_info.enemies) {
-        std::string text = std::to_string(enemy_id) + " - Health: " + std::to_string(enemy.health);
+        std::string text = std::to_string(enemy_id) + " - Health: " + std::to_string(enemy.current_health);
         ImGui::Text(text.c_str());
       }
 
@@ -26,23 +26,39 @@ void debug_window() {
 
 void setup() {
   debug::add_window(debug_window);
+  EnemyModel tmp;
+
+  tmp.speed = 10;
+  tmp.health = 100;
+  tmp.width = 32;
+  tmp.height = 32;
+  tmp.texture = TEX_ARROW_UP; 
+
+  enemy_info.models.push_back(tmp);
+
   enemy_info.target = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
-  enemy_info.textures.push_back(TEX_ARROW_UP);
+
   geom::Point pos = enemy_info.target;
   for(int i = 0; i < 1; ++i)
-    spawn_enemy(pos, 10, rand() % 101);
+    create_enemy(pos, 0);
+}
+
+EnemyModel& get_enemy_model(u32 id) {
+  return enemy_info.models[enemy_info.enemies[id].model_id];
 }
 
 void update() {
   f64 delta_time = game_time::get_frame_duration();
-  for(auto &[e_id, e] : enemy_info.enemies) {
-    geom::Point diff = enemy_info.target - e.position;
+  for(auto &[enemy_id, enemy] : enemy_info.enemies) {
+    const auto &model = get_enemy_model(enemy_id);
+
+    geom::Point diff = enemy_info.target - enemy.position;
     if(diff.abs() < geom::EPS)
       continue;
     if(diff.abs() > 1)
       diff.normalize();
-    diff.x *= delta_time * e.speed, diff.y *= delta_time * e.speed;
-    e.position += diff;
+    diff.x *= delta_time * model.speed, diff.y *= delta_time * model.speed;
+    enemy.position += diff;
   }
 }
 
@@ -79,29 +95,33 @@ bool try_destroy_enemy(u32 id) {
 bool try_hit_enemy(u32 id, u32 damage) {
   if(!enemy_exists(id)) return false;
 
-  if(enemy_info.enemies[id].health <= damage) {
+  if(enemy_info.enemies[id].current_health <= damage) {
     try_destroy_enemy(id);
     return true;
   }
   
-  enemy_info.enemies[id].health -= damage;
+  enemy_info.enemies[id].current_health -= damage;
   return true;
 }
 
-void spawn_enemy(geom::Point position, u32 health, u32 speed) {
-  Enemy e;
-  e.speed = speed;
-  e.position = position;
-  e.health = health;
-  e.w = 32;
-  e.h = 32;
-  e.texture = enemy_info.textures[0]; 
-  enemy_info.enemies[++enemy_info.num_enemies] = e;
+void create_enemy(geom::Point position, u32 model_id) {
+  Enemy enemy;
+  enemy.position = position;
+  enemy.model_id = model_id;
+  enemy.current_health = enemy_info.models[enemy.model_id].health; 
+  enemy_info.enemies[++enemy_info.num_enemies] = enemy;
 }
 
 void render() {
-  for(const auto &[e_id, e] : enemy_info.enemies) {
-    render::add_to_render(e.position.x - e.w / 2, e.position.y - e.h / 2, e.w, e.h, e.texture);
+  for(const auto &[enemy_id, enemy] : enemy_info.enemies) {
+    const auto &model = get_enemy_model(enemy_id);
+    render::add_to_render(
+      enemy.position.x - model.width / 2,
+      enemy.position.y - model.height / 2,
+      model.width,
+      model.height,
+      model.texture
+    );
   }
 }
 
