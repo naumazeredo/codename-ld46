@@ -7,7 +7,6 @@
 #include "king.h"
 
 void setup();
-void load_textures();
 void load_audio();
 void run();
 
@@ -41,7 +40,7 @@ void setup() {
 
   texture::load();
 
-
+  animation::debug_animation();
   load_audio();
 
 }
@@ -96,6 +95,7 @@ void run() {
     enemy::update();
     physics::update();
     game::update();
+    animation::update();
 
     enemy::render();
     player::render();
@@ -103,6 +103,7 @@ void run() {
     game::render();
     shop_place::render();
     king::render();
+    animation::render();
 
     // Rendering
     render::render();
