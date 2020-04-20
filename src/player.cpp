@@ -87,10 +87,8 @@ void update() {
 }
 
 void drop_item() {
-  if(!item::drop_item(player_info.holding_item_id)) return;
-
+  item::drop_item(player_info.holding_item_id);
   item::update_position(player_info.holding_item_id, player_info.position);
-
   player_info.is_holding_item = false;
 }
 
@@ -141,40 +139,51 @@ void shop_interaction() {
   }
 }
 
-void item_interaction() {
+void world_interaction() {
   if(player_info.is_holding_item) {
     if(!item::item_exists(player_info.holding_item_id)) {
       printf("player holding item doesn't exists!\n");
       player_info.is_holding_item = false;
     }
 
-    auto [found_model, model] = item::get_model_by_item_id(player_info.holding_item_id);
-    if (found_model and model.type == ItemType::SHOP)
+    auto [_, model] = item::get_model_by_item_id(player_info.holding_item_id);
+    if (model.type == ItemType::SHOP) {
       use_item();
-    else
-      drop_item();
-  }
-  else {
-    shop_interaction();
+    }
 
-    geom::Point position = player_info.position;
-    u32 item_id = item::closest_item(position); // @TODO(naum): refactor like enemy: closest_in_range
-    if(!item_id)
-      return;
-
-    if(item::dist_to_item(position, item_id) < PLAYER_HOLD_MAX_DIST) {
-      auto [_, item_model] = item::get_model_by_item_id(item_id);
-
-      if(item_model.type == ItemType::MONEY) {
-        player_info.money += MONEY_PER_COIN;
-        item::destroy_item(item_id);
+    if (model.type == ItemType::CANDY) {
+      f64 distance_to_king = (king::get_position() - player_info.position).abs();
+      if(distance_to_king < INTERACTION_DISTANCE) {
+        king::feed_king(HEALTY_PER_CANDY);
+        drop_item();
+        item::destroy_item(player_info.holding_item_id);
         return;
       }
-
-      item::hold_item(item_id);
-      player_info.is_holding_item = true;
-      player_info.holding_item_id = item_id;
     }
+
+    drop_item();
+    return;
+  }
+
+  shop_interaction();
+
+  geom::Point position = player_info.position;
+  u32 item_id = item::closest_item(position); // @TODO(naum): refactor like enemy: closest_in_range
+  if(!item_id)
+    return;
+
+  if(item::dist_to_item(position, item_id) < INTERACTION_DISTANCE) {
+    auto [_, item_model] = item::get_model_by_item_id(item_id);
+
+    if(item_model.type == ItemType::MONEY) {
+      player_info.money += MONEY_PER_COIN;
+      item::destroy_item(item_id);
+      return;
+    }
+
+    item::hold_item(item_id);
+    player_info.is_holding_item = true;
+    player_info.holding_item_id = item_id;
   }
 }
 

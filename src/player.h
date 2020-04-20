@@ -4,7 +4,7 @@
 #include "types.h"
 #include "geom.h"
 
-const f32 PLAYER_HOLD_MAX_DIST = 40;
+const f32 INTERACTION_DISTANCE = 40;
 
 struct PlayerInfo {
   Direction direction;
@@ -32,6 +32,6 @@ void render();
 void update();
 void debug_window();
 
-void item_interaction(); // @TODO(naum): remove this. Do into some interaction system
+void world_interaction(); // @TODO(naum): remove this. Do into some interaction system
 
 }

@@ -29,6 +29,7 @@ namespace king {
 u32 get_king_health();
 geom::Point get_position();
 void take_damage(f64 damage);
+void feed_king(f64 amount);
 
 void setup();
 void update();

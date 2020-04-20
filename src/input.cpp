@@ -61,7 +61,7 @@ void handle_input() {
   player_info.dir_y = move_y;
 
   if(is_key_down(input_info.action_key)) {
-    player::item_interaction();
+    player::world_interaction();
   }
 }
 
