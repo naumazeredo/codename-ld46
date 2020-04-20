@@ -64,7 +64,7 @@ void setup() {
   game_info.bar_texture = TextureCode::TEX_BLANK;
   game_info.bar_h = 32;
   game_info.bar_w = 320;
-  game_info.bar_position = geom::Point{};
+  game_info.bar_position = geom::Point{SCREEN_WIDTH/2 - (f32) game_info.bar_w/2, SCREEN_HEIGHT - (f32) game_info.bar_h};
 }
 
 void update() {
@@ -81,7 +81,7 @@ void update() {
     spawn_wave(game_info.last_wave_cnt);
   }
 
-  if (king::get_health() < 0 ) {
+  if (king::get_health() <= 0 ) {
     if (game_info.current_state != GameState::GAME_OVER) {
       game_info.current_state = GameState::GAME_OVER;
       for (auto callback : game_info.on_game_over){
