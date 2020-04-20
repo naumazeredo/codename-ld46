@@ -52,7 +52,15 @@ void update() {
         if(cur_time - shop.last_make_time >= shop_model.make_rate){
           shop.last_make_time = cur_time;
           auto shop_place = shop_place_info.shop_places[shop.shop_place_id];
-          item::create_item(shop_model.item_model_id, {shop_place.center.x, shop_place.center.y - 100});
+          geom::Point drop_place = shop_place.center;
+
+          if(drop_place.y > SCREEN_HEIGHT/2) drop_place.y -= 100;
+          else drop_place.y += 50;
+
+          drop_place.y += game::rand()%1000/(f64)100 - 5;
+          drop_place.x += game::rand()%1000/(f64)100 - 5;
+
+          item::create_item(shop_model.item_model_id, drop_place);
         }
     }
   }
