@@ -30,10 +30,10 @@ void setup() {
   player_info.item_position = {0, (float) player_info.h};
   player_info.item_max_dist = 40;
 
-  player_info.textures[0] = render::load_image("assets/gfx/template-32x32-up.png");
-  player_info.textures[1] = render::load_image("assets/gfx/template-32x32-down.png");
-  player_info.textures[2] = render::load_image("assets/gfx/template-32x32-left.png");
-  player_info.textures[3] = render::load_image("assets/gfx/template-32x32-right.png");
+  player_info.textures[0] = TEX_ARROW_UP;
+  player_info.textures[1] = TEX_ARROW_DOWN;
+  player_info.textures[2] = TEX_ARROW_LEFT;
+  player_info.textures[3] = TEX_ARROW_RIGHT;
 
   // add debug window
   debug::add_window(debug_window);

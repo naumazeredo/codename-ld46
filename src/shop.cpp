@@ -4,12 +4,13 @@
 #include "shop.h"
 #include "render.h"
 #include "debug.h"
+#include "texture.h"
 
 
 Shop::Shop(geom::Point p, geom::Rect c, geom::Rect t): center(p), collider(c), trigger(t) {
 
-  textures[0] = render::load_image("assets/gfx/template-32x32-up.png");
-  textures[1] = render::load_image("assets/gfx/template-32x32-down.png");
+  textures[0] = TEX_ARROW_UP;
+  textures[1] = TEX_ARROW_DOWN;
 
   state = CLOSED;
 }

@@ -49,21 +49,21 @@ void setup() {
   ItemModel tmp;
 
   tmp.type = FOOD;
-  tmp.texture = render::load_image("assets/gfx/template-32x32-up.png");
+  tmp.texture = TEX_ARROW_UP;
   tmp.w = 30;
   tmp.h = 30;
   tmp.hunger_count = 5;
   item_info.models.push_back(tmp);
 
   tmp.type = TRAP;
-  tmp.texture = render::load_image("assets/gfx/temp-trap.png");
+  tmp.texture = TEX_TRAP;
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 10;
   item_info.models.push_back(tmp);
 
   tmp.type = TURRET;
-  tmp.texture = render::load_image("assets/gfx/turret-must-replace.png");
+  tmp.texture = TEX_TURRET;
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 10;

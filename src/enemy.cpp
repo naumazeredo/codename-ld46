@@ -25,7 +25,7 @@ void debug_window() {
 void setup() {
   debug::add_window(debug_window);
   enemy_info.target = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
-  enemy_info.textures.push_back(render::load_image("assets/gfx/template-32x32-up.png"));
+  enemy_info.textures.push_back(TEX_ARROW_UP);
   geom::Point pos = enemy_info.target;
   for(int i = 0; i < 1; ++i)
     spawn_enemy(pos, 10, rand() % 101);

@@ -38,12 +38,11 @@ void setup() {
   game::setup();
   king::setup();
 
-  load_textures();
-  load_audio();
-}
+  texture::load();
 
-void load_textures() {
-  // @TODO(naum): store into names variables
+
+  load_audio();
+
 }
 
 void load_audio() {
