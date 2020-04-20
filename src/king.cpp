@@ -22,8 +22,6 @@ void setup() {
   king_info.position = {(float) SCREEN_WIDTH/2 - king_info.w/2,
     (float) SCREEN_HEIGHT/2 - king_info.h/2};
   king_info.texture = TEX_ARROW_DOWN;
-
-  debug::add_window(debug_window);
 }
 
 void render() {

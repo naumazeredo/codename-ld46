@@ -46,8 +46,6 @@ void setup() {
   game_info.bar_h = 32;
   game_info.bar_w = 320;
   game_info.bar_position = geom::Point{};
-
-  debug::add_window(debug_window);
 }
 
 void update() {

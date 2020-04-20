@@ -1,5 +1,7 @@
 #include "item.h"
 
+#include <string>
+
 #include "externs.h"
 
 ItemInfo item_info;
@@ -13,10 +15,9 @@ void debug_window() {
       for (auto& model : item_info.models) {
         ImGui::PushID(&model);
 
-        ImGui::Text("Model %d", model_id);
-        model_id++;
+        ImGui::Text("Model %d", model_id++);
 
-        ImGui::SliderU32("texture", &model.texture, 0, render_info.texture.size()-1);
+        ImGui::SliderContainer("texture", &model.texture, render_info.texture);
         ImGui::SliderU32("w", &model.w, 0, 128);
         ImGui::SliderU32("h", &model.h, 0, 128);
 
@@ -35,9 +36,21 @@ void debug_window() {
       ImGui::TreePop();
     }
 
-    for (auto &[item_id, item] : item_info.items) {
-      ImGui::Text("Item %d", item_id);
-      ImGui::SliderU32("model", &item.model, 0, item_info.models.size()-1);
+    if (ImGui::TreeNode("Items")) {
+      for (auto &[item_id, item] : item_info.items) {
+        std::string label = "Item: " + std::to_string(item_id);
+
+        if (ImGui::TreeNode(label.c_str())) {
+          ImGui::SliderContainer("model", &item.model, item_info.models);
+          ImGui::Point("position", &item.position);
+          ImGui::Checkbox("being_held", &item.being_held);
+          //f64 last_action_time;
+
+          ImGui::TreePop();
+        }
+      }
+
+      ImGui::TreePop();
     }
 
     ImGui::TreePop();
@@ -45,7 +58,6 @@ void debug_window() {
 }
 
 void setup() {
-  debug::add_window(debug_window);
   ItemModel tmp;
 
   tmp.type = FOOD;

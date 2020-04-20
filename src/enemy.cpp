@@ -9,12 +9,13 @@ namespace enemy {
 
 void debug_window() {
   if (ImGui::TreeNode("Enemy")) {
-    ImGui::SliderFloat("tx", &enemy_info.target.x, 0, SCREEN_WIDTH);
-    ImGui::SliderFloat("ty", &enemy_info.target.y, 0, SCREEN_HEIGHT);
+    ImGui::Point("target", &enemy_info.target);
+
     if(ImGui::TreeNode("Enemies")) {
       for(auto &[enemy_id, enemy] : enemy_info.enemies) {
-        std::string text = std::to_string(enemy_id) + " - Health: " + std::to_string(enemy.current_health);
-        ImGui::Text(text.c_str());
+        ImGui::Text("%d: ", enemy_id);
+        ImGui::SameLine();
+        ImGui::SliderU32("health", &enemy.current_health, 0, 100); // @TODO(naum): use model health
       }
 
       ImGui::TreePop();
@@ -25,7 +26,6 @@ void debug_window() {
 }
 
 void setup() {
-  debug::add_window(debug_window);
   EnemyModel tmp;
 
   tmp.speed = 10;
@@ -99,7 +99,7 @@ bool try_hit_enemy(u32 id, u32 damage) {
     try_destroy_enemy(id);
     return true;
   }
-  
+
   enemy_info.enemies[id].current_health -= damage;
   return true;
 }

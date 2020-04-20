@@ -67,9 +67,6 @@ void setup() {
     printf("Could not start mixer: %s\n", Mix_GetError());
     exit(1);
   }
-
-  // add debug window
-  debug::add_window(debug_window);
 }
 
 void cleanup() {

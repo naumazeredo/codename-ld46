@@ -14,5 +14,6 @@ namespace king {
 
 void setup();
 void render();
+void debug_window();
 
 }
