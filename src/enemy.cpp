@@ -35,6 +35,7 @@ void setup() {
   tmp.width = 32;
   tmp.height = 32;
   tmp.texture = TextureCode::TEX_ARROW_UP; 
+  tmp.drop_model_ids = {0, 1};
 
   enemy_info.models.push_back(tmp);
 
@@ -117,12 +118,22 @@ bool try_destroy_enemy(u32 id) {
 bool try_hit_enemy(u32 id, u32 damage) {
   if(!enemy_exists(id)) return false;
 
+  auto &enemy = enemy_info.enemies[id];
+
   if(enemy_info.enemies[id].current_health <= damage) {
+    const auto &enemy_model = get_enemy_model(id);
+    const auto &drop_model_ids = enemy_model.drop_model_ids;
+
+    if(drop_model_ids.size() > 0) {
+      u32 drop_model_id = drop_model_ids[rand()%drop_model_ids.size()];
+      item::create_item(drop_model_id, enemy.position);
+    }
+
     try_destroy_enemy(id);
     return true;
   }
 
-  enemy_info.enemies[id].current_health -= damage;
+  enemy.current_health -= damage;
   return true;
 }
 

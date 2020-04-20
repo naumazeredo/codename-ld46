@@ -54,6 +54,11 @@ void handle_input() {
       player_info.direction = (Direction) i;
     }
   }
+  u8 move_x = is_key_pressed(input_info.direction_keys[3]) - is_key_pressed(input_info.direction_keys[2]);
+  player_info.dir_x = move_x;
+
+  u8 move_y = is_key_pressed(input_info.direction_keys[0]) - is_key_pressed(input_info.direction_keys[1]);
+  player_info.dir_y = move_y;
 
   if(is_key_down(input_info.action_key)) {
     player::item_interaction();

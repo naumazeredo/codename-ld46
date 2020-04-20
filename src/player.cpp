@@ -1,6 +1,7 @@
 #include "player.h"
 
 #include "externs.h"
+#include "types.h"
 
 PlayerInfo player_info;
 
@@ -19,14 +20,18 @@ void debug_window() {
       ImGui::Text("holding item: %u", player_info.holding_item_id);
 
     ImGui::InputInt("money", &player_info.money);
+    ImGui::Text("Item: %u", player_info.holding_item_id);
+
+    ImGui::Text("Dir x: %d", player_info.dir_x);
+    ImGui::Text("Dir y: %d", player_info.dir_y);
 
     ImGui::TreePop();
   }
 }
 
 void setup() {
-  player_info.w = 50;
-  player_info.h = 100;
+  player_info.w = 56;
+  player_info.h = 56;
   player_info.position = {(float) SCREEN_WIDTH/3 - player_info.w/2,
                           (float) SCREEN_HEIGHT/3 - player_info.h/2};
   player_info.direction = Direction::DOWN;
@@ -37,21 +42,48 @@ void setup() {
   player_info.item_position = {0, (float) player_info.h};
 
   player_info.is_holding_item = false;
+  auto idle_animation = animation::generate_animation_from_files(
+    "assets/gfx/animations/rippedcat_idle",
+    4
+  );
 
-  player_info.textures[0] = TextureCode::TEX_ARROW_UP;
-  player_info.textures[1] = TextureCode::TEX_ARROW_DOWN;
-  player_info.textures[2] = TextureCode::TEX_ARROW_LEFT;
-  player_info.textures[3] = TextureCode::TEX_ARROW_RIGHT;
+  auto walking_animation = animation::generate_animation_from_files(
+    "assets/gfx/animations/rippedcat_walking",
+    2
+  );
+  auto rect = geom::Rect{0, 0, (f32) player_info.w, (f32) player_info.h};
+
+  std::vector<animation::Animation> animations{idle_animation, walking_animation};
+  animation::AnimationSet set{rect, animations, 0};
+
+  player_info.animation_set_id = add_animation_set(set);
 }
 
 void render() {
-  render::add_to_render(player_info.position.x - player_info.w / 2, player_info.position.y, player_info.w, player_info.h, player_info.textures[(int)player_info.direction]);
+  //render::add_to_render(player_info.position.x - player_info.w / 2, player_info.position.y, player_info.w, player_info.h, player_info.textures[player_info.direction]);
 }
 
 void update() {
   if (player_info.is_holding_item) {
     item::update_position(player_info.holding_item_id, player_info.position + player_info.item_position);
   }
+
+  if (player_info.dir_x || player_info.dir_y){
+    animation::force_play(player_info.animation_set_id, 1);
+  } else {
+    animation::force_play(player_info.animation_set_id, 0);
+  }
+
+  bool flip_horizontal = player_info.dir_x == -1;
+
+  animation::set_animation_pos(
+      player_info.animation_set_id,
+      player_info.position.x,
+      player_info.position.y,
+      (f32) player_info.w,
+      (f32) player_info.h,
+      flip_horizontal
+  );
 }
 
 void drop_item() {
@@ -64,7 +96,7 @@ void drop_item() {
 
 void use_item() {
   for(auto& shop_place : shop_place_info.shop_places) {
-    if (geom::point_inside_rect(player_info.position, shop_place.trigger)) {
+    if (geom::point_inside_convex_polygon(player_info.position, shop_place.trigger)) {
       auto [exist, item_model] = item::get_model_by_item_id(player_info.holding_item_id);
 
       if (exist) {
@@ -101,7 +133,7 @@ bool try_buy_item(u32 shop_id) {
 
 void shop_interaction() {
   for(auto& shop_place : shop_place_info.shop_places) {
-    if (geom::point_inside_rect(player_info.position, shop_place.trigger)) {
+    if (geom::point_inside_convex_polygon(player_info.position, shop_place.trigger)) {
       if (shop_place.state == ShopPlaceState::OCCUPIED) {
         try_buy_item(shop_place.shop_id);
       }
@@ -129,7 +161,16 @@ void item_interaction() {
     u32 item_id = item::closest_item(position); // @TODO(naum): refactor like enemy: closest_in_range
     if(!item_id)
       return;
+
     if(item::dist_to_item(position, item_id) < PLAYER_HOLD_MAX_DIST) {
+      auto [_, item_model] = item::get_model_by_item_id(item_id);
+
+      if(item_model.type == ItemType::MONEY) {
+        player_info.money += MONEY_PER_COIN;
+        item::destroy_item(item_id);
+        return;
+      }
+
       item::hold_item(item_id);
       player_info.is_holding_item = true;
       player_info.holding_item_id = item_id;

@@ -68,6 +68,12 @@ void setup() {
   tmp.hunger_count = 5;
   item_info.models.push_back(tmp);
 
+  tmp.type = ItemType::MONEY;
+  tmp.texture = TextureCode::TEX_MONEY;
+  tmp.w = 30;
+  tmp.h = 30;
+  item_info.models.push_back(tmp);
+
   tmp.type = ItemType::TRAP;
   tmp.texture = TextureCode::TEX_TRAP;
   tmp.w = 40;

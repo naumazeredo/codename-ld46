@@ -15,6 +15,7 @@ struct EnemyModel {
   u32 health;
   u32 damage;
   u32 speed;
+  std::vector<u32> drop_model_ids;
 };
 
 struct Enemy {

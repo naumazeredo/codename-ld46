@@ -9,6 +9,7 @@
 
 enum class ItemType {
   CANDY,
+  MONEY,
   TRAP,
   TURRET,
   SHOP

@@ -14,10 +14,12 @@ enum class ShopPlaceState {
 struct ShopPlace {
   TextureCode texture;
 
-  geom::Rect trigger, collider;
+  geom::Point center;
+  geom::Polygon trigger, collider;
 
   ShopPlaceState state;
   u32 shop_id;
+  int w, h;
 };
 
 struct ShopPlaceInfo {

@@ -10,6 +10,7 @@ enum class TextureCode {
   TEX_TURRET,
   TEX_SHOP,
   TEX_CANDY,
+  TEX_MONEY,
   // Add a new texture above this line
   TEX_NUM_TEXTURES
 };

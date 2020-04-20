@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <chrono>
+#include <ctime>
 
 #include "game.h"
 #include "externs.h"
@@ -42,6 +43,7 @@ void on_game_over_debug() {
 }
 
 void setup() {
+  srand(time(0));
   game_info.rand = std::mt19937_64(std::chrono::system_clock::now().time_since_epoch().count());
   game_info.last_wave_cnt = 0;
   game_info.wave_enemy_increase = 1;

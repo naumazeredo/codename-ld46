@@ -12,10 +12,6 @@ void debug_window() {
     int cnt = 0;
     for(auto& shop_place : shop_place_info.shop_places) {
       ImGui::Text("Shop place %d: ", cnt++);
-      ImGui::Text("x %.2lf", shop_place.collider.x);
-      ImGui::Text("y %.2lf", shop_place.collider.y);
-      ImGui::Text("w %.2lf", shop_place.collider.w);
-      ImGui::Text("h %.2lf", shop_place.collider.h);
       ImGui::Text("State: %s", shop_place.state == ShopPlaceState::FREE ? "FREE" : "OCCUPIED");
       if(shop_place.state == ShopPlaceState::OCCUPIED)
         ImGui::Text("Shop ID: %d", shop_place.shop_id);
@@ -29,8 +25,22 @@ void debug_window() {
 void setup() {
   ShopPlace shop_place;
   shop_place.texture = TextureCode::TEX_BLANK;
-  shop_place.trigger = { 3.0f * SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2.0f - 100, 200, 200};
-  shop_place.collider = { 3.0f * SCREEN_WIDTH / 4 + 25, SCREEN_HEIGHT / 2.0f - 75, 150, 150};
+  geom::Point trigger_center = { 3.0f * SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2.0f - 100 };
+  geom::Point trigger_h_offset = { 100, 0 };
+  geom::Point trigger_v_offset = { 0, 100 };
+  shop_place.trigger = { trigger_center - trigger_h_offset - trigger_v_offset,
+                         trigger_center + trigger_h_offset - trigger_v_offset,
+                         trigger_center + trigger_h_offset + trigger_v_offset,
+                         trigger_center - trigger_h_offset + trigger_v_offset};
+  geom::Point collider_center = { 3.0f * SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2.0f - 100 };
+  geom::Point collider_h_offset = { 0, 75 };
+  geom::Point collider_v_offset = { 0, 75 };
+  shop_place.collider = { collider_center - collider_h_offset - collider_v_offset,
+                          collider_center + collider_h_offset - collider_v_offset,
+                          collider_center + collider_h_offset + collider_v_offset,
+                          collider_center - collider_h_offset + collider_v_offset};
+  shop_place.w = 200; shop_place.h = 150;
+  shop_place.center = collider_center;
   shop_place.state = ShopPlaceState::FREE;
   shop_place_info.shop_places.push_back(shop_place);
 }
@@ -45,10 +55,10 @@ void render() {
         texture = shop_model.texture;
     }
 
-    render::add_to_render(shop_place.collider.x,
-                          shop_place.collider.y,
-                          shop_place.collider.w,
-                          shop_place.collider.h,
+    render::add_to_render(shop_place.center.x - shop_place.w / 2,
+                          shop_place.center.y - shop_place.h / 2,
+                          shop_place.w,
+                          shop_place.h,
                           texture);
   }
 }
