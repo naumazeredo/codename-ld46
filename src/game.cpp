@@ -113,8 +113,8 @@ u64 rand() {
 void render() {
   float health_percentage = king::get_health() / KING_MAX_HEALTH;
   int w = game_info.bar_w * health_percentage;
-  render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, game_info.bar_w, game_info.bar_h, game_info.bar_texture, 20000);
-  render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, w, game_info.bar_h, game_info.bar_texture, 10000, Color{1,0,0,1});
+  render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, game_info.bar_w, game_info.bar_h, game_info.bar_texture, -1e5);
+  render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, w, game_info.bar_h, game_info.bar_texture, -2e5, Color{1,0,0,1});
 
   if(game_info.current_state == GameState::GAME_OVER) {
     render::add_to_render(
@@ -123,7 +123,7 @@ void render() {
       SCREEN_WIDTH,
       SCREEN_HEIGHT,
       TextureCode::GAME_OVER_SCREEN,
-      0
+      -1e6
     );
   }
 }
