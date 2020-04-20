@@ -108,7 +108,7 @@ u64 rand() {
 void render() {
   float health_percentage = king::get_health() / KING_MAX_HEALTH;
   int w = game_info.bar_w * health_percentage;
-  render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, game_info.bar_w, game_info.bar_h, game_info.bar_texture, 9999);
+  render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, game_info.bar_w, game_info.bar_h, game_info.bar_texture, 20000);
   render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, w, game_info.bar_h, game_info.bar_texture, 10000, Color{1,0,0,1});
 }
 
