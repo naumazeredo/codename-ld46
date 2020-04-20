@@ -124,6 +124,13 @@ void setup() {
   tmp.action_range = 20;
   item_info.models.push_back(tmp);
   tmp.damage = 10;
+
+  tmp.type = ItemType::UNPICKABLE;
+  tmp.texture = TextureCode::TEX_LOG;
+  tmp.animation_set_id = -1;
+  tmp.w = 64;
+  tmp.h = 64;
+  item_info.models.push_back(tmp);
 }
 
 std::tuple<bool, ItemModel> get_model_by_item_id(u32 item_id) {
@@ -242,22 +249,25 @@ void update() {
   }
 }
 
-float dist_to_item(geom::Point position, u32 item) {
-  return (position - item_info.items[item].position).abs();
+float dist_to_item(geom::Point position, u32 item_id) {
+  return (position - item_info.items[item_id].position).abs();
 }
 
 u32 closest_item(geom::Point position) {
   if(item_info.items.empty())
     return 0;
-  u32 ans = item_info.items.begin()->first;
-  float dist = dist_to_item(position, item_info.items.begin()->first);
 
-  for (auto p: item_info.items) {
-    float d = dist_to_item(position, p.first);
+  u32 ans = 0;
+  float dist = 1e12;
 
-    if (d < dist) {
+  for (auto [id, item]: item_info.items) {
+    float d = dist_to_item(position, id);
+
+    auto [_, model] = get_model_by_item_id(id);
+
+    if (model.type != ItemType::UNPICKABLE and d < dist) {
       dist = d;
-      ans = p.first;
+      ans = id;
     }
   }
 

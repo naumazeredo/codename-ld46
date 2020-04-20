@@ -12,6 +12,7 @@ enum class TextureCode {
   TEX_CANDY,
   TEX_MONEY,
   TEX_FACTORY,
+  TEX_LOG,
   // Add a new texture above this line
   TEX_NUM_TEXTURES
 };

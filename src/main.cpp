@@ -4,7 +4,8 @@
 #include <SDL.h>
 
 #include "externs.h"
-#include "king.h"
+
+int bg_tex;
 
 void setup();
 void load_audio();
@@ -43,6 +44,7 @@ void setup() {
 
   load_audio();
 
+  bg_tex = render::load_image("assets/gfx/bg.png");
 }
 
 void load_audio() {
@@ -58,6 +60,8 @@ void test_setup() {
   item::create_item(3, { 500.0, 100.0 });
   item::create_item(4, { 600.0, 100.0 });
   item::create_item(5, { 700.0, 100.0 });
+
+  item::create_item(6, { 800.0, 100.0 });
 }
 
 void debug_window() {
@@ -127,6 +131,8 @@ void run() {
     game::render();
     shop_place::render();
     animation::render();
+
+    render::add_to_render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, bg_tex, -999999);
 
     // Rendering
     render::render();

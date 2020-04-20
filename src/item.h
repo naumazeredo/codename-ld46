@@ -16,7 +16,8 @@ enum class ItemType {
   TRAP,
   TURRET,
   SHOP,
-  FACTORY
+  FACTORY,
+  UNPICKABLE
 };
 
 struct ItemModel {
@@ -68,7 +69,7 @@ std::tuple<bool, Item> get_item_by_id(u32 id);
 u32 create_item(u32 model, geom::Point position);
 bool destroy_item(u32 id);
 
-float dist_to_item(geom::Point position, u32 item);
+float dist_to_item(geom::Point position, u32 item_id);
 u32 closest_item(geom::Point position); // @TODO(naum): return pattern std::tuple<bool, u32>
 
 bool item_exists(u32 id);

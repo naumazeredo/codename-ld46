@@ -39,7 +39,7 @@
 - [ ] Items
   - [x] Traps
   - [x] Turret
-  - [ ] Money?
+  - [x] Money?
   - [ ] Barricade (idea)
 
 - [ ] Items
@@ -47,9 +47,9 @@
   - [ ] Show what it does
 
 - [ ] Game Progress
-  - [ ] Waves
-    - [ ] Enemy spawns
-    - [ ] Timer
+  - [x] Waves
+    - [x] Enemy spawns
+    - [x] Timer
 
 - [ ] Extra: Mercenary
 

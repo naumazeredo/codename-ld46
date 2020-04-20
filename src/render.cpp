@@ -322,7 +322,11 @@ void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, s32 z, Color tint, bool 
   element_buffer.push_back(start_vertex+3);
   element_buffer.push_back(start_vertex+0);
 
-  assert(tex < render_info.texture.size());
+  if(tex >= render_info.texture.size()) {
+    printf("[error] invalid texture!\n");
+    return;
+  }
+
   auto& draw_texture = render_info.draw_texture;
   auto& draw_start_element = render_info.draw_start_element;
   auto& draw_count_element = render_info.draw_count_element;
