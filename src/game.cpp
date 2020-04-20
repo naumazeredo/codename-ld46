@@ -13,7 +13,7 @@ namespace game {
 
 void debug_window() {
   if (ImGui::TreeNode("Game")) {
-    f64 health_percentage = king::get_king_health()/ KING_MAX_HEALTH;
+    f64 health_percentage = king::get_health()/ KING_MAX_HEALTH;
 
     ImGui::Text("Health");
     ImGui::ProgressBar(health_percentage);
@@ -67,15 +67,18 @@ void setup() {
 
 void update() {
   f64 delta_time = game_time::get_frame_duration();
+
   game_info.wave_remaining_time -= delta_time;
-  if(enemy_info.enemies.size() != 0)
+
+  if (enemy_info.enemies.size() != 0)
     game_info.wave_remaining_time = game_info.wave_time;
-  if(game_info.wave_remaining_time < 0) {
+
+  if (game_info.wave_remaining_time < 0) {
     game_info.last_wave_cnt += game_info.wave_enemy_increase;
     spawn_wave(game_info.last_wave_cnt);
   }
 
-  if (king::get_king_health() < 0 ) {
+  if (king::get_health() < 0 ) {
     if (game_info.current_state != GameState::GAME_OVER) {
       game_info.current_state = GameState::GAME_OVER;
       for (auto callback : game_info.on_game_over){
@@ -96,7 +99,7 @@ void spawn_wave(u32 enemy_count) {
 }
 
 void render() {
-  float health_percentage = king::get_king_health() / KING_MAX_HEALTH;
+  float health_percentage = king::get_health() / KING_MAX_HEALTH;
   int w = game_info.bar_w * health_percentage;
   render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, game_info.bar_w, game_info.bar_h, game_info.bar_texture);
   render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, w, game_info.bar_h, game_info.bar_texture, Color{1,0,0,1});

@@ -11,6 +11,7 @@ namespace king {
 
 void debug_window() {
   if (ImGui::TreeNode("King")) {
+    ImGui::InputDouble("health", &king_info.health);
     ImGui::InputFloat("x", &king_info.position.x, 1.0f, 10.0f);
     ImGui::InputFloat("y", &king_info.position.y, 1.0f, 10.0f);
     ImGui::InputInt("w", &king_info.w);
@@ -20,9 +21,10 @@ void debug_window() {
   }
 }
 void setup() {
-  king_info.king_health = KING_MAX_HEALTH;
+  king_info.health = KING_MAX_HEALTH;
   king_info.w = 84;
   king_info.h = 84;
+
   king_info.position = {(float) SCREEN_WIDTH/2 - king_info.w/2,
     (float) SCREEN_HEIGHT/2 - king_info.h/2};
 
@@ -43,11 +45,11 @@ void setup() {
 }
 
 void take_damage(f64 damage) {
-  if(king_info.king_health <= damage) {
-    king_info.king_health = 0;
+  if(king_info.health <= damage) {
+    king_info.health = 0;
     return;
   }
-  king_info.king_health -= damage;
+  king_info.health -= damage;
 
   for (auto callback : king_info.on_damage_taken){
     callback();
@@ -59,7 +61,7 @@ geom::Point get_position() {
 }
 
 void feed_king(f64 amount){
-  king_info.king_health = std::min(king_info.king_health + amount, KING_MAX_HEALTH);
+  king_info.health = std::min(king_info.health + amount, KING_MAX_HEALTH);
 
   for (auto callback : king_info.on_feed_king){
     callback();
@@ -67,8 +69,8 @@ void feed_king(f64 amount){
 }
 
 
-u32 get_king_health() {
-  return king_info.king_health;
+u32 get_health() {
+  return king_info.health;
 }
 
 void update() {

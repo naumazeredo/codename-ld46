@@ -12,7 +12,7 @@ const f64 KING_MAX_HEALTH = f64(600.0);
 using Callback = std::function<void(void)>;
 
 struct KingInfo {
-  f64 king_health;
+  f64 health;
   geom::Point position;
   TextureCode texture;
 
@@ -26,7 +26,7 @@ struct KingInfo {
 
 namespace king {
 
-u32 get_king_health();
+u32 get_health();
 geom::Point get_position();
 void take_damage(f64 damage);
 void feed_king(f64 amount);

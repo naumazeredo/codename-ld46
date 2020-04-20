@@ -20,6 +20,8 @@
 #include "shop_place.h"
 #include "king.h"
 #include "animation.h"
+#undef min
+#undef max
 
 extern TimeInfo time_info;
 extern RenderInfo render_info;
