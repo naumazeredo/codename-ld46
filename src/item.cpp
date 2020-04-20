@@ -82,7 +82,8 @@ void setup() {
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 1;
-  tmp.fire_rate = 1; // Shots Per Second
+  tmp.action_rate = 1; // Shots Per Second
+  tmp.action_range = 70;
   item_info.models.push_back(tmp);
 
   tmp.type = ItemType::SHOP;
@@ -107,7 +108,9 @@ void setup() {
 
   tmp.type = ItemType::TRAP;
   tmp.animation_set_id = add_animation_set(set);
-  tmp.damage = 10;
+  tmp.damage = 1;
+  tmp.action_rate = 5;
+  tmp.action_range = 20;
   item_info.models.push_back(tmp);
 }
 
@@ -188,21 +191,15 @@ void update() {
     if(item.being_held) continue;
 
     const auto &item_model = item_info.models[item.model_id];
-    if (item_model.type == ItemType::TRAP) {
-      auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 15);
-      if (has_enemy && enemy::try_hit_enemy(enemy_id, item_model.damage)) {
-        destroy_item(item_id);
-      }
-    }
+    const f64 current_time = game_time::get_time();
 
-    if (item_model.type == ItemType::TURRET) {
-      const f64 current_time = game_time::get_current_time();
-      if(current_time < item.last_action_time + 1/item_model.fire_rate)
+    if (item_model.type == ItemType::TURRET || item_model.type == ItemType::TRAP) {
+      if(current_time < item.last_action_time + 1/item_model.action_rate)
        continue;
 
       item.last_action_time = current_time;
 
-      auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 70);
+      auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, item_model.action_range);
       if (has_enemy)
         enemy::try_hit_enemy(enemy_id, item_model.damage);
     }
@@ -247,7 +244,7 @@ u32 create_item(u32 model_id, geom::Point position) {
 
   item.id = id;
   item.model_id = model_id;
-  item.last_action_time = game_time::get_current_time();
+  item.last_action_time = game_time::get_real_time();
   item.being_held = false;
 
   item.position = position;

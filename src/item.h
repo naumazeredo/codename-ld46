@@ -30,7 +30,8 @@ struct ItemModel {
     };
     struct {
       u8 damage;
-      f64 fire_rate;
+      f64 action_rate;
+      f64 action_range;
     };
     struct {
       u32 shop_model_id;
