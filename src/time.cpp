@@ -13,13 +13,13 @@ void debug_window() {
   ImGui::InputDouble("time_scale", &time_info.time_scale, 0.0, 8.0);
 
   if (ImGui::Button("pause")) {
-    time_info.time_scale = 0;
+    pause();
   }
 
   ImGui::SameLine();
 
   if (ImGui::Button("play")) {
-    time_info.time_scale = 1;
+    play();
   }
 }
 
@@ -58,6 +58,14 @@ void new_frame() {
 
 f64 get_frame_duration() {
   return time_info.game_frame_duration;
+}
+
+void pause() {
+  time_info.time_scale = 0;
+}
+
+void play() {
+  time_info.time_scale = 1;
 }
 
 }

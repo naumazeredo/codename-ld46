@@ -27,5 +27,7 @@ void new_frame();
 f64 get_frame_duration();
 f64 get_real_time();
 f64 get_time();
+void pause();
+void play();
 
 }

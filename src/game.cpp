@@ -42,7 +42,11 @@ void debug_window() {
 }
 
 void on_game_over_debug() {
-  printf("game over!");
+  printf("game over!\n");
+}
+
+void on_game_over_pause() {
+  game_time::pause();
 }
 
 void setup() {
@@ -60,6 +64,7 @@ void setup() {
   game_info.current_state = GameState::RUNNING;
 
   game_info.on_game_over.push_back(on_game_over_debug);
+  game_info.on_game_over.push_back(on_game_over_pause);
 
   game_info.bar_texture = TextureCode::TEX_BLANK;
   game_info.bar_h = 32;
@@ -110,6 +115,17 @@ void render() {
   int w = game_info.bar_w * health_percentage;
   render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, game_info.bar_w, game_info.bar_h, game_info.bar_texture, 20000);
   render::add_to_render(game_info.bar_position.x, game_info.bar_position.y, w, game_info.bar_h, game_info.bar_texture, 10000, Color{1,0,0,1});
+
+  if(game_info.current_state == GameState::GAME_OVER) {
+    render::add_to_render(
+      0,
+      0,
+      SCREEN_WIDTH,
+      SCREEN_HEIGHT,
+      TextureCode::GAME_OVER_SCREEN,
+      0
+    );
+  }
 }
 
 }
