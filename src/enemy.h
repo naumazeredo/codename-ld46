@@ -10,7 +10,7 @@
 
 struct EnemyModel {
   TextureCode texture;
-  u32 width, height;
+  u32 w, h;
 
   u32 health;
   u32 damage;

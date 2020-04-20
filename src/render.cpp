@@ -9,6 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include <imgui.h>
 #include <stb/stb_image.h>
@@ -245,11 +246,11 @@ u32 load_image(const char* filename) {
   return render_info.texture.size() - 1;
 }
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, Color tint) {
-  add_to_render(x, y, w, h, (u32)tex, tint);
+void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, s32 z, Color tint) {
+  add_to_render(x, y, w, h, (u32)tex, z, tint);
 }
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint, bool flip_horizontal) {
+void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, s32 z, Color tint, bool flip_horizontal) {
   auto start_vertex = render_info.vertex_buffer.size() / 3;
 
   f32 x0 = 2 * x/f32(SCREEN_WIDTH) - 1;
@@ -335,6 +336,8 @@ void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint, bool flip_ho
     draw_start_element.push_back(draw_start_element.back() +
                                  draw_count_element.back());
   }
+
+  render_info.order.push_back(z);
 }
 
 //internal
@@ -343,6 +346,7 @@ void start_new_frame() {
   render_info.color_buffer.clear();
   render_info.uv_buffer.clear();
   render_info.element_buffer.clear();
+  render_info.order.clear();
 
   render_info.draw_texture.clear();
   render_info.draw_start_element.clear();
@@ -377,11 +381,19 @@ void bind_buffers() {
 }
 
 void render() {
+  std::vector<u32> new_order (render_info.order.size());
+  for (u32 i = 0; i < render_info.order.size(); i++) new_order[i] = i;
+
+  std::sort(new_order.begin(), new_order.end(), [](u32 i, u32 j) { return (render_info.order[i] > render_info.order[j]); });
+
   glClearColor(1, 0, 1, 1);
   glClear(GL_COLOR_BUFFER_BIT);
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  //glEnable(GL_DEPTH_TEST);
+  //glDepthFunc(GL_LESS);
 
   bind_buffers();
 
@@ -412,9 +424,11 @@ void render() {
   glUniform1i(render_info.texture_id, 0);
 
   for (u32 i = 0; i < render_info.draw_texture.size(); i++) {
-    auto tex = render_info.texture[render_info.draw_texture[i]];
-    auto start = render_info.draw_start_element[i];
-    auto count = render_info.draw_count_element[i];
+    auto index = new_order[i];
+
+    auto tex = render_info.texture[render_info.draw_texture[index]];
+    auto start = render_info.draw_start_element[index];
+    auto count = render_info.draw_count_element[index];
 
     // texture
     glBindTexture(GL_TEXTURE_2D, tex);

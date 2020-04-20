@@ -95,3 +95,5 @@
   - [x] Create debug window on each system
 
 - Bugs
+  - [ ] Destruct animation on destroy item
+  - [ ] Support multiple items with same animation set

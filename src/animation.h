@@ -30,6 +30,7 @@ namespace animation {
     geom::Rect rect;
     std::vector<Animation> animations;
     u32 current_animation;
+    s32 z;
     bool flip_horizontal;
     bool is_disabled;
   };
@@ -46,7 +47,7 @@ namespace animation {
 
   void render();
   void update();
-  void set_animation_pos(u32 set_id, f32 x, f32 y, f32 w, f32 h, bool flip_horizontal = false);
+  void set_animation_pos(u32 set_id, f32 x, f32 y, f32 w, f32 h, s32 z, bool flip_horizontal = false);
   void set_is_animation_disabled(u32 set_id, bool is_disabled);
   void debug_animation();
   Animation generate_animation_from_files(const char* prefix, u32 n_of_frames);

@@ -80,7 +80,8 @@ void update() {
       king_info.position.x,
       king_info.position.y,
       (f32) king_info.w,
-      (f32) king_info.h
+      (f32) king_info.h,
+      king_info.position.y
   );
 }
 

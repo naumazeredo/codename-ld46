@@ -159,6 +159,30 @@ bool destroy_item(u32 id) {
   return true;
 }
 
+void update_render_info(u32 id) {
+  Item &item = item_info.items[id];
+  auto& item_model = item_info.models[item.model_id];
+
+  s32 z = 9999;
+  if (item.being_held) {
+    z = player_info.position.y;
+  } else {
+    if (item_model.type == ItemType::TRAP) z = 9999;
+    else z = item.position.y;
+  }
+
+  if (item_model.animation_set_id != -1) {
+    animation::set_animation_pos(
+      item_model.animation_set_id,
+      item.position.x,
+      item.position.y,
+      (f32) item_model.w,
+      (f32) item_model.h,
+      z
+    );
+  }
+}
+
 bool update_position(u32 id, geom::Point position) {
   if (!item_exists(id)) return false;
 
@@ -166,17 +190,7 @@ bool update_position(u32 id, geom::Point position) {
 
   item.position = position;
 
-  auto& item_model = item_info.models[item.model_id];
-  // TODO : refactor, duplicated code
-  if (item_model.animation_set_id != -1) {
-    animation::set_animation_pos(
-        item_model.animation_set_id,
-        item.position.x,
-        item.position.y,
-        (f32) item_model.w,
-        (f32) item_model.h
-    );
-  }
+  update_render_info(id);
 
   return true;
 }
@@ -196,12 +210,18 @@ bool drop_item(u32 id) {
 }
 
 void update() {
-  for(auto &[item_id, item]: item_info.items) {
+  for(auto &[id, item]: item_info.items) {
     if(item.being_held) continue;
 
     const auto &item_model = item_info.models[item.model_id];
-    const f64 current_time = game_time::get_time();
+    if (item_model.type == ItemType::TRAP) {
+      auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 15);
+      if (has_enemy && enemy::try_hit_enemy(enemy_id, item_model.damage)) {
+        destroy_item(id);
+      }
+    }
 
+    const f64 current_time = game_time::get_time();
     if (item_model.type == ItemType::TURRET || item_model.type == ItemType::TRAP) {
       if(current_time < item.last_action_time + 1/item_model.action_rate)
        continue;
@@ -213,15 +233,7 @@ void update() {
         enemy::try_hit_enemy(enemy_id, item_model.damage);
     }
 
-    if (item_model.animation_set_id != -1) {
-      animation::set_animation_pos(
-          item_model.animation_set_id,
-          item.position.x,
-          item.position.y,
-          (f32) item_model.w,
-          (f32) item_model.h
-      );
-    }
+    update_render_info(id);
   }
 }
 
@@ -264,11 +276,11 @@ u32 create_item(u32 model_id, geom::Point position) {
 }
 
 void render() {
-  for (auto p: item_info.items) {
-    auto item = p.second;
+  for (auto [id, item]: item_info.items) {
     auto model = item_info.models[item.model_id];
     if (model.animation_set_id == -1) {
-      render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.texture);
+      auto z = (item.being_held ? player_info.position.y : item.position.y);
+      render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.texture, z);
     }
   }
 }

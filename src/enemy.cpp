@@ -10,14 +10,41 @@ EnemyInfo enemy_info;
 namespace enemy {
 
 void debug_window() {
-  if (ImGui::TreeNode("Enemy")) {
-    ImGui::Point("target", &enemy_info.target);
+  if (ImGui::TreeNode("Enemies")) {
+    if (ImGui::TreeNode("Models")) {
+      int model_id = 0;
+      for (auto& model : enemy_info.models) {
+        ImGui::PushID(&model);
 
-    if(ImGui::TreeNode("Enemies")) {
-      for(auto &[enemy_id, enemy] : enemy_info.enemies) {
-        ImGui::Text("%d: ", enemy_id);
-        ImGui::SameLine();
-        ImGui::SliderU32("health", &enemy.current_health, 0, 100); // @TODO(naum): use model health
+        ImGui::Text("Model %d", model_id++);
+
+        //ImGui::SliderContainer("texture", &model.texture, render_info.texture);
+        ImGui::Text("texture: %u", (u32)model.texture);
+        ImGui::SliderU32("w", &model.w, 0, 128);
+        ImGui::SliderU32("h", &model.h, 0, 128);
+        ImGui::SliderU32("health", &model.health, 0, 128);
+        ImGui::SliderU32("damage", &model.damage, 0, 128);
+        ImGui::SliderU32("speed", &model.speed, 0, 128);
+
+        //std::vector<u32> drop_model_ids;
+
+        ImGui::PopID();
+      }
+
+      ImGui::TreePop();
+    }
+
+    if (ImGui::TreeNode("Enemies")) {
+      for (auto &[id, enemy] : enemy_info.enemies) {
+        std::string label = "Enemy: " + std::to_string(id);
+
+        if (ImGui::TreeNode(label.c_str())) {
+          ImGui::SliderContainer("model", &enemy.model_id, enemy_info.models);
+          ImGui::Point("position", &enemy.position);
+          ImGui::SliderU32("current_health", &enemy.current_health, 0, 128);
+
+          ImGui::TreePop();
+        }
       }
 
       ImGui::TreePop();
@@ -33,8 +60,8 @@ void setup() {
   tmp.speed = 20;
   tmp.health = 100;
   tmp.damage = 15;
-  tmp.width = 32;
-  tmp.height = 32;
+  tmp.w = 32;
+  tmp.h = 32;
   tmp.texture = TextureCode::TEX_ARROW_UP; 
   tmp.drop_model_ids = {0, 1};
 
@@ -154,11 +181,12 @@ void render() {
   for(const auto &[enemy_id, enemy] : enemy_info.enemies) {
     const auto &model = get_enemy_model(enemy_id);
     render::add_to_render(
-      enemy.position.x - model.width / 2,
-      enemy.position.y - model.height / 2,
-      model.width,
-      model.height,
-      model.texture
+      enemy.position.x - model.w/ 2,
+      enemy.position.y,
+      model.w,
+      model.h,
+      model.texture,
+      enemy.position.y
     );
   }
 }

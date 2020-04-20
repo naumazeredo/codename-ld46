@@ -26,11 +26,12 @@ namespace animation {
     }
   }
 
-  void set_animation_pos(u32 set_id, f32 x, f32 y, f32 w, f32 h, bool flip_horizontal) {
+  void set_animation_pos(u32 set_id, f32 x, f32 y, f32 w, f32 h, s32 z, bool flip_horizontal) {
     animation_system.animations_sets[set_id].rect.x = x;
     animation_system.animations_sets[set_id].rect.y = y;
     animation_system.animations_sets[set_id].rect.w = w;
     animation_system.animations_sets[set_id].rect.h = h;
+    animation_system.animations_sets[set_id].z = z;
     animation_system.animations_sets[set_id].flip_horizontal = flip_horizontal;
   }
 
@@ -82,6 +83,7 @@ namespace animation {
         animation_set.rect.w,
         animation_set.rect.h,
         animation.frames[animation.current_frame].texture_id,
+        animation_set.z,
         WHITE,
         animation_set.flip_horizontal
       );

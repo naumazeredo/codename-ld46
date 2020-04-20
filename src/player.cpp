@@ -60,7 +60,16 @@ void setup() {
 }
 
 void render() {
-  //render::add_to_render(player_info.position.x - player_info.w / 2, player_info.position.y, player_info.w, player_info.h, player_info.textures[player_info.direction]);
+  auto flip_horizontal = player_info.dir_x == -1;
+  animation::set_animation_pos(
+      player_info.animation_set_id,
+      player_info.position.x,
+      player_info.position.y,
+      (f32) player_info.w,
+      (f32) player_info.h,
+      player_info.position.y,
+      flip_horizontal
+  );
 }
 
 void update() {
@@ -73,17 +82,6 @@ void update() {
   } else {
     animation::force_play(player_info.animation_set_id, 0);
   }
-
-  bool flip_horizontal = player_info.dir_x == -1;
-
-  animation::set_animation_pos(
-      player_info.animation_set_id,
-      player_info.position.x,
-      player_info.position.y,
-      (f32) player_info.w,
-      (f32) player_info.h,
-      flip_horizontal
-  );
 }
 
 void drop_item() {

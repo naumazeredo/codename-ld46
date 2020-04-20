@@ -111,11 +111,12 @@ void run() {
     item::update();
     enemy::update();
     king::update();
-    physics::update();
     game::update();
     animation::update();
     king::update();
     shop_place::update();
+
+    physics::update();
 
     enemy::render();
     player::render();
