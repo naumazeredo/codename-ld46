@@ -54,14 +54,16 @@ void load_audio() {
 }
 
 void test_setup() {
+  item::create_item(6, { 200.0, 100.0 });
+  /*
   item::create_item(0, { 200.0, 100.0 });
   item::create_item(1, { 300.0, 100.0 });
   item::create_item(2, { 400.0, 100.0 });
   item::create_item(3, { 500.0, 100.0 });
   item::create_item(4, { 600.0, 100.0 });
   item::create_item(5, { 700.0, 100.0 });
+  */
 
-  item::create_item(6, { 800.0, 100.0 });
 }
 
 void debug_window() {

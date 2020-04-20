@@ -22,7 +22,7 @@ enum class ItemType {
 
 struct ItemModel {
   ItemType type;
-  TextureCode texture;
+  TextureCode texture, shadow;
   u32 animation_set_id;
   u32 w, h;
 

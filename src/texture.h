@@ -13,8 +13,10 @@ enum class TextureCode {
   TEX_MONEY,
   TEX_FACTORY,
   TEX_LOG,
+  TEX_LOG_SHADOW,
   // Add a new texture above this line
-  TEX_NUM_TEXTURES
+  TEX_NUM_TEXTURES,
+  INVALID
 };
 
 namespace texture {

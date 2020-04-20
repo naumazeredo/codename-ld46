@@ -64,6 +64,7 @@ void setup() {
 
   tmp.type = ItemType::CANDY;
   tmp.texture = TextureCode::TEX_CANDY;
+  tmp.shadow = TextureCode::INVALID;
   tmp.animation_set_id = -1;
   tmp.w = 30;
   tmp.h = 30;
@@ -72,12 +73,14 @@ void setup() {
 
   tmp.type = ItemType::MONEY;
   tmp.texture = TextureCode::TEX_MONEY;
+  tmp.shadow = TextureCode::INVALID;
   tmp.w = 30;
   tmp.h = 30;
   item_info.models.push_back(tmp);
 
   tmp.type = ItemType::TURRET;
   tmp.texture = TextureCode::TEX_TURRET;
+  tmp.shadow = TextureCode::INVALID;
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
@@ -88,6 +91,7 @@ void setup() {
 
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_SHOP;
+  tmp.shadow = TextureCode::INVALID;
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
@@ -96,6 +100,7 @@ void setup() {
 
   tmp.type = ItemType::FACTORY;
   tmp.texture = TextureCode::TEX_FACTORY;
+  tmp.shadow = TextureCode::INVALID;
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
@@ -119,14 +124,16 @@ void setup() {
   tmp.type = ItemType::TRAP;
   tmp.animation_set_id = animation_set_id;
 
+  tmp.shadow = TextureCode::INVALID;
   tmp.damage = 1;
   tmp.action_rate = 5;
   tmp.action_range = 20;
-  item_info.models.push_back(tmp);
   tmp.damage = 10;
+  item_info.models.push_back(tmp);
 
   tmp.type = ItemType::UNPICKABLE;
   tmp.texture = TextureCode::TEX_LOG;
+  tmp.shadow = TextureCode::TEX_LOG_SHADOW;
   tmp.animation_set_id = -1;
   tmp.w = 64;
   tmp.h = 64;
@@ -306,6 +313,12 @@ void render() {
     if (item.animation_instance_id == -1) {
       auto z = (item.being_held ? player_info.position.y : item.position.y);
       render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.texture, z);
+
+      /*
+      if (model.shadow != TextureCode::INVALID) {
+        render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.shadow, 99999);
+      }
+      */
     }
   }
 }

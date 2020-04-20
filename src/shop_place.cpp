@@ -86,16 +86,16 @@ u32 create_shop_place(geom::Point center, u32 w, u32 h) {
   shop_place.h = h;
 
   geom::Point trigger_center = center;
-  geom::Point trigger_h_offset = { shop_place.w/2, 0 };
-  geom::Point trigger_v_offset = { 0, shop_place.h/2 };
+  geom::Point trigger_h_offset = { (f32)shop_place.w/2, 0 };
+  geom::Point trigger_v_offset = { 0, (f32)shop_place.h/2 };
   shop_place.trigger = { trigger_center - trigger_h_offset - trigger_v_offset,
                          trigger_center + trigger_h_offset - trigger_v_offset,
                          trigger_center + trigger_h_offset + trigger_v_offset,
                          trigger_center - trigger_h_offset + trigger_v_offset};
 
   geom::Point collider_center = center;
-  geom::Point collider_h_offset = {shop_place.w/2, 0 };
-  geom::Point collider_v_offset = { 0, shop_place.h/2};
+  geom::Point collider_h_offset = { (f32)shop_place.w/2, 0 };
+  geom::Point collider_v_offset = { 0,  (f32)shop_place.h/2};
   shop_place.collider = { collider_center - collider_h_offset - collider_v_offset,
                           collider_center + collider_h_offset - collider_v_offset,
                           collider_center + collider_h_offset + collider_v_offset,
