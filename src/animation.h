@@ -18,7 +18,6 @@ namespace animation {
 
   struct Animation {
     std::vector<Frame> frames;
-    geom::Rect rect;
 
     f32 frame_time;
     u32 n_of_replays;
@@ -28,8 +27,10 @@ namespace animation {
   };
 
   struct AnimationSet {
+    geom::Rect rect;
     std::vector<Animation> animations;
     u32 current_animation;
+    bool flip_horizontal;
   };
 
   struct System {
@@ -40,9 +41,11 @@ namespace animation {
 
   // returns animation id
   u32 add_animation_set(AnimationSet);
-  void force_play(u32 set_id,u32 animation_id, bool should_loop = true);
+  void force_play(u32 set_id,u32 animation_id);
 
   void render();
   void update();
+  void set_animation_pos(u32 set_id, f32 x, f32 y, f32 w, f32 h, bool flip_horizontal = false);
   void debug_animation();
+  Animation generate_animation_from_files(const char* prefix, u32 n_of_frames);
 };
