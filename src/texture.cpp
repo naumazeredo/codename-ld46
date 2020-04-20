@@ -13,7 +13,7 @@ void load() {
   render::load_image("assets/gfx/template-32x32-right.png");
   render::load_image("assets/gfx/temp-trap.png");
   render::load_image("assets/gfx/turret-must-replace.png");
-  render::load_image("assets/gfx/temp-shop-top.png");
+  render::load_image("assets/gfx/store_trap.png");
   render::load_image("assets/gfx/temp-candy.png");
   render::load_image("assets/gfx/temp-coin.png");
   render::load_image("assets/gfx/temp-factory.png");
