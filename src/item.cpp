@@ -376,8 +376,8 @@ void create_logs_line(u32 model_id, geom::Point base, int x_dir, int y_dir) {
 
   create_item(model_id, base);
 
-  bound.push_back({base.x, base.y + y_dir*200});
-  bound.push_back(base);
+  bound.push_back({base.x - 15*x_dir, base.y + y_dir*200});
+  bound.push_back({base.x - 15*x_dir, base.y});
 
   for(auto p: tmp) create_item(model_id, base + p);
 
