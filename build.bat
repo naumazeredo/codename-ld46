@@ -4,8 +4,7 @@ set OUT_EXE=ld46
 
 set TARGET=x64
 
-@REM set FLAGS=/std:c++latest /FC /MP
-set FLAGS=/std:c++latest /FC
+set FLAGS=/std:c++latest /FC /MP
 
 if "%1" == "release" (
   echo [Release build]
