@@ -66,8 +66,8 @@ void setup() {
   tmp.type = ItemType::CANDY;
   tmp.texture = TextureCode::TEX_CANDY;
   tmp.shadow = TextureCode::INVALID;
-  tmp.texture_pivot_x = 15;
-  tmp.texture_pivot_y = 10;
+  tmp.texture_pivot_x = -15;
+  tmp.texture_pivot_y = -15;
   tmp.animation_set_id = -1;
   tmp.w = 30;
   tmp.h = 30;
@@ -77,8 +77,8 @@ void setup() {
   tmp.type = ItemType::MONEY;
   tmp.texture = TextureCode::TEX_MONEY;
   tmp.shadow = TextureCode::INVALID;
-  tmp.texture_pivot_x = 15;
-  tmp.texture_pivot_y = 5;
+  tmp.texture_pivot_x = -15;
+  tmp.texture_pivot_y = -15;
   tmp.w = 30;
   tmp.h = 30;
   item_info.models.push_back(tmp);
@@ -86,8 +86,8 @@ void setup() {
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_TRAP_SHOP;
   tmp.shadow = TextureCode::INVALID;
-  tmp.texture_pivot_x = 20;
-  tmp.texture_pivot_y = 10;
+  tmp.texture_pivot_x = -20;
+  tmp.texture_pivot_y = -15;
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
@@ -97,8 +97,8 @@ void setup() {
   tmp.type = ItemType::FACTORY;
   tmp.texture = TextureCode::TEX_FACTORY;
   tmp.shadow = TextureCode::INVALID;
-  tmp.texture_pivot_x = -40;
-  tmp.texture_pivot_y = -10;
+  tmp.texture_pivot_x = -20;
+  tmp.texture_pivot_y = -15;
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
@@ -182,8 +182,8 @@ void setup() {
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_TURRET_SHOP;
   tmp.shadow = TextureCode::INVALID;
-  tmp.texture_pivot_x = 20;
-  tmp.texture_pivot_y = 10;
+  tmp.texture_pivot_x = -20;
+  tmp.texture_pivot_y = -15;
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;

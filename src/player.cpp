@@ -38,7 +38,7 @@ void setup() {
 
   player_info.money = 100;
 
-  player_info.item_position = {0, (float) player_info.h};
+  player_info.item_position = {0, (float) player_info.h + 10};
 
   player_info.is_holding_item = false;
   auto idle_animation = animation::generate_animation_from_files(
