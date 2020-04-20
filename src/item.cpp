@@ -172,16 +172,6 @@ void setup() {
   tmp.action_rate = 1; // Shots Per Second
   tmp.action_range = 70;
   item_info.models.push_back(tmp);
-
-  tmp.type = ItemType::UNPICKABLE;
-  tmp.texture = TextureCode::TEX_LOG;
-  tmp.shadow = TextureCode::TEX_LOG_SHADOW;
-  tmp.texture_pivot_x = 32;
-  tmp.texture_pivot_y = 16;
-  tmp.animation_set_id = -1;
-  tmp.w = 64;
-  tmp.h = 64;
-  item_info.models.push_back(tmp);
 }
 
 std::tuple<bool, ItemModel> get_model_by_item_id(u32 item_id) {
