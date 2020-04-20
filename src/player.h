@@ -17,6 +17,8 @@ struct PlayerInfo {
 
   u32 w, h;
   int speed;
+  int money;
+  float item_max_dist;
 };
 
 namespace player {

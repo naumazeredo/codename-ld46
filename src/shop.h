@@ -12,7 +12,7 @@ struct ShopModel {
 	ShopType type;
   u32 texture;
   u32 w, h;
-  u32 item;
+  u32 item_model_id;
 
   union {
     struct {

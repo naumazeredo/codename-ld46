@@ -8,10 +8,18 @@ namespace player {
 
 void debug_window() {
   if (ImGui::TreeNode("Player")) {
+<<<<<<< HEAD
     ImGui::Point("position", &player_info.position);
     ImGui::DragU32("w", &player_info.w);
     ImGui::DragU32("h", &player_info.h);
 
+=======
+    ImGui::InputFloat("x", &player_info.position.x, 1.0f, 10.0f);
+    ImGui::InputFloat("y", &player_info.position.y, 1.0f, 10.0f);
+    ImGui::InputInt("w", &player_info.w);
+    ImGui::InputInt("h", &player_info.h);
+    ImGui::InputInt("money", &player_info.money);
+>>>>>>> Enable player to buy items from shop
     //ImGui:: enum
     ImGui::InputInt("speed", &player_info.speed);
     ImGui::Text("is holdind item: %d", (int)player_info.is_holding_item);
@@ -30,6 +38,8 @@ void setup() {
                           (float) SCREEN_HEIGHT/3 - player_info.h/2};
   player_info.direction = DOWN;
   player_info.speed = 100;
+
+  player_info.money = 100;
 
   player_info.item_position = {0, (float) player_info.h};
 
@@ -73,6 +83,34 @@ void use_item() {
   drop_item();
 }
 
+bool try_buy_item(u32 shop_id) {
+  auto [found_shop_model, model] = shop::get_model_by_shop_id(shop_id);
+  if (!found_shop_model) {
+    return false;
+  }
+  if(model.type != ShopType::SHOP) {
+    return false;
+  }
+  if(player_info.money < model.sell_price or player_info.item) {
+    return false;
+  }
+
+  player_info.money -= model.sell_price;
+  u32 item_id = item::create_item(model.item_model_id, player_info.position);
+  item::hold_item(item_id);
+  return true;
+}
+
+void shop_interaction() {
+  for(auto& shop_place : shop_place_info.shop_places) {
+    if (geom::point_inside_rect(player_info.position, shop_place.trigger)) {
+      if (shop_place.state == OCCUPIED) {
+        try_buy_item(shop_place.shop_id);
+      }
+    }
+  }
+}
+
 void item_interaction() {
   if(player_info.is_holding_item) {
     if(!item::item_exists(player_info.holding_item_id)) {
@@ -87,8 +125,9 @@ void item_interaction() {
       drop_item();
   }
   else {
-    geom::Point position = player_info.position;
+    shop_interaction();
 
+    geom::Point position = player_info.position;
     u32 item_id = item::closest_item(position); // @TODO(naum): refactor like enemy: closest_in_range
     if(!item_id)
       return;

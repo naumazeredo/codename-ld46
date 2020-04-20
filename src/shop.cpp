@@ -20,7 +20,7 @@ void setup() {
 
   tmp.type = ShopType::SHOP;
   tmp.texture = TEX_SHOP;
-  tmp.item = 2;
+  tmp.item_model_id = 2;
   tmp.sell_price = 10;
 
   shop_info.shop_models.push_back(tmp);
@@ -51,7 +51,7 @@ std::tuple<bool, ShopModel> get_model_by_shop_id(u32 shop_id) {
 }
 
 std::tuple<bool, Shop> get_shop_by_id(u32 id) {
-  if(shop_info.shops.count(id)) {
+  if(!shop_info.shops.count(id)) {
     return {false, {}};
   }
   return {true, shop_info.shops[id]};
