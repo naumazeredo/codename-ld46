@@ -234,7 +234,7 @@ void render() {
       bar_w,
       bar_h,
       TextureCode::TEX_BLANK,
-      enemy.position.y
+      enemy.position.y + 1
     );
     render::add_to_render(
       bar_position.x,
