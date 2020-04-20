@@ -10,6 +10,7 @@
 struct EnemyModel {
   u32 width, height, health;
   u32 texture, speed;
+  u32 damage;
 };
 
 struct Enemy {
@@ -32,6 +33,8 @@ void render();
 void update();
 void create_enemy(geom::Point position, u32 model_id);
 bool try_hit_enemy(u32 id, u32 damage);
+bool try_destroy_enemy(u32 id);
+void set_target(geom::Point target);
 
 std::pair<bool, u32> closest_enemy_in(geom::Point position, f64 range);
 
