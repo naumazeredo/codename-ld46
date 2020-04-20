@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <GL/gl3w.h>
 
+#include "texture.h"
 #include "types.h"
 
 // @TODO(naum): change this to be a variable and changed during execution
@@ -63,6 +64,7 @@ void render();
 
 u32 load_image(const char* filename);
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture, Color tint = WHITE);
+void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint = WHITE);
+void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, Color tint = WHITE);
 
 }

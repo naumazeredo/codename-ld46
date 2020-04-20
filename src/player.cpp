@@ -8,17 +8,17 @@ namespace player {
 
 void debug_window() {
   if (ImGui::TreeNode("Player")) {
-    ImGui::InputFloat("x", &player_info.position.x, 1.0f, 10.0f);
-    ImGui::InputFloat("y", &player_info.position.y, 1.0f, 10.0f);
-    ImGui::InputInt("w", &player_info.w);
-    ImGui::InputInt("h", &player_info.h);
-    ImGui::InputInt("money", &player_info.money);
-    //ImGui:: enum
+    ImGui::Point("position", &player_info.position);
+    ImGui::DragU32("w", &player_info.w);
+    ImGui::DragU32("h", &player_info.h);
+
     ImGui::InputInt("speed", &player_info.speed);
     ImGui::Text("is holdind item: %d", (int)player_info.is_holding_item);
 
     if (player_info.is_holding_item)
       ImGui::Text("holding item: %u", player_info.holding_item_id);
+
+    ImGui::InputInt("money", &player_info.money);
 
     ImGui::TreePop();
   }
@@ -29,7 +29,7 @@ void setup() {
   player_info.h = 100;
   player_info.position = {(float) SCREEN_WIDTH/3 - player_info.w/2,
                           (float) SCREEN_HEIGHT/3 - player_info.h/2};
-  player_info.direction = DOWN;
+  player_info.direction = Direction::DOWN;
   player_info.speed = 100;
 
   player_info.money = 100;
@@ -38,14 +38,14 @@ void setup() {
 
   player_info.is_holding_item = false;
 
-  player_info.textures[0] = TEX_ARROW_UP;
-  player_info.textures[1] = TEX_ARROW_DOWN;
-  player_info.textures[2] = TEX_ARROW_LEFT;
-  player_info.textures[3] = TEX_ARROW_RIGHT;
+  player_info.textures[0] = TextureCode::TEX_ARROW_UP;
+  player_info.textures[1] = TextureCode::TEX_ARROW_DOWN;
+  player_info.textures[2] = TextureCode::TEX_ARROW_LEFT;
+  player_info.textures[3] = TextureCode::TEX_ARROW_RIGHT;
 }
 
 void render() {
-  render::add_to_render(player_info.position.x - player_info.w / 2, player_info.position.y, player_info.w, player_info.h, player_info.textures[player_info.direction]);
+  render::add_to_render(player_info.position.x - player_info.w / 2, player_info.position.y, player_info.w, player_info.h, player_info.textures[(int)player_info.direction]);
 }
 
 void update() {
@@ -65,11 +65,16 @@ void drop_item() {
 void use_item() {
   for(auto& shop_place : shop_place_info.shop_places) {
     if (geom::point_inside_rect(player_info.position, shop_place.trigger)) {
-      shop_place.state = OCCUPIED;
-      shop_place.shop_id = shop::create_shop(item_info.models[item_info.items[player_info.holding_item_id].model].shop_model);
+      auto [exist, item_model] = item::get_model_by_item_id(player_info.holding_item_id);
 
-      item::destroy_item(item_info.items[player_info.holding_item_id].id);
-      player_info.is_holding_item = false;
+      if (exist) {
+        shop_place.state = ShopPlaceState::OCCUPIED;
+        shop_place.shop_id = shop::create_shop(item_model.shop_model_id);
+
+        item::destroy_item(item_info.items[player_info.holding_item_id].id);
+        player_info.is_holding_item = false;
+      }
+
       return;
     }
   }
@@ -84,7 +89,7 @@ bool try_buy_item(u32 shop_id) {
   if(model.type != ShopType::SHOP) {
     return false;
   }
-  if(player_info.money < model.sell_price or player_info.item) {
+  if(player_info.money < model.sell_price or player_info.holding_item_id) {
     return false;
   }
 
@@ -97,7 +102,7 @@ bool try_buy_item(u32 shop_id) {
 void shop_interaction() {
   for(auto& shop_place : shop_place_info.shop_places) {
     if (geom::point_inside_rect(player_info.position, shop_place.trigger)) {
-      if (shop_place.state == OCCUPIED) {
+      if (shop_place.state == ShopPlaceState::OCCUPIED) {
         try_buy_item(shop_place.shop_id);
       }
     }
@@ -112,7 +117,7 @@ void item_interaction() {
     }
 
     auto [found_model, model] = item::get_model_by_item_id(player_info.holding_item_id);
-    if(found_model and model.type == SHOP)
+    if (found_model and model.type == ItemType::SHOP)
       use_item();
     else
       drop_item();

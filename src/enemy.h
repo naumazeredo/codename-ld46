@@ -4,11 +4,12 @@
 #include <map>
 #include <utility>
 
+#include "texture.h"
 #include "types.h"
 #include "geom.h"
 
 struct EnemyModel {
-  u32 texture;
+  TextureCode texture;
   u32 width, height;
 
   u32 health;

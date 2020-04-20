@@ -19,19 +19,19 @@ void setup() {
   ShopModel tmp;
 
   tmp.type = ShopType::SHOP;
-  tmp.texture = TEX_SHOP;
+  tmp.texture = TextureCode::TEX_SHOP;
   tmp.item_model_id = 2;
   tmp.sell_price = 10;
 
   shop_info.shop_models.push_back(tmp);
 }
 
-u32 create_shop(u32 model) {
+u32 create_shop(u32 model_id) {
   u32 id = ++shop_info.id_count;
   Shop shop;
 
   shop.id = id;
-  shop.model = model;
+  shop.model_id = model_id;
 
   shop_info.shops[id] = shop;
 
@@ -43,7 +43,8 @@ std::tuple<bool, ShopModel> get_model_by_shop_id(u32 shop_id) {
   if(!shop_found) {
       return {false, {}};
   }
-  u32 shop_model_id = shop.model;
+
+  u32 shop_model_id = shop.model_id;
   if(shop_model_id >= shop_info.shop_models.size()) {
       return {false, {}};
   }

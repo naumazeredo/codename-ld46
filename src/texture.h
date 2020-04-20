@@ -1,6 +1,6 @@
 #pragma once
 
-enum TextureCode {
+enum class TextureCode {
   TEX_BLANK,
   TEX_ARROW_UP,
   TEX_ARROW_DOWN,
@@ -9,7 +9,7 @@ enum TextureCode {
   TEX_TRAP,
   TEX_TURRET,
   TEX_SHOP,
-  TEX_FOOD,
+  TEX_CANDY,
   // Add a new texture above this line
   TEX_NUM_TEXTURES
 };

@@ -19,8 +19,8 @@ using f64 = double;
 
 //struct Color { f32 r, g, b, a; };
 
-//Direction
-enum Direction {UP, DOWN, LEFT, RIGHT};
+enum class Direction {UP, DOWN, LEFT, RIGHT};
+
 const int NUM_DIRECTIONS = 4;
 const int dx[NUM_DIRECTIONS] = {0, 0, -1, 1},
           dy[NUM_DIRECTIONS] = {1, -1, 0, 0};

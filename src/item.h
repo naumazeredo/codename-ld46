@@ -3,11 +3,12 @@
 #include <vector>
 #include <map>
 
-#include "geom.h"
+#include "texture.h"
 #include "types.h"
+#include "geom.h"
 
-enum ItemType {
-  FOOD,
+enum class ItemType {
+  CANDY,
   TRAP,
   TURRET,
   SHOP
@@ -15,7 +16,7 @@ enum ItemType {
 
 struct ItemModel {
   ItemType type;
-  u32 texture;
+  TextureCode texture;
   u32 w, h;
 
   union {
@@ -27,14 +28,14 @@ struct ItemModel {
       f64 fire_rate;
     };
     struct {
-      u32 shop_model;
+      u32 shop_model_id;
     };
   };
 };
 
 struct Item {
   u32 id;
-  u32 model;
+  u32 model_id;
   bool being_held;
   geom::Point position;
   f64 last_action_time;

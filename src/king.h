@@ -1,17 +1,18 @@
 #pragma once
 
 #include <functional>
+
+#include "texture.h"
 #include "types.h"
 #include "geom.h"
 
 using Callback = std::function<void(void)>;
 
-const f64 KING_MAX_HEALTH = f64(600.0);
-
 struct KingInfo {
   f64 king_health;
   geom::Point position;
-  u32 texture;
+  TextureCode texture;
+
   int w, h;
 
   std::vector<Callback> on_damage_taken;

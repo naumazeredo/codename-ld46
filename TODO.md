@@ -24,18 +24,24 @@
 
 - [ ] Enemies
   - [ ] Types of enemies
-  - [ ] Take damage
+  - [x] Take damage
   - [ ] AI
   - [ ] Drop money? Drop food? (idea)
 
 - [ ] Items
-  - [ ] Traps
-  - [ ] Turret
+  - [x] Traps
+  - [x] Turret
+  - [ ] Money?
   - [ ] Barricade (idea)
 
 - [ ] Items
   - [x] Item types
   - [ ] Show what it does
+
+- [ ] Game Progress
+  - [ ] Waves
+    - [ ] Enemy spawns
+    - [ ] Timer
 
 - [ ] Extra: Mercenary
 

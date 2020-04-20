@@ -2,21 +2,22 @@
 
 #include <vector>
 
+#include "texture.h"
 #include "types.h"
 #include "geom.h"
 
-enum ShopPlaceState {
+enum class ShopPlaceState {
   OCCUPIED,
   FREE
 };
 
 struct ShopPlace {
+  TextureCode texture;
+
   geom::Rect trigger, collider;
 
   ShopPlaceState state;
   u32 shop_id;
-
-  u32 texture;
 };
 
 struct ShopPlaceInfo {

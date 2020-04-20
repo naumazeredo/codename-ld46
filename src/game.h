@@ -3,10 +3,14 @@
 #include <vector>
 #include <functional>
 
+#include "texture.h"
 #include "types.h"
 #include "geom.h"
 
-enum GameState {
+const f64 KING_HUNGER_RATE = f64(1.0);
+const f64 KING_MAX_HEALTH = f64(600.0);
+
+enum class GameState {
   RUNNING,
   GAME_OVER
 };
@@ -16,7 +20,7 @@ using Callback = std::function<void(void)>;
 struct GameInfo {
   GameState current_state;
 
-  u32 bar_texture;
+  TextureCode bar_texture;
   geom::Point bar_position;
   int bar_h, bar_w;
 

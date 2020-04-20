@@ -34,7 +34,7 @@ void setup() {
   tmp.damage = 15;
   tmp.width = 32;
   tmp.height = 32;
-  tmp.texture = TEX_ARROW_UP; 
+  tmp.texture = TextureCode::TEX_ARROW_UP; 
 
   enemy_info.models.push_back(tmp);
 

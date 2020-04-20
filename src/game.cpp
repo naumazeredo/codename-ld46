@@ -17,10 +17,10 @@ void debug_window() {
 
     std::string game_state_text;
     switch (game_info.current_state) {
-      case RUNNING:
+      case GameState::RUNNING:
         game_state_text = "running";
         break;
-      case GAME_OVER:
+      case GameState::GAME_OVER:
         game_state_text = "game over";
         break;
     }
@@ -37,11 +37,11 @@ void on_game_over_debug() {
 }
 
 void setup() {
-  game_info.current_state = RUNNING;
+  game_info.current_state = GameState::RUNNING;
 
   game_info.on_game_over.push_back(on_game_over_debug);
 
-  game_info.bar_texture = TEX_BLANK;
+  game_info.bar_texture = TextureCode::TEX_BLANK;
   game_info.bar_h = 32;
   game_info.bar_w = 320;
   game_info.bar_position = geom::Point{};
@@ -49,8 +49,8 @@ void setup() {
 
 void update() {
   if (king::get_king_health() < 0 ) {
-    if (game_info.current_state != GAME_OVER) {
-      game_info.current_state = GAME_OVER;
+    if (game_info.current_state != GameState::GAME_OVER) {
+      game_info.current_state = GameState::GAME_OVER;
       for (auto callback : game_info.on_game_over){
         callback();
       }

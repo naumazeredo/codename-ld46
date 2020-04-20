@@ -17,15 +17,16 @@ void debug_window() {
 
         ImGui::Text("Model %d", model_id++);
 
-        ImGui::SliderContainer("texture", &model.texture, render_info.texture);
+        //ImGui::SliderContainer("texture", &model.texture, render_info.texture);
+        ImGui::Text("texture: %u", (u32)model.texture);
         ImGui::SliderU32("w", &model.w, 0, 128);
         ImGui::SliderU32("h", &model.h, 0, 128);
 
         switch (model.type) {
-          case FOOD:
+          case ItemType::CANDY:
             ImGui::SliderU8("hunger count", &model.hunger_count, 0, 255);
           break;
-          case TRAP:
+          case ItemType::TRAP:
             ImGui::SliderU8("damage", &model.damage, 0, 255);
           break;
         }
@@ -41,7 +42,7 @@ void debug_window() {
         std::string label = "Item: " + std::to_string(item_id);
 
         if (ImGui::TreeNode(label.c_str())) {
-          ImGui::SliderContainer("model", &item.model, item_info.models);
+          ImGui::SliderContainer("model", &item.model_id, item_info.models);
           ImGui::Point("position", &item.position);
           ImGui::Checkbox("being_held", &item.being_held);
           //f64 last_action_time;
@@ -60,42 +61,44 @@ void debug_window() {
 void setup() {
   ItemModel tmp;
 
-  tmp.type = FOOD;
-  tmp.texture = TEX_FOOD;
+  tmp.type = ItemType::CANDY;
+  tmp.texture = TextureCode::TEX_CANDY;
   tmp.w = 30;
   tmp.h = 30;
   tmp.hunger_count = 5;
   item_info.models.push_back(tmp);
 
-  tmp.type = TRAP;
-  tmp.texture = TEX_TRAP;
+  tmp.type = ItemType::TRAP;
+  tmp.texture = TextureCode::TEX_TRAP;
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 10;
   item_info.models.push_back(tmp);
 
-  tmp.type = TURRET;
-  tmp.texture = TEX_TURRET;
+  tmp.type = ItemType::TURRET;
+  tmp.texture = TextureCode::TEX_TURRET;
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 1;
   tmp.fire_rate = 1; // Shots Per Second
   item_info.models.push_back(tmp);
 
-  tmp.type = SHOP;
-  tmp.texture = TEX_SHOP;
+  tmp.type = ItemType::SHOP;
+  tmp.texture = TextureCode::TEX_SHOP;
   tmp.w = 40;
   tmp.h = 30;
-  tmp.shop_model = 0;
+  tmp.shop_model_id = 0;
   item_info.models.push_back(tmp);
 }
 
 std::tuple<bool, ItemModel> get_model_by_item_id(u32 item_id) {
   auto [item_found, item] = get_item_by_id(item_id);
   if (!item_found) {
+    printf("[error] item not found: %d\n", item_id);
     return {false, {}};
   }
-  u32 item_model_id = item.model;
+
+  u32 item_model_id = item.model_id;
   if(item_model_id >= item_info.models.size()) {
     return {false, {}};
   }
@@ -147,15 +150,15 @@ void update() {
   for(auto &[item_id, item]: item_info.items) {
     if(item.being_held) continue;
 
-    const auto &item_model = item_info.models[item.model];
-    if (item_model.type == TRAP) {
+    const auto &item_model = item_info.models[item.model_id];
+    if (item_model.type == ItemType::TRAP) {
       auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 15);
       if (has_enemy && enemy::try_hit_enemy(enemy_id, item_model.damage)) {
         destroy_item(item_id);
       }
     }
 
-    if (item_model.type == TURRET) {
+    if (item_model.type == ItemType::TURRET) {
       const f64 current_time = game_time::get_current_time();
       if(current_time < item.last_action_time + 1/item_model.fire_rate)
        continue;
@@ -191,13 +194,12 @@ u32 closest_item(geom::Point position) {
   return ans;
 }
 
-u32 create_item(u32 model, geom::Point position) {
+u32 create_item(u32 model_id, geom::Point position) {
   u32 id = ++item_info.num_item;
-  u32 w = item_info.models[model].w;
   Item item;
 
   item.id = id;
-  item.model = model;
+  item.model_id = model_id;
   item.last_action_time = game_time::get_current_time();
   item.being_held = false;
 
@@ -211,7 +213,7 @@ u32 create_item(u32 model, geom::Point position) {
 void render() {
   for (auto p: item_info.items) {
     auto item = p.second;
-    auto model = item_info.models[item.model];
+    auto model = item_info.models[item.model_id];
     render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.texture);
   }
 }

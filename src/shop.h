@@ -3,14 +3,15 @@
 #include <vector>
 #include <map>
 
+#include "texture.h"
 #include "types.h"
 #include "geom.h"
 
 enum class ShopType {SHOP, FACTORY};
 
 struct ShopModel {
-	ShopType type;
-  u32 texture;
+  ShopType type;
+  TextureCode texture;
   u32 w, h;
   u32 item_model_id;
 
@@ -26,7 +27,7 @@ struct ShopModel {
 
 struct Shop {
   u32 id;
-  u32 model;
+  u32 model_id;
 };
 
 struct ShopInfo {

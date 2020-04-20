@@ -1,5 +1,6 @@
 #pragma once
 
+#include "texture.h"
 #include "types.h"
 #include "geom.h"
 
@@ -7,7 +8,7 @@ const f32 PLAYER_HOLD_MAX_DIST = 40;
 
 struct PlayerInfo {
   Direction direction;
-  u32 textures[NUM_DIRECTIONS];
+  TextureCode textures[NUM_DIRECTIONS];
 
   bool is_holding_item;
   u32 holding_item_id;

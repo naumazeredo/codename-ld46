@@ -245,6 +245,10 @@ u32 load_image(const char* filename) {
   return render_info.texture.size() - 1;
 }
 
+void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, Color tint) {
+  add_to_render(x, y, w, h, (u32)tex, tint);
+}
+
 void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint) {
   auto start_vertex = render_info.vertex_buffer.size() / 3;
 
@@ -322,7 +326,7 @@ void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, Color tint) {
   auto& draw_start_element = render_info.draw_start_element;
   auto& draw_count_element = render_info.draw_count_element;
 
-  draw_texture.push_back(tex);
+  draw_texture.push_back((u32)tex);
   draw_count_element.push_back(6);
 
   if (draw_start_element.empty()) {
