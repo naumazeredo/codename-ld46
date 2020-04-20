@@ -8,18 +8,11 @@ namespace player {
 
 void debug_window() {
   if (ImGui::TreeNode("Player")) {
-<<<<<<< HEAD
-    ImGui::Point("position", &player_info.position);
-    ImGui::DragU32("w", &player_info.w);
-    ImGui::DragU32("h", &player_info.h);
-
-=======
     ImGui::InputFloat("x", &player_info.position.x, 1.0f, 10.0f);
     ImGui::InputFloat("y", &player_info.position.y, 1.0f, 10.0f);
     ImGui::InputInt("w", &player_info.w);
     ImGui::InputInt("h", &player_info.h);
     ImGui::InputInt("money", &player_info.money);
->>>>>>> Enable player to buy items from shop
     //ImGui:: enum
     ImGui::InputInt("speed", &player_info.speed);
     ImGui::Text("is holdind item: %d", (int)player_info.is_holding_item);

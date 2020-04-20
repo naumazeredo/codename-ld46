@@ -12,14 +12,15 @@ Point Point::operator-(Point p) const { return Point(x-p.x, y-p.y); }
 Point& Point::operator-=(Point p) { *this = Point(x-p.x, y-p.y); return *this; }
 
 bool point_inside_rect(Point p, Rect r) {
-    return p.x <= r.x + r.w and
-           p.x >= r.x and
-           p.y <= r.y + r.h and
-           p.y >= r.y;
+    return p.x <= r.x + r.w + EPS and
+           p.x >= r.x - EPS and
+           p.y <= r.y + r.h + EPS and
+           p.y >= r.y - EPS;
 }
 
 /*
 bool point_inside_polygon(const Point p, const Polygon& polygon) {
+
 }
 */
 
