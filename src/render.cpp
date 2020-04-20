@@ -29,9 +29,7 @@ void debug_window() {
       auto texture_w = render_info.texture_w[i];
       auto texture_h = render_info.texture_h[i];
 
-      if (i > 0) ImGui::SameLine();
-
-      ImGui::Image((void*)(intptr_t)texture, ImVec2(texture_w, texture_h));
+      ImGui::Image((void*)(intptr_t)texture, ImVec2(32, 32 * texture_h / texture_w) );
     }
 
     ImGui::TreePop();
