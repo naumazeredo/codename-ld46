@@ -23,7 +23,6 @@ void load() {
   render::load_image("assets/gfx/king-rock-shadow.png");
   render::load_image("assets/gfx/construction_site_1.png");
   render::load_image("assets/gfx/store_turret.png");
-<<<<<<< HEAD
   render::load_image("assets/gfx/hud.png");
   render::load_image("assets/gfx/digit_0.png");
   render::load_image("assets/gfx/digit_1.png");
@@ -35,9 +34,7 @@ void load() {
   render::load_image("assets/gfx/digit_7.png");
   render::load_image("assets/gfx/digit_8.png");
   render::load_image("assets/gfx/digit_9.png");
-=======
   render::load_image("assets/gfx/game_over_screen.png");
->>>>>>> Add gameover screen
 }
 
 }
