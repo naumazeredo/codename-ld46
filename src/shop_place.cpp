@@ -94,8 +94,8 @@ u32 create_shop_place(geom::Point center, u32 w, u32 h) {
   shop_place.h = h;
 
   geom::Point trigger_center = center;
-  geom::Point trigger_h_offset = { (f32)shop_place.w/2, 0 };
-  geom::Point trigger_v_offset = { 0, (f32)shop_place.h/2 };
+  geom::Point trigger_h_offset = { (f32)shop_place.w/2 + 10, 0 };
+  geom::Point trigger_v_offset = { 0, (f32)shop_place.h/2 + 10 };
   shop_place.trigger = { trigger_center - trigger_h_offset - trigger_v_offset,
                          trigger_center + trigger_h_offset - trigger_v_offset,
                          trigger_center + trigger_h_offset + trigger_v_offset,
