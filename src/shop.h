@@ -45,6 +45,7 @@ void update();
 void debug_window();
 
 u32 create_shop(u32 model, u32 shop_place_id);
+void destroy_shop(u32 shop_id);
 
 std::tuple<bool, ShopModel> get_model_by_shop_id(u32 shop_id);
 std::tuple<bool, Shop> get_shop_by_id(u32 id);

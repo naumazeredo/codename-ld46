@@ -64,7 +64,7 @@ void setup() {
 
   tmp.type = ItemType::CANDY;
   tmp.texture = TextureCode::TEX_CANDY;
-  tmp.animation_instance_id = -1;
+  tmp.animation_set_id = -1;
   tmp.w = 30;
   tmp.h = 30;
   tmp.hunger_count = 5;
@@ -78,7 +78,7 @@ void setup() {
 
   tmp.type = ItemType::TURRET;
   tmp.texture = TextureCode::TEX_TURRET;
-  tmp.animation_instance_id = -1;
+  tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 1;
@@ -88,7 +88,7 @@ void setup() {
 
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_SHOP;
-  tmp.animation_instance_id = -1;
+  tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
   tmp.shop_model_id = 0;
@@ -96,6 +96,7 @@ void setup() {
 
   tmp.type = ItemType::FACTORY;
   tmp.texture = TextureCode::TEX_FACTORY;
+  tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
   tmp.shop_model_id = 1;
@@ -113,10 +114,10 @@ void setup() {
   std::vector<Animation> animations{spike_animation};
   AnimationSet set {animations};
 
-  auto animation_instance_id = animation::add_animation_set(set);
+  auto animation_set_id = animation::add_animation_set(set);
 
   tmp.type = ItemType::TRAP;
-  tmp.animation_instance_id = animation::add_animation_set(set);
+  tmp.animation_set_id = animation_set_id;
 
   tmp.damage = 1;
   tmp.action_rate = 5;
@@ -153,9 +154,11 @@ bool item_exists(u32 id) {
 
 bool destroy_item(u32 id) {
   if (!item_exists(id)) return false;
+  auto [_, item] = item::get_item_by_id(id);
 
-  auto animation_instance_id = item_info.models[item_info.items[id].model_id].animation_instance_id;
-  animation::destroy_instance(animation_instance_id);
+  auto animation_instance_id = item.animation_instance_id;
+  if (animation_instance_id != -1)
+    animation::destroy_instance(animation_instance_id);
 
   item_info.items.erase(id);
   return true;
@@ -173,9 +176,9 @@ void update_render_info(u32 id) {
     else z = item.position.y;
   }
 
-  if (item_model.animation_instance_id != -1) {
+  if (item.animation_instance_id != -1) {
     animation::set_animation_instance_pos(
-      item_model.animation_instance_id,
+      item.animation_instance_id,
       item.position.x,
       item.position.y,
       (f32) item_model.w,
@@ -272,15 +275,25 @@ u32 create_item(u32 model_id, geom::Point position) {
 
   item.position = position;
 
+  auto& model = item_info.models[model_id];
+  auto animation_set_id = model.animation_set_id;
+  if (animation_set_id != -1) {
+    auto rect = geom::Rect { 0.0f, 0.0f, (f32)model.w, (f32)model.h };
+    item.animation_instance_id = animation::add_animation_instance(animation_set_id, rect);
+  } else {
+    item.animation_instance_id = -1;
+  }
+
   item_info.items[id] = item;
+
 
   return id;
 }
 
 void render() {
   for (auto [id, item]: item_info.items) {
-    auto model = item_info.models[item.model_id];
-    if (model.animation_instance_id == -1) {
+    auto& model = item_info.models[item.model_id];
+    if (item.animation_instance_id == -1) {
       auto z = (item.being_held ? player_info.position.y : item.position.y);
       render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.texture, z);
     }

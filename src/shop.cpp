@@ -90,6 +90,15 @@ u32 create_shop(u32 model_id, u32 shop_place_id) {
   return id;
 }
 
+void destroy_shop(u32 shop_id) {
+  if (!shop_info.shops.count(shop_id)) {
+    printf("[error] Could not find shop (destroy_shop)!\n");
+    return;
+  }
+
+  shop_info.shops.erase(shop_id);
+}
+
 std::tuple<bool, ShopModel> get_model_by_shop_id(u32 shop_id) {
   auto [shop_found, shop] = get_shop_by_id(shop_id);
   if(!shop_found) {

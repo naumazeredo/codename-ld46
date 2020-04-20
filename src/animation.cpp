@@ -11,7 +11,7 @@ namespace { // internal
 
 void update_instance(u32 id, f64 dt){
   if (!animation_info.instances.count(id)) {
-    printf("[error] animation instance not found!\n");
+    printf("[error] animation instance not found (update_instance)!\n");
     return;
   }
 
@@ -112,7 +112,7 @@ u32 add_animation_instance(u32 animation_set_id, geom::Rect rect) {
 
 void destroy_instance(u32 id) {
   if (!animation_info.instances.count(id)) {
-    printf("[error] animation instance not found!\n");
+    printf("[error] animation instance not found! (destroy_instance)\n");
     return;
   }
 
@@ -121,7 +121,7 @@ void destroy_instance(u32 id) {
 
 void force_play(u32 instance_id, u32 animation_id){
   if (!animation_info.instances.count(instance_id)) {
-    printf("[error] animation instance not found!\n");
+    printf("[error] animation instance not found! (force_play)\n");
     return;
   }
 

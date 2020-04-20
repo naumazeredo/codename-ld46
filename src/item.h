@@ -22,7 +22,7 @@ enum class ItemType {
 struct ItemModel {
   ItemType type;
   TextureCode texture;
-  u32 animation_instance_id;
+  u32 animation_set_id;
   u32 w, h;
 
   union {
@@ -46,6 +46,7 @@ struct Item {
   bool being_held;
   geom::Point position;
   f64 last_action_time;
+  u32 animation_instance_id;
 };
 
 struct ItemInfo {

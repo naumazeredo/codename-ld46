@@ -20,10 +20,9 @@ void debug_window() {
       ImGui::Text("holding item: %u", player_info.holding_item_id);
 
     ImGui::InputInt("money", &player_info.money);
-    ImGui::Text("Item: %u", player_info.holding_item_id);
 
-    ImGui::Text("Dir x: %d", player_info.dir_x);
-    ImGui::Text("Dir y: %d", player_info.dir_y);
+    ImGui::Text("dir_x: %d", player_info.dir_x);
+    ImGui::Text("dir_y: %d", player_info.dir_y);
 
     ImGui::TreePop();
   }
@@ -97,13 +96,19 @@ void use_item() {
     if (geom::point_inside_convex_polygon(player_info.position, shop_place.trigger)) {
       auto [exist, item_model] = item::get_model_by_item_id(player_info.holding_item_id);
 
-      if (exist) {
-        shop_place.state = ShopPlaceState::OCCUPIED;
-        shop_place.shop_id = shop::create_shop(item_model.shop_model_id, cnt);
-
-        item::destroy_item(item_info.items[player_info.holding_item_id].id);
-        player_info.is_holding_item = false;
+      if (!exist) {
+        // not possible to hit?
       }
+
+      if (shop_place.state == ShopPlaceState::OCCUPIED) {
+        shop::destroy_shop(shop_place.shop_id);
+      }
+
+      shop_place.state = ShopPlaceState::OCCUPIED;
+      shop_place.shop_id = shop::create_shop(item_model.shop_model_id, cnt);
+
+      item::destroy_item(item_info.items[player_info.holding_item_id].id);
+      player_info.is_holding_item = false;
 
       return;
     }
