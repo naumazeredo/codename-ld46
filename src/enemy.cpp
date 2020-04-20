@@ -219,17 +219,33 @@ void create_enemy(geom::Point position, u32 model_id) {
 }
 
 void render() {
-// for(const auto &[enemy_id, enemy] : enemy_info.enemies) {
-//   const auto &model = get_enemy_model(enemy_id);
-//   render::add_to_render(
-//     enemy.position.x - model.w/ 2,
-//     enemy.position.y,
-//     model.w,
-//     model.h,
-//     model.texture,
-//     enemy.position.y
-//   );
-// }
+  for (const auto &[enemy_id, enemy] : enemy_info.enemies) {
+    const auto &model = get_enemy_model(enemy_id);
+    f64 health_percentage = enemy.current_health / (f64)model.health;
+    int w = game_info.bar_w * health_percentage;
+
+    geom::Point bar_position = enemy.position + geom::Point(-20, 35);
+    s32 bar_w = 40;
+    s32 bar_h = 6;
+
+    render::add_to_render(
+      bar_position.x,
+      bar_position.y,
+      bar_w,
+      bar_h,
+      TextureCode::TEX_BLANK,
+      enemy.position.y
+    );
+    render::add_to_render(
+      bar_position.x,
+      bar_position.y,
+      bar_w*health_percentage,
+      bar_h,
+      TextureCode::TEX_BLANK,
+      enemy.position.y,
+      Color{1, 0, 0, 1}
+    );
+  }
 }
 
-}
+} // namespace enemy
