@@ -1,6 +1,7 @@
 #include "item.h"
 
 #include <string>
+#include <stdio.h>
 
 #include "externs.h"
 
@@ -63,6 +64,7 @@ void setup() {
 
   tmp.type = ItemType::CANDY;
   tmp.texture = TextureCode::TEX_CANDY;
+  tmp.animation_set_id = -1;
   tmp.w = 30;
   tmp.h = 30;
   tmp.hunger_count = 5;
@@ -74,15 +76,9 @@ void setup() {
   tmp.h = 30;
   item_info.models.push_back(tmp);
 
-  tmp.type = ItemType::TRAP;
-  tmp.texture = TextureCode::TEX_TRAP;
-  tmp.w = 40;
-  tmp.h = 30;
-  tmp.damage = 10;
-  item_info.models.push_back(tmp);
-
   tmp.type = ItemType::TURRET;
   tmp.texture = TextureCode::TEX_TURRET;
+  tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 1;
@@ -91,9 +87,27 @@ void setup() {
 
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_SHOP;
+  tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
   tmp.shop_model_id = 0;
+  item_info.models.push_back(tmp);
+
+  auto spike_animation = animation::generate_animation_from_files(
+    "assets/gfx/animations/spike",
+    2
+  );
+
+  tmp.w = 32;
+  tmp.h = 32;
+
+  auto rect = geom::Rect{0, 0, (f32) tmp.w, (f32) tmp.h};
+  std::vector<animation::Animation> animations{spike_animation};
+  animation::AnimationSet set{rect, animations, 0};
+
+  tmp.type = ItemType::TRAP;
+  tmp.animation_set_id = add_animation_set(set);
+  tmp.damage = 10;
   item_info.models.push_back(tmp);
 }
 
@@ -135,6 +149,19 @@ bool update_position(u32 id, geom::Point position) {
   Item &item = item_info.items[id];
 
   item.position = position;
+
+  auto& item_model = item_info.models[item.model_id];
+  // TODO : refactor, duplicated code
+  if (item_model.animation_set_id != -1) {
+    animation::set_animation_pos(
+        item_model.animation_set_id,
+        item.position.x,
+        item.position.y,
+        (f32) item_model.w,
+        (f32) item_model.h
+    );
+  }
+
   return true;
 }
 
@@ -174,6 +201,16 @@ void update() {
       auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 70);
       if (has_enemy)
         enemy::try_hit_enemy(enemy_id, item_model.damage);
+    }
+
+    if (item_model.animation_set_id != -1) {
+      animation::set_animation_pos(
+          item_model.animation_set_id,
+          item.position.x,
+          item.position.y,
+          (f32) item_model.w,
+          (f32) item_model.h
+      );
     }
   }
 }
@@ -220,7 +257,9 @@ void render() {
   for (auto p: item_info.items) {
     auto item = p.second;
     auto model = item_info.models[item.model_id];
-    render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.texture);
+    if (model.animation_set_id == -1) {
+      render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.texture);
+    }
   }
 }
 

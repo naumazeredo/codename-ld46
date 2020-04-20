@@ -15,6 +15,8 @@ struct KingInfo {
 
   int w, h;
 
+  u32 animation_set_id;
+
   std::vector<Callback> on_damage_taken;
   std::vector<Callback> on_feed_king;
 };
@@ -26,7 +28,7 @@ geom::Point get_position();
 void take_damage(f64 damage);
 
 void setup();
-void render();
+void update();
 void debug_window();
 
 }

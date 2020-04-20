@@ -29,17 +29,17 @@ void setup() {
   input::setup();
   render::setup();
   audio::setup();
-  item::setup();
   enemy::setup();
   shop::setup();
   shop_place::setup();
   physics::setup();
   game::setup();
-  king::setup();
 
   texture::load();
 
+  item::setup();
   player::setup();
+  king::setup();
 
   load_audio();
 
@@ -114,13 +114,13 @@ void run() {
     physics::update();
     game::update();
     animation::update();
+    king::update();
 
     enemy::render();
     player::render();
     item::render();
     game::render();
     shop_place::render();
-    king::render();
     animation::render();
 
     // Rendering

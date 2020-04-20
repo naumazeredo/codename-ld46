@@ -18,13 +18,25 @@ void debug_window() {
 }
 void setup() {
   king_info.king_health = KING_MAX_HEALTH;
-  king_info.w = 100;
-  king_info.h = 150;
+  king_info.w = 84;
+  king_info.h = 84;
   king_info.position = {(float) SCREEN_WIDTH/2 - king_info.w/2,
     (float) SCREEN_HEIGHT/2 - king_info.h/2};
 
   king_info.texture = TextureCode::TEX_ARROW_DOWN;
   enemy::set_target(king_info.position);
+
+  auto idle_animation = animation::generate_animation_from_files(
+    "assets/gfx/animations/goose",
+    4
+  );
+
+  auto rect = geom::Rect{0, 0, (f32) king_info.w, (f32) king_info.h};
+
+  std::vector<animation::Animation> animations{idle_animation};
+  animation::AnimationSet set{rect, animations, 0};
+
+  king_info.animation_set_id = add_animation_set(set);
 }
 
 void take_damage(f64 damage) {
@@ -56,8 +68,14 @@ u32 get_king_health() {
   return king_info.king_health;
 }
 
-void render() {
-  render::add_to_render(king_info.position.x - king_info.w / 2, king_info.position.y, king_info.w, king_info.h, king_info.texture);
+void update() {
+  animation::set_animation_pos(
+      king_info.animation_set_id,
+      king_info.position.x,
+      king_info.position.y,
+      (f32) king_info.w,
+      (f32) king_info.h
+  );
 }
 
 }
