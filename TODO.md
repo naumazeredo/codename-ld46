@@ -2,6 +2,13 @@
 
 ## Game
 
+- [ ] Terrain
+  - [ ] Position king
+  - [ ] Position shop places
+  - [ ] Position enemies spawn points
+  - [ ] Position out-of-bounds
+  - [ ] Position colliders
+
 ### Logic
 
 - [ ] Player controls
