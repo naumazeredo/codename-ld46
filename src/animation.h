@@ -8,7 +8,7 @@
 #include "types.h"
 #include "geom.h"
 
-using AnimationEndedCallback = std::function< std::pair<u32,u32> (void) >;
+using AnimationEndedCallback = std::function< void (u32,u32) >;
 
 namespace animation {
   struct Frame {
