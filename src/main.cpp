@@ -63,13 +63,14 @@ void test_setup() {
 void debug_window() {
   debug_info.show_window = true;
 
+  debug::add_window(game_time::debug_window);
+  debug::add_window(game::debug_window);
   debug::add_window(input::debug_window);
   debug::add_window(render::debug_window);
   debug::add_window(audio::debug_window);
   debug::add_window(item::debug_window);
   debug::add_window(enemy::debug_window);
   debug::add_window(player::debug_window);
-  debug::add_window(game::debug_window);
   debug::add_window(king::debug_window);
   debug::add_window(shop::debug_window);
   debug::add_window(shop_place::debug_window);

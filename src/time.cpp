@@ -3,10 +3,25 @@
 #include <cstdio>
 
 #include <SDL2/SDL.h>
+#include <imgui.h>
 
 TimeInfo time_info;
 
 namespace game_time {
+
+void debug_window() {
+  ImGui::InputDouble("time_scale", &time_info.time_scale, 0.0, 8.0);
+
+  if (ImGui::Button("pause")) {
+    time_info.time_scale = 0;
+  }
+
+  ImGui::SameLine();
+
+  if (ImGui::Button("play")) {
+    time_info.time_scale = 1;
+  }
+}
 
 f64 get_current_time() {
   return SDL_GetPerformanceCounter() / f64(SDL_GetPerformanceFrequency());

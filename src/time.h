@@ -20,6 +20,8 @@ struct TimeInfo {
 
 namespace game_time {
 
+void debug_window();
+
 void new_frame();
 
 f64 get_frame_duration();

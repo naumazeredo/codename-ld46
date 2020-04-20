@@ -112,14 +112,17 @@ void use_item() {
 }
 
 bool try_buy_item(u32 shop_id) {
-  auto [found_shop_model, model] = shop::get_model_by_shop_id(shop_id);
-  if (!found_shop_model) {
+  auto [exist, model] = shop::get_model_by_shop_id(shop_id);
+
+  if (!exist) {
     return false;
   }
-  if(model.type != ShopType::SHOP) {
+
+  if (model.type != ShopType::SHOP) {
     return false;
   }
-  if(player_info.money < model.sell_price or player_info.holding_item_id) {
+
+  if (player_info.money < model.sell_price or player_info.is_holding_item) {
     return false;
   }
 

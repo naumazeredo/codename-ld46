@@ -1,10 +1,11 @@
-#include <imgui.h>
-#include <string>
-#include <iostream>
-#include <chrono>
-#include <ctime>
-
 #include "game.h"
+
+#include <cstdio>
+#include <string>
+#include <chrono>
+
+#include <imgui.h>
+
 #include "externs.h"
 
 GameInfo game_info;
@@ -22,10 +23,10 @@ void debug_window() {
     switch (game_info.current_state) {
       case GameState::RUNNING:
         game_state_text = "running";
-        break;
+      break;
       case GameState::GAME_OVER:
         game_state_text = "game over";
-        break;
+      break;
     }
 
     game_state_text = "Game State: " + game_state_text;
@@ -39,17 +40,16 @@ void debug_window() {
 }
 
 void on_game_over_debug() {
-  std::cout << "game over!" ;
+  printf("game over!");
 }
 
 void setup() {
-  srand(time(0));
   game_info.rand = std::mt19937_64(std::chrono::system_clock::now().time_since_epoch().count());
   game_info.last_wave_cnt = 0;
   game_info.wave_enemy_increase = 1;
   game_info.wave_time = 2.0f;
   game_info.wave_remaining_time = game_info.wave_time;
-  
+
   game_info.spawn_pool.push_back({0, SCREEN_HEIGHT / 2.0f - 25, 50, 50});
   game_info.spawn_pool.push_back({SCREEN_WIDTH - 50, SCREEN_HEIGHT / 2.0f - 25, 50, 50});
   game_info.spawn_pool.push_back({SCREEN_WIDTH / 2.0f - 25, 0, 50, 50});

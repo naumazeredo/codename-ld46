@@ -34,6 +34,7 @@ extern EnemyInfo enemy_info;
 extern ShopInfo shop_info;
 extern ShopPlaceInfo shop_place_info;
 extern KingInfo king_info;
+extern GameInfo game_info;
 
 //TODO(Luciano): make this the right pattern
 extern animation::System animation_system;
