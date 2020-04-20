@@ -1,33 +1,46 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include "types.h"
 #include "geom.h"
 
-enum ShopState {CLOSED, OPEN};
+enum class ShopType {SHOP, FACTORY};
 
-struct Shop {
-  geom::Point center;
-  geom::Rect collider, trigger;
+struct ShopModel {
+	ShopType type;
+  u32 texture;
+  u32 w, h;
+  u32 item;
 
-  ShopState state;
-
-  u32 textures[2];
-
-  Shop(geom::Point p, geom::Rect c, geom::Rect t);
-
-  void sell();
+  union {
+    struct {
+      u32 sell_price;
+    };
+    struct {
+      u32 make_rate;
+    };
+  };
 };
 
-struct ShopsInfo {
-    std::vector<Shop> shops;
+struct Shop {
+  u32 id;
+  u32 model;
+};
+
+struct ShopInfo {
+  u32 id_count;
+  std::vector<ShopModel> shop_models;
+  std::map<u32, Shop> shops;
 };
 
 namespace shop {
 
 void setup();
 void update();
+
+u32 create_shop(u32 model);
 
 } // namespace shop
 

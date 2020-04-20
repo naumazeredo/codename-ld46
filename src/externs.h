@@ -13,6 +13,7 @@
 #include "enemy.h"
 #include "geom.h"
 #include "game.h"
+#include "shop_place.h"
 
 extern TimeInfo time_info;
 extern RenderInfo render_info;
@@ -20,6 +21,7 @@ extern AudioInfo audio_info;
 extern InputInfo input_info;
 extern PlayerInfo player_info;
 extern DebugInfo debug_info;
-extern ShopsInfo shops_info;
 extern ItemInfo item_info;
 extern EnemyInfo enemy_info;
+extern ShopInfo shop_info;
+extern ShopPlaceInfo shop_place_info;

@@ -10,6 +10,7 @@ enum ItemType {
   FOOD,
   TRAP,
   TURRET,
+  SHOP
 };
 
 struct ItemModel {
@@ -24,6 +25,9 @@ struct ItemModel {
     struct {
       u8 damage;
       f64 fire_rate;
+    };
+    struct {
+      u32 shop_model;
     };
   };
 };
@@ -48,12 +52,11 @@ void setup();
 float dist_to_item(geom::Point position, u32 item);
 u32 closest_item(geom::Point position);
 u32 create_item(u32 model, geom::Point position);
+bool destroy_item(u32 id);
 
 bool exists_item(u32 id);
 bool update_position(u32 id, geom::Point position);
 
-u32 create_item(u32 model, geom::Point position);
-bool update_position(u32 id, geom::Point position);
 void update();
 void render();
 

@@ -49,7 +49,7 @@ void setup() {
   ItemModel tmp;
 
   tmp.type = FOOD;
-  tmp.texture = render::load_image("assets/gfx/template-32x32-up.png");
+  tmp.texture = render::load_image("assets/gfx/food-32x32-for-replace.png");
   tmp.w = 30;
   tmp.h = 30;
   tmp.hunger_count = 5;
@@ -68,6 +68,13 @@ void setup() {
   tmp.h = 30;
   tmp.damage = 10;
   tmp.fire_rate = 0.1; // Shots Per Second
+  item_info.models.push_back(tmp);
+
+  tmp.type = SHOP;
+  tmp.texture = render::load_image("assets/gfx/temp-shop-top.png");
+  tmp.w = 40;
+  tmp.h = 30;
+  tmp.shop_model = 0;
   item_info.models.push_back(tmp);
 }
 
@@ -119,6 +126,8 @@ float dist_to_item(geom::Point position, u32 item) {
 }
 
 u32 closest_item(geom::Point position) {
+  if(item_info.items.empty())
+    return 0;
   u32 ans = item_info.items.begin()->first;
   float dist = dist_to_item(position, item_info.items.begin()->first);
 

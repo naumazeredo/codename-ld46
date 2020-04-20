@@ -16,22 +16,17 @@ void setup() {
 void update() {
   f64 delta_time = game_time::get_frame_duration();
 
-  for (auto& shop : shops_info.shops) {
-    if (geom::point_inside_rect(player_info.position, shop.collider)) {
-      geom::Point out_right = { shop.center.x + shop.collider.width / 2 - player_info.position.x, 0 };
-      geom::Point out_left = { shop.center.x - shop.collider.width / 2 - player_info.position.x, 0 };
-      geom::Point out_up = { 0, shop.center.y + shop.collider.height / 2 - player_info.position.y };
-      geom::Point out_down = { 0, shop.center.y - shop.collider.height / 2 - player_info.position.y };
+  for (auto& shop_place : shop_place_info.shop_places) {
+    if (geom::point_inside_rect(player_info.position, shop_place.collider)) {
+      geom::Point out_right = { shop_place.collider.center.x + shop_place.collider.width / 2 - player_info.position.x, 0 };
+      geom::Point out_left = { shop_place.collider.center.x - shop_place.collider.width / 2 - player_info.position.x, 0 };
+      geom::Point out_up = { 0, shop_place.collider.center.y + shop_place.collider.height / 2 - player_info.position.y };
+      geom::Point out_down = { 0, shop_place.collider.center.y - shop_place.collider.height / 2 - player_info.position.y };
 
       geom::Point escape = geom::min_abs_point({out_right, out_left, out_up, out_down});
 
       player_info.position += escape;
     }
-  }
-  for (auto& shop : shops_info.shops) {
-    shop.state = geom::point_inside_rect(player_info.position, shop.trigger)
-      ? OPEN 
-      : CLOSED;
   }
 }
 

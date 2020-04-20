@@ -33,6 +33,7 @@ void setup() {
   enemy::setup();
   player::setup();
   shop::setup();
+  shop_place::setup();
   physics::setup();
   game::setup();
 
@@ -51,7 +52,7 @@ void load_audio() {
 }
 
 void test_setup() {
-  item::create_item(1, { 700.0, 100.0 });
+  item::create_item(3, { 700.0, 100.0 });
 }
 
 void run() {
@@ -87,7 +88,6 @@ void run() {
 
     input::handle_input();
 
-    shop::update();
     player::update();
     item::update();
     enemy::update();
@@ -98,6 +98,7 @@ void run() {
     player::render();
     item::render();
     game::render();
+    shop_place::render();
 
     // Rendering
     render::render();
