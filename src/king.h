@@ -14,7 +14,7 @@ using Callback = std::function<void(void)>;
 struct KingInfo {
   f64 health;
   geom::Point position;
-  TextureCode texture;
+  geom::Point texture_pivot;
 
   int w, h;
 

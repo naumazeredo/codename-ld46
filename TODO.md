@@ -3,11 +3,12 @@
 ## Game
 
 - [ ] Terrain
-  - [ ] Position king
+  - [x] Position king
   - [x] Position shop places
   - [ ] Position enemies spawn points
   - [ ] Position out-of-bounds
   - [ ] Position colliders
+  - [ ] Position king rock
 
 ### Logic
 
