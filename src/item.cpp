@@ -78,17 +78,6 @@ void setup() {
   tmp.h = 30;
   item_info.models.push_back(tmp);
 
-  tmp.type = ItemType::TURRET;
-  tmp.texture = TextureCode::TEX_TURRET;
-  tmp.shadow = TextureCode::INVALID;
-  tmp.animation_set_id = -1;
-  tmp.w = 40;
-  tmp.h = 30;
-  tmp.damage = 1;
-  tmp.action_rate = 1; // Shots Per Second
-  tmp.action_range = 70;
-  item_info.models.push_back(tmp);
-
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_SHOP;
   tmp.shadow = TextureCode::INVALID;
@@ -105,6 +94,14 @@ void setup() {
   tmp.w = 40;
   tmp.h = 30;
   tmp.shop_model_id = 1;
+  item_info.models.push_back(tmp);
+
+  tmp.type = ItemType::UNPICKABLE;
+  tmp.texture = TextureCode::TEX_LOG;
+  tmp.shadow = TextureCode::TEX_LOG_SHADOW;
+  tmp.animation_set_id = -1;
+  tmp.w = 64;
+  tmp.h = 64;
   item_info.models.push_back(tmp);
 
   auto spike_animation = animation::generate_animation_from_files(
@@ -131,12 +128,26 @@ void setup() {
   tmp.damage = 10;
   item_info.models.push_back(tmp);
 
-  tmp.type = ItemType::UNPICKABLE;
-  tmp.texture = TextureCode::TEX_LOG;
-  tmp.shadow = TextureCode::TEX_LOG_SHADOW;
-  tmp.animation_set_id = -1;
-  tmp.w = 64;
-  tmp.h = 64;
+  auto turret_animation = animation::generate_animation_from_files(
+    "assets/gfx/animations/turret_shooting",
+    3
+  );
+
+  tmp.w = 32;
+  tmp.h = 32;
+
+  rect = geom::Rect{0, 0, (f32) tmp.w, (f32) tmp.h};
+  animations = {turret_animation};
+  set = {animations};
+
+  animation_set_id = animation::add_animation_set(set);
+
+  tmp.type = ItemType::TURRET;
+  tmp.animation_set_id = animation_set_id;
+  tmp.shadow = TextureCode::INVALID;
+  tmp.damage = 1;
+  tmp.action_rate = 1; // Shots Per Second
+  tmp.action_range = 70;
   item_info.models.push_back(tmp);
 }
 
