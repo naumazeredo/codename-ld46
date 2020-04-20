@@ -37,6 +37,7 @@ void setup() {
 
   texture::load();
 
+  bound::setup();
   item::setup();
   player::setup();
   king::setup();

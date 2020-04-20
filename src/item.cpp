@@ -111,10 +111,12 @@ void setup() {
   tmp.animation_set_id = -1;
   tmp.w = 64;
   tmp.h = 64;
+  tmp.texture_pivot_x = -(32);
+  tmp.texture_pivot_y = -(5);
   item_info.models.push_back(tmp);
 
   create_logs_line(item_info.models.size() - 1, {939, 456}, 1, 1);
-  create_logs_line(item_info.models.size() - 1, {950, 230}, 1, -1);
+  create_logs_line(item_info.models.size() - 1, {935, 230}, 1, -1);
   create_logs_line(item_info.models.size() - 1, {362, 456}, -1, 1);
   create_logs_line(item_info.models.size() - 1, {362, 230}, -1, -1);
 
@@ -355,6 +357,9 @@ u32 create_item(u32 model_id, geom::Point position) {
 }
 
 void create_logs_line(u32 model_id, geom::Point base, int x_dir, int y_dir) {
+
+  geom::Polygon bound;
+
   x_dir /= abs(x_dir);
   y_dir /= abs(y_dir);
   std::vector<geom::Point> tmp;
@@ -369,16 +374,26 @@ void create_logs_line(u32 model_id, geom::Point base, int x_dir, int y_dir) {
   for(auto &p: tmp) p.y *= y_dir;
   for(auto &p: tmp) p.x *= x_dir;
 
-  create_item(item_info.models.size()-1, base);
-  for(auto p: tmp) create_item(item_info.models.size() - 1, base + p);
-  base += tmp.back();
-  for(auto p: tmp) create_item(item_info.models.size() - 1, base + p);
+  create_item(model_id, base);
 
-  create_item(item_info.models.size()-1, base);
-  for(auto &p: tmp) p.y = -p.y;
-  for(auto p: tmp) create_item(item_info.models.size() - 1, base + p);
+  bound.push_back({base.x, base.y + y_dir*200});
+  bound.push_back(base);
+
+  for(auto p: tmp) create_item(model_id, base + p);
+
   base += tmp.back();
-  for(auto p: tmp) create_item(item_info.models.size() - 1, base + p);
+
+  for(auto p: tmp) create_item(model_id, base + p);
+
+  auto aux = base + tmp.back();
+  bound.push_back(aux);
+  bound.push_back({aux.x, aux.y + y_dir*200});
+
+  if(y_dir != x_dir) reverse(bound.begin(), bound.end());
+  bound_info.bounds.push_back(bound);
+
+  for(auto &p: tmp) p.y = -p.y;
+  for(auto p: tmp) create_item(model_id, base + p);
 }
 
 void render() {
