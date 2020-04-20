@@ -13,8 +13,8 @@
 
 - [ ] King
   - [x] Basic structure
-  - [ ] Feed
-  - [ ] Die
+  - [x] Feed
+  - [x] Die
 
 - [ ] Shops / Factories
   - [ ] Money

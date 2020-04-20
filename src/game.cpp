@@ -66,9 +66,17 @@ void update() {
 void take_damage(f64 damage) {
   game_info.king_health -= damage;
 
-    for (auto callback : game_info.on_damage_taken){
-      callback();
-    }
+  for (auto callback : game_info.on_damage_taken){
+    callback();
+  }
+}
+
+void feed_king(f64 amount){
+  game_info.king_health += amount;
+
+  for (auto callback : game_info.on_feed_king){
+    callback();
+  }
 }
 
 void render() {

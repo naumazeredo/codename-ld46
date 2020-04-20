@@ -28,6 +28,7 @@ struct GameInfo {
 
   std::vector<Callback> on_game_over;
   std::vector<Callback> on_damage_taken;
+  std::vector<Callback> on_feed_king;
 };
 
 namespace game {
@@ -35,4 +36,5 @@ namespace game {
   void update();
   void render();
   void take_damage(f64);
+  void feed_king(f64);
 }
