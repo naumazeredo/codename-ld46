@@ -114,9 +114,9 @@ void setup() {
   item_info.models.push_back(tmp);
 
   create_logs_line(item_info.models.size() - 1, {939, 456}, 1, 1);
-  create_logs_line(item_info.models.size() - 1, {963, 235}, 1, -1);
+  create_logs_line(item_info.models.size() - 1, {950, 230}, 1, -1);
   create_logs_line(item_info.models.size() - 1, {362, 456}, -1, 1);
-  create_logs_line(item_info.models.size() - 1, {341, 240}, -1, -1);
+  create_logs_line(item_info.models.size() - 1, {362, 230}, -1, -1);
 
   tmp.type = ItemType::UNPICKABLE;
   tmp.texture = TextureCode::TEX_KING_ROCK;
