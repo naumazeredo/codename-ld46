@@ -329,7 +329,7 @@ void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, s32 z, Color tint, bool 
   auto& draw_start_element = render_info.draw_start_element;
   auto& draw_count_element = render_info.draw_count_element;
 
-  draw_texture.push_back((u32)tex);
+  draw_texture.push_back(tex);
   draw_count_element.push_back(6);
 
   if (draw_start_element.empty()) {

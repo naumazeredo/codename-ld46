@@ -136,7 +136,7 @@ void run() {
     shop_place::render();
     animation::render();
 
-    render::add_to_render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, bg_tex, -999999);
+    render::add_to_render(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, bg_tex, 9999999);
 
     // Rendering
     render::render();

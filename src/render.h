@@ -35,7 +35,7 @@ struct RenderInfo {
   std::vector<f32> uv_buffer;
   std::vector<GLuint> element_buffer;
 
-  std::vector<u32> order;
+  std::vector<s32> order;
 
   // draw call
   std::vector<u32> draw_texture;
