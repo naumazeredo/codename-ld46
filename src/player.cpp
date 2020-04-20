@@ -71,10 +71,13 @@ void use_item() {
 
 void item_interaction() {
   if(item::item_exists(player_info.item)) {
-    if(item_info.models[item_info.items[player_info.item].model].type == SHOP)
-      use_item();
-    else
-      drop_item();
+    auto [found_model, model] = item::get_model_by_item_id(player_info.item);
+    if(found_model) {
+      if(model.type == SHOP) 
+        use_item();
+      else
+        drop_item();
+    }
   }
   else {
     geom::Point position = player_info.position;

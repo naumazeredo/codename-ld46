@@ -50,6 +50,9 @@ namespace item {
 
 void setup();
 
+std::tuple<bool, ItemModel> get_model_by_item_id(u32 item_id);
+std::tuple<bool, Item> get_item_by_id(u32 id);
+
 float dist_to_item(geom::Point position, u32 item);
 u32 closest_item(geom::Point position);
 u32 create_item(u32 model, geom::Point position);

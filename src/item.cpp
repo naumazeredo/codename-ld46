@@ -78,6 +78,25 @@ void setup() {
   item_info.models.push_back(tmp);
 }
 
+std::tuple<bool, ItemModel> get_model_by_item_id(u32 item_id) {
+  auto [item_found, item] = get_item_by_id(item_id);
+  if (!item_found) {
+    return {false, {}};
+  }
+  u32 item_model_id = item.model;
+  if(item_model_id >= item_info.models.size()) {
+    return {false, {}};
+  }
+  return {true, item_info.models[item_model_id]};
+}
+
+std::tuple<bool, Item> get_item_by_id(u32 id) {
+  if(!item_info.items.count(id)) {
+    return {false, {}};
+  }
+  return {true, item_info.items[id]};
+}
+
 bool item_exists(u32 id) {
   if (item_info.items.find(id) == item_info.items.end()) return false;
   return true;
@@ -185,4 +204,4 @@ void render() {
   }
 }
 
-}
+} // namespace item
