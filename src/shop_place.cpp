@@ -80,7 +80,7 @@ void render() {
 u32 create_shop_place(geom::Point center, u32 w, u32 h) {
   ShopPlace shop_place;
 
-  shop_place.texture = TextureCode::TEX_BLANK;
+  shop_place.texture = TextureCode::TEX_CONSTRUCTION_SITE;
   shop_place.center = center;
   shop_place.w = w;
   shop_place.h = h;
