@@ -64,9 +64,26 @@ std::pair<bool, u32> closest_enemy_in(geom::Point position, f64 range) {
   return { found_enemy, enemy_id };
 }
 
-bool hit_enemy(u32 id, u32 damage) {
+bool enemy_exists(u32 id) {
   if(enemy_info.enemies.find(id) == enemy_info.enemies.end()) return false;
+  return true;
+}
 
+bool try_destroy_enemy(u32 id) {
+  if(!enemy_exists(id)) return false;
+  enemy_info.enemies.erase(id);
+
+  return true;
+}
+
+bool try_hit_enemy(u32 id, u32 damage) {
+  if(!enemy_exists(id)) return false;
+
+  if(enemy_info.enemies[id].health <= damage) {
+    try_destroy_enemy(id);
+    return true;
+  }
+  
   enemy_info.enemies[id].health -= damage;
   return true;
 }

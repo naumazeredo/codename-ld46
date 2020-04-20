@@ -70,7 +70,7 @@ void use_item() {
 }
 
 void item_interaction() {
-  if(item::exists_item(player_info.item)) {
+  if(item::item_exists(player_info.item)) {
     if(item_info.models[item_info.items[player_info.item].model].type == SHOP)
       use_item();
     else

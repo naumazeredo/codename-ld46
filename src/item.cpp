@@ -66,7 +66,7 @@ void setup() {
   tmp.texture = TEX_TURRET;
   tmp.w = 40;
   tmp.h = 30;
-  tmp.damage = 10;
+  tmp.damage = 1;
   tmp.fire_rate = 1; // Shots Per Second
   item_info.models.push_back(tmp);
 
@@ -78,19 +78,19 @@ void setup() {
   item_info.models.push_back(tmp);
 }
 
-bool exists_item(u32 id) {
+bool item_exists(u32 id) {
   if (item_info.items.find(id) == item_info.items.end()) return false;
   return true;
 }
 
 bool destroy_item(u32 id) {
-  if (!exists_item(id)) return false;
+  if (!item_exists(id)) return false;
   item_info.items.erase(id);
   return true;
 }
 
 bool update_position(u32 id, geom::Point position) {
-  if (!exists_item(id)) return false;
+  if (!item_exists(id)) return false;
 
   Item &item = item_info.items[id];
 
@@ -99,14 +99,14 @@ bool update_position(u32 id, geom::Point position) {
 }
 
 bool hold_item(u32 id) {
-  if (!exists_item(id) || item_info.items[id].being_held) return false;
+  if (!item_exists(id) || item_info.items[id].being_held) return false;
   item_info.items[id].being_held = true;
 
   return true;
 }
 
 bool drop_item(u32 id) {
-  if (!exists_item(id) || !item_info.items[id].being_held) return false;
+  if (!item_exists(id) || !item_info.items[id].being_held) return false;
   item_info.items[id].being_held = false;
 
   return true;
@@ -119,7 +119,7 @@ void update() {
     const auto &item_model = item_info.models[item.model];
     if (item_model.type == TRAP) {
       auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 15);
-      if (has_enemy && enemy::hit_enemy(enemy_id, item_model.damage)) {
+      if (has_enemy && enemy::try_hit_enemy(enemy_id, item_model.damage)) {
         destroy_item(item_id);
       }
     }
@@ -133,7 +133,7 @@ void update() {
 
       auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 70);
       if (has_enemy)
-        enemy::hit_enemy(enemy_id, item_model.damage);
+        enemy::try_hit_enemy(enemy_id, item_model.damage);
     }
   }
 }

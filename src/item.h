@@ -55,7 +55,7 @@ u32 closest_item(geom::Point position);
 u32 create_item(u32 model, geom::Point position);
 bool destroy_item(u32 id);
 
-bool exists_item(u32 id);
+bool item_exists(u32 id);
 bool update_position(u32 id, geom::Point position);
 
 void update();
