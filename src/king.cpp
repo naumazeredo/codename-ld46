@@ -7,12 +7,13 @@ KingInfo king_info;
 namespace king {
 
 void debug_window() {
-  if (ImGui::CollapsingHeader("king")) {
+  if (ImGui::TreeNode("King")) {
     ImGui::InputFloat("x", &king_info.position.x, 1.0f, 10.0f);
     ImGui::InputFloat("y", &king_info.position.y, 1.0f, 10.0f);
     ImGui::InputInt("w", &king_info.w);
     ImGui::InputInt("h", &king_info.h);
-    //ImGui:: enum
+
+    ImGui::TreePop();
   }
 }
 void setup() {

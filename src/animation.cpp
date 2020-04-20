@@ -46,7 +46,7 @@ namespace animation {
   }
 
   void debug_animation() {
-    auto animation = generate_animation_from_files("assets/gfx/animations/goose", {{0,0}, 84,84}, 4);
+    auto animation = generate_animation_from_files("assets/gfx/animations/goose", {0, 0, 84, 84}, 4);
     std::vector<Animation> animations{animation};
     AnimationSet set{animations, 0};
 
@@ -58,11 +58,13 @@ namespace animation {
       auto animation_id = animation_set.current_animation;
       auto& animation = animation_set.animations[animation_id];
 
-      render::add_to_render(animation.rect.center.x,
-          animation.rect.center.y,
-          animation.rect.width,
-          animation.rect.height,
-          animation.frames[animation.current_frame].texture_id);
+      render::add_to_render(
+        animation.rect.x,
+        animation.rect.y,
+        animation.rect.w,
+        animation.rect.h,
+        animation.frames[animation.current_frame].texture_id
+      );
     }
   }
 

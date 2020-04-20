@@ -1,6 +1,6 @@
 #include "geom.h"
 
-namespace geom{
+namespace geom {
 
 Point::Point(): x(0), y(0) {}
 Point::Point(float x, float y): x(x), y(y) {}
@@ -12,16 +12,26 @@ Point Point::operator-(Point p) const { return Point(x-p.x, y-p.y); }
 Point& Point::operator-=(Point p) { *this = Point(x-p.x, y-p.y); return *this; }
 
 bool point_inside_rect(Point p, Rect r) {
-    return p.x <= r.center.x + r.width / 2 and
-           p.x >= r.center.x - r.width / 2 and
-           p.y <= r.center.y + r.height / 2 and
-           p.y >= r.center.y - r.height / 2;
+    return p.x <= r.x + r.w and
+           p.x >= r.x and
+           p.y <= r.y + r.h and
+           p.y >= r.y;
 }
 
 /*
 bool point_inside_polygon(const Point p, const Polygon& polygon) {
 }
 */
+
+Point resolve_collision(Point p, Rect r) {
+  Point out_right = { r.x + r.w - p.x, 0 };
+  Point out_left  = { r.x - p.x,       0 };
+  Point out_up    = { 0, r.y + r.h - p.y };
+  Point out_down  = { 0, r.y - p.y       };
+
+  Point diff = min_abs_point({out_right, out_left, out_up, out_down});
+  return p + diff;
+}
 
 Point min_abs_point(Point a, Point b) { return a.abs() - b.abs() > EPS ? b : a; }
 

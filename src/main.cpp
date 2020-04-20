@@ -40,7 +40,6 @@ void setup() {
 
   texture::load();
 
-  animation::debug_animation();
   load_audio();
 
 }
@@ -55,6 +54,9 @@ void test_setup() {
   item::create_item(3, { 800.0, 100.0 });
   item::create_item(1, { 700.0, 100.0 });
   item::create_item(2, { 700.0, 600.0 });
+
+  animation::debug_animation();
+
 }
 
 void run() {

@@ -11,11 +11,13 @@ void debug_window() {
   if (ImGui::TreeNode("Enemy")) {
     ImGui::SliderFloat("tx", &enemy_info.target.x, 0, SCREEN_WIDTH);
     ImGui::SliderFloat("ty", &enemy_info.target.y, 0, SCREEN_HEIGHT);
-    if(ImGui::CollapsingHeader("Enemies")) {
+    if(ImGui::TreeNode("Enemies")) {
       for(auto &[enemy_id, enemy] : enemy_info.enemies) {
         std::string text = std::to_string(enemy_id) + " - Health: " + std::to_string(enemy.health);
         ImGui::Text(text.c_str());
       }
+
+      ImGui::TreePop();
     }
 
     ImGui::TreePop();
@@ -44,19 +46,22 @@ void update() {
   }
 }
 
-u32 closest_enemy_in(geom::Point position, f64 range) {
+std::pair<bool, u32> closest_enemy_in(geom::Point position, f64 range) {
   u32 enemy_id = -1;
   f64 smallest_distance = range + geom::EPS;
 
+  bool found_enemy = false;
   for(const auto &[e_id, e] : enemy_info.enemies) {
     f64 distance = (e.position - position).abs();
     if(distance < smallest_distance) {
       enemy_id = e_id;
       smallest_distance = distance;
+
+      found_enemy = true;
     }
   }
 
-  return enemy_id;
+  return { found_enemy, enemy_id };
 }
 
 bool hit_enemy(u32 id, u32 damage) {

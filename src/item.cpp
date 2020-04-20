@@ -118,8 +118,8 @@ void update() {
 
     const auto &item_model = item_info.models[item.model];
     if (item_model.type == TRAP) {
-      u32 enemy_id = enemy::closest_enemy_in(item.position, 15);
-      if (enemy_id >= 0 && enemy::hit_enemy(enemy_id, item_model.damage)) {
+      auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 15);
+      if (has_enemy && enemy::hit_enemy(enemy_id, item_model.damage)) {
         destroy_item(item_id);
       }
     }
@@ -131,8 +131,9 @@ void update() {
 
       item.last_action_time = current_time;
 
-      u32 enemy_id = enemy::closest_enemy_in(item.position, 70);
-      enemy_id >= 0 && enemy::hit_enemy(enemy_id, item_model.damage);
+      auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 70);
+      if (has_enemy)
+        enemy::hit_enemy(enemy_id, item_model.damage);
     }
   }
 }

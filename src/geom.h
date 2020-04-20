@@ -32,8 +32,7 @@ struct Point {
 };
 
 struct Rect {
-  Point center;
-  float width, height;
+  f32 x, y, w, h;
 };
 
 struct Polygon {
@@ -42,6 +41,8 @@ struct Polygon {
 
 bool point_inside_rect(Point p, Rect r);
 bool point_inside_polygon(const Point p, const Polygon& polygon);
+
+Point resolve_collision(Point p, Rect r);
 
 Point min_abs_point(Point a, Point b);
 Point min_abs_point(std::vector<Point> points);

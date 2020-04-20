@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <map>
+#include <utility>
 
 #include "types.h"
 #include "geom.h"
@@ -25,7 +26,8 @@ void setup();
 void render();
 void update();
 void spawn_enemy(geom::Point position, u32 health, u32 speed);
-u32 closest_enemy_in(geom::Point position, f64 range);
 bool hit_enemy(u32 id, u32 damage);
+
+std::pair<bool, u32> closest_enemy_in(geom::Point position, f64 range);
 
 }
