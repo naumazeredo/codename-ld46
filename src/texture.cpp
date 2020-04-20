@@ -16,7 +16,7 @@ void load() {
   render::load_image("assets/gfx/store_trap.png");
   render::load_image("assets/gfx/temp-candy.png");
   render::load_image("assets/gfx/temp-coin.png");
-  render::load_image("assets/gfx/temp-factory.png");
+  render::load_image("assets/gfx/candy_factory.png");
   render::load_image("assets/gfx/log.png");
   render::load_image("assets/gfx/log-shadow.png");
   render::load_image("assets/gfx/king-rock.png");

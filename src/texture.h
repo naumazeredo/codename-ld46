@@ -1,7 +1,7 @@
 #pragma once
 
 enum class TextureCode {
-  TEX_BLANK,
+  TEX_BLANK = 0,
   TEX_ARROW_UP,
   TEX_ARROW_DOWN,
   TEX_ARROW_LEFT,
