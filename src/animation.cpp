@@ -3,105 +3,138 @@
 #include <stdio.h>
 #include "render.h"
 
-animation::System animation_system;
+AnimationInfo animation_info;
 
 namespace animation {
-  void update_animation(Animation& animation, u32 set_id, u32 animation_id,f32 dt){
-    if (!animation.is_looping &&
-        animation.n_of_replays >= animation.max_replays) return;
 
-    auto& current_frame = animation.frames[animation.current_frame];
+namespace { // internal
 
-    animation.frame_time += dt;
-    if (animation.frame_time > current_frame.duration) {
-      animation.frame_time -= current_frame.duration;
-      animation.current_frame = (animation.current_frame + 1) % animation.frames.size();
-      animation.n_of_replays += 1;
+void update_instance(u32 id, f64 dt){
+  if (!animation_info.instances.count(id)) {
+    printf("[error] animation instance not found!\n");
+    return;
+  }
 
-      if (animation.n_of_replays == animation.max_replays) {
-        for (auto callback : animation_system.on_animation_ended) {
-          callback(set_id, animation_id);
-        }
+  AnimationInstance& instance = animation_info.instances[id];
+  AnimationSet& animation_set = animation_info.animation_sets[instance.animation_set_id];
+  Animation& animation = animation_set.animations[instance.current_animation];
+
+  if (!instance.is_looping &&
+      instance.n_of_replays >= animation.max_replays) return;
+
+  auto& current_frame = animation.frames[instance.current_frame];
+
+  instance.frame_time += dt;
+  if (instance.frame_time > current_frame.duration) {
+    instance.frame_time -= current_frame.duration;
+    instance.current_frame = (instance.current_frame + 1) % animation.frames.size();
+    instance.n_of_replays += 1;
+
+    if (instance.n_of_replays == animation.max_replays) {
+      for (auto callback : animation_info.on_animation_ended) {
+        callback(instance.animation_set_id, instance.current_animation);
       }
     }
   }
+}
 
-  void set_animation_pos(u32 set_id, f32 x, f32 y, f32 w, f32 h, s32 z, bool flip_horizontal) {
-    animation_system.animations_sets[set_id].rect.x = x;
-    animation_system.animations_sets[set_id].rect.y = y;
-    animation_system.animations_sets[set_id].rect.w = w;
-    animation_system.animations_sets[set_id].rect.h = h;
-    animation_system.animations_sets[set_id].z = z;
-    animation_system.animations_sets[set_id].flip_horizontal = flip_horizontal;
+}
+
+
+void update() {
+  auto dt = game_time::get_frame_duration();
+  for (auto& [id, instance] : animation_info.instances) {
+    update_instance(id, dt);
+  }
+}
+
+void render() {
+  for (auto& [id, instance] : animation_info.instances) {
+    auto animation_set = animation_info.animation_sets[instance.animation_set_id];
+    auto& animation = animation_set.animations[instance.current_animation];
+
+    render::add_to_render(
+      instance.rect.x - instance.rect.w/2,
+      instance.rect.y,
+      instance.rect.w,
+      instance.rect.h,
+      animation.frames[instance.current_frame].texture_id,
+      instance.z,
+      WHITE,
+      instance.flip_horizontal
+    );
+  }
+}
+
+Animation generate_animation_from_files(const char* prefix, u32 n_of_frames){
+  std::vector<Frame> frames;
+
+  u32 texture_id;
+  for (u32 i = 0 ; i < n_of_frames; i++){
+    char file_name[50];
+    sprintf(file_name, "%s_%d.png", prefix, i+1);
+    texture_id = render::load_image(file_name);
+
+    frames.push_back({texture_id, 0.2});
   }
 
-  void update() {
-    auto dt = game_time::get_frame_duration();
-    for (u32 i = 0; i < animation_system.animations_sets.size(); i++) {
-      auto& animation_set = animation_system.animations_sets[i];
-      auto animation_id = animation_set.current_animation;
-      auto& animation = animation_set.animations[animation_id];
-      update_animation(animation, i, animation_id, dt);
-    }
+  Animation animation;
+  animation.frames = frames;
+  animation.max_replays = 0;
+  return animation;
+}
+
+u32 add_animation_set(AnimationSet set) {
+  animation_info.animation_sets.push_back(set);
+  return animation_info.animation_sets.size() - 1;
+}
+
+u32 add_animation_instance(u32 animation_set_id, geom::Rect rect) {
+  u32 id = animation_info.instance_count;
+
+  AnimationInstance instance;
+  instance.id = id;
+  instance.animation_set_id = animation_set_id;
+  instance.current_animation = 0;
+  instance.current_frame = 0;
+  instance.n_of_replays = 0;
+  instance.frame_time = 0;
+  instance.z = 0;
+  instance.rect = rect;
+  instance.is_looping = true;
+  instance.flip_horizontal = false;
+
+  animation_info.instances[id] = instance;
+
+  animation_info.instance_count++;
+  return id;
+}
+
+void destroy_instance(u32 id) {
+  if (!animation_info.instances.count(id)) {
+    printf("[error] animation instance not found!\n");
+    return;
   }
 
-  Animation generate_animation_from_files(const char* prefix, u32 n_of_frames){
-    std::vector<Frame> frames;
+  animation_info.instances.erase(id);
+}
 
-    u32 texture_id;
-    for (u32 i = 0 ; i < n_of_frames; i++){
-      char file_name[50];
-      sprintf(file_name, "%s_%d.png", prefix, i+1);
-      texture_id = render::load_image(file_name);
-
-      frames.push_back({texture_id, 0.2});
-    }
-
-    Animation animation = {frames, 0.0, 0, 0, 0,  true};
-    return animation;
+void force_play(u32 instance_id, u32 animation_id){
+  if (!animation_info.instances.count(instance_id)) {
+    printf("[error] animation instance not found!\n");
+    return;
   }
 
-  void debug_animation() {
-    auto rect = geom::Rect{0, 0, 84, 84};
-    auto animation = generate_animation_from_files("assets/gfx/animations/goose", 4);
-    std::vector<Animation> animations{animation};
-    AnimationSet set{rect, animations, 0};
+  animation_info.instances[instance_id].current_animation = animation_id;
+}
 
-    add_animation_set(set);
-  }
+void set_animation_instance_pos(u32 id, f32 x, f32 y, f32 w, f32 h, s32 z, bool flip_horizontal) {
+  animation_info.instances[id].rect.x = x;
+  animation_info.instances[id].rect.y = y;
+  animation_info.instances[id].rect.w = w;
+  animation_info.instances[id].rect.h = h;
+  animation_info.instances[id].z = z;
+  animation_info.instances[id].flip_horizontal = flip_horizontal;
+}
 
-  void render() {
-    for (auto& animation_set : animation_system.animations_sets) {
-      auto animation_id = animation_set.current_animation;
-      auto& animation = animation_set.animations[animation_id];
-
-      if (animation_set.is_disabled) continue;
-
-      render::add_to_render(
-        animation_set.rect.x - animation_set.rect.w/2,
-        animation_set.rect.y,
-        animation_set.rect.w,
-        animation_set.rect.h,
-        animation.frames[animation.current_frame].texture_id,
-        animation_set.z,
-        WHITE,
-        animation_set.flip_horizontal
-      );
-    }
-  }
-
-  u32 add_animation_set(AnimationSet set) {
-    animation_system.animations_sets.push_back(set);
-    return animation_system.animations_sets.size() - 1;
-  }
-
-  void set_is_animation_disabled(u32 set_id, bool is_disabled) {
-    if(set_id >= animation_system.animations_sets.size()) return;
-    animation_system.animations_sets[set_id].is_disabled = is_disabled;
-  }
-
-  void force_play(u32 set_id,u32 animation_id){
-    if(set_id >= animation_system.animations_sets.size()) return;
-    animation_system.animations_sets[set_id].current_animation = animation_id;
-  }
 };

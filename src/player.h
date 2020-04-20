@@ -13,7 +13,7 @@ struct PlayerInfo {
   bool is_holding_item;
   u32 holding_item_id;
 
-  u32 animation_set_id;
+  u32 animation_instance_id;
 
   geom::Point position;
   geom::Point item_position;

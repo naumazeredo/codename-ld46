@@ -18,7 +18,7 @@ struct KingInfo {
 
   int w, h;
 
-  u32 animation_set_id;
+  u32 animation_instance_id;
 
   std::vector<Callback> on_damage_taken;
   std::vector<Callback> on_feed_king;

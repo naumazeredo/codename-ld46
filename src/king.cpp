@@ -2,8 +2,6 @@
 
 #include <algorithm>
 #include "externs.h"
-#undef min
-#undef max
 
 KingInfo king_info;
 
@@ -38,10 +36,12 @@ void setup() {
 
   auto rect = geom::Rect{0, 0, (f32) king_info.w, (f32) king_info.h};
 
-  std::vector<animation::Animation> animations{idle_animation};
-  animation::AnimationSet set{rect, animations, 0};
+  std::vector<Animation> animations{idle_animation};
+  AnimationSet set {animations};
 
-  king_info.animation_set_id = add_animation_set(set);
+  auto animation_instance_id = animation::add_animation_set(set);
+
+  king_info.animation_instance_id = animation::add_animation_instance(animation_instance_id, rect);
 }
 
 void take_damage(f64 damage) {
@@ -75,8 +75,8 @@ u32 get_health() {
 
 void update() {
   take_damage(game_time::get_frame_duration()*KING_HUNGER_RATE);
-  animation::set_animation_pos(
-      king_info.animation_set_id,
+  animation::set_animation_instance_pos(
+      king_info.animation_instance_id,
       king_info.position.x,
       king_info.position.y,
       (f32) king_info.w,

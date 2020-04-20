@@ -53,8 +53,7 @@ void load_audio() {
 
 void test_setup() {
   item::create_item(4, { 700.0, 100.0 });
-  
-  animation::debug_animation();
+  //animation::debug_animation();
 }
 
 void debug_window() {

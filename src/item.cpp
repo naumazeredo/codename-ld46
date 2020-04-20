@@ -64,7 +64,7 @@ void setup() {
 
   tmp.type = ItemType::CANDY;
   tmp.texture = TextureCode::TEX_CANDY;
-  tmp.animation_set_id = -1;
+  tmp.animation_instance_id = -1;
   tmp.w = 30;
   tmp.h = 30;
   tmp.hunger_count = 5;
@@ -78,7 +78,7 @@ void setup() {
 
   tmp.type = ItemType::TURRET;
   tmp.texture = TextureCode::TEX_TURRET;
-  tmp.animation_set_id = -1;
+  tmp.animation_instance_id = -1;
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 1;
@@ -88,7 +88,7 @@ void setup() {
 
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_SHOP;
-  tmp.animation_set_id = -1;
+  tmp.animation_instance_id = -1;
   tmp.w = 40;
   tmp.h = 30;
   tmp.shop_model_id = 0;
@@ -110,11 +110,13 @@ void setup() {
   tmp.h = 32;
 
   auto rect = geom::Rect{0, 0, (f32) tmp.w, (f32) tmp.h};
-  std::vector<animation::Animation> animations{spike_animation};
-  animation::AnimationSet set{rect, animations, 0};
+  std::vector<Animation> animations{spike_animation};
+  AnimationSet set {animations};
+
+  auto animation_instance_id = animation::add_animation_set(set);
 
   tmp.type = ItemType::TRAP;
-  tmp.animation_set_id = add_animation_set(set);
+  tmp.animation_instance_id = animation::add_animation_set(set);
 
   tmp.damage = 1;
   tmp.action_rate = 5;
@@ -152,8 +154,8 @@ bool item_exists(u32 id) {
 bool destroy_item(u32 id) {
   if (!item_exists(id)) return false;
 
-  auto set_id = item_info.models[item_info.items[id].model_id].animation_set_id;
-  animation::set_is_animation_disabled(set_id, true);
+  auto animation_instance_id = item_info.models[item_info.items[id].model_id].animation_instance_id;
+  animation::destroy_instance(animation_instance_id);
 
   item_info.items.erase(id);
   return true;
@@ -171,9 +173,9 @@ void update_render_info(u32 id) {
     else z = item.position.y;
   }
 
-  if (item_model.animation_set_id != -1) {
-    animation::set_animation_pos(
-      item_model.animation_set_id,
+  if (item_model.animation_instance_id != -1) {
+    animation::set_animation_instance_pos(
+      item_model.animation_instance_id,
       item.position.x,
       item.position.y,
       (f32) item_model.w,
@@ -278,7 +280,7 @@ u32 create_item(u32 model_id, geom::Point position) {
 void render() {
   for (auto [id, item]: item_info.items) {
     auto model = item_info.models[item.model_id];
-    if (model.animation_set_id == -1) {
+    if (model.animation_instance_id == -1) {
       auto z = (item.being_held ? player_info.position.y : item.position.y);
       render::add_to_render(item.position.x - model.w/2, item.position.y, model.w, model.h, model.texture, z);
     }

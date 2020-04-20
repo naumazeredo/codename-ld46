@@ -53,16 +53,17 @@ void setup() {
   );
   auto rect = geom::Rect{0, 0, (f32) player_info.w, (f32) player_info.h};
 
-  std::vector<animation::Animation> animations{idle_animation, walking_animation};
-  animation::AnimationSet set{rect, animations, 0};
+  std::vector<Animation> animations{idle_animation, walking_animation};
+  AnimationSet set {animations};
 
-  player_info.animation_set_id = add_animation_set(set);
+  auto animation_set_id = animation::add_animation_set(set); // @XXX(naum): why can we access without namespace??
+  player_info.animation_instance_id = animation::add_animation_instance(animation_set_id, rect);
 }
 
 void render() {
   auto flip_horizontal = player_info.dir_x == -1;
-  animation::set_animation_pos(
-      player_info.animation_set_id,
+  animation::set_animation_instance_pos(
+      player_info.animation_instance_id,
       player_info.position.x,
       player_info.position.y,
       (f32) player_info.w,
@@ -78,9 +79,9 @@ void update() {
   }
 
   if (player_info.dir_x || player_info.dir_y){
-    animation::force_play(player_info.animation_set_id, 1);
+    animation::force_play(player_info.animation_instance_id, 1);
   } else {
-    animation::force_play(player_info.animation_set_id, 0);
+    animation::force_play(player_info.animation_instance_id, 0);
   }
 }
 
