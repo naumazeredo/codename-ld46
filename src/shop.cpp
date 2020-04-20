@@ -64,8 +64,14 @@ void setup() {
   ShopModel tmp;
 
   tmp.type = ShopType::SHOP;
-  tmp.texture = TextureCode::TEX_SHOP;
-  tmp.item_model_id = 2;
+  tmp.texture = TextureCode::TEX_TRAP_SHOP;
+  tmp.item_model_id = 6;
+  tmp.sell_price = 10;
+  shop_info.models.push_back(tmp);
+
+  tmp.type = ShopType::SHOP;
+  tmp.texture = TextureCode::TEX_TURRET_SHOP;
+  tmp.item_model_id = 7;
   tmp.sell_price = 10;
   shop_info.models.push_back(tmp);
 

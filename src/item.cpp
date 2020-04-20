@@ -84,7 +84,7 @@ void setup() {
   item_info.models.push_back(tmp);
 
   tmp.type = ItemType::SHOP;
-  tmp.texture = TextureCode::TEX_SHOP;
+  tmp.texture = TextureCode::TEX_TRAP_SHOP;
   tmp.shadow = TextureCode::INVALID;
   tmp.texture_pivot_x = 20;
   tmp.texture_pivot_y = 10;
@@ -102,7 +102,7 @@ void setup() {
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
-  tmp.shop_model_id = 1;
+  tmp.shop_model_id = 2;
   item_info.models.push_back(tmp);
 
   tmp.type = ItemType::UNPICKABLE;
@@ -179,15 +179,16 @@ void setup() {
   tmp.action_range = 100;
   item_info.models.push_back(tmp);
 
-// tmp.type = ItemType::UNPICKABLE;
-// tmp.texture = TextureCode::TEX_LOG;
-// tmp.shadow = TextureCode::TEX_LOG_SHADOW;
-// tmp.texture_pivot_x = 32;
-// tmp.texture_pivot_y = 16;
-// tmp.animation_set_id = -1;
-// tmp.w = 64;
-// tmp.h = 64;
-// item_info.models.push_back(tmp);
+  tmp.type = ItemType::SHOP;
+  tmp.texture = TextureCode::TEX_TURRET_SHOP;
+  tmp.shadow = TextureCode::INVALID;
+  tmp.texture_pivot_x = 20;
+  tmp.texture_pivot_y = 10;
+  tmp.animation_set_id = -1;
+  tmp.w = 40;
+  tmp.h = 30;
+  tmp.shop_model_id = 1;
+  item_info.models.push_back(tmp);
 }
 
 std::tuple<bool, ItemModel> get_model_by_item_id(u32 item_id) {

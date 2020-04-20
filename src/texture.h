@@ -8,7 +8,7 @@ enum class TextureCode {
   TEX_ARROW_RIGHT,
   TEX_TRAP,
   TEX_TURRET,
-  TEX_SHOP,
+  TEX_TRAP_SHOP,
   TEX_CANDY,
   TEX_MONEY,
   TEX_FACTORY,
@@ -18,6 +18,7 @@ enum class TextureCode {
   TEX_KING_ROCK_SHADOW,
   TEX_CONSTRUCTION_SITE,
   // Add a new texture above this line
+  TEX_TURRET_SHOP,
   TEX_NUM_TEXTURES,
   INVALID
 };

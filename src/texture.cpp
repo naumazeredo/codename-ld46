@@ -22,6 +22,7 @@ void load() {
   render::load_image("assets/gfx/king-rock.png");
   render::load_image("assets/gfx/king-rock-shadow.png");
   render::load_image("assets/gfx/construction_site_1.png");
+  render::load_image("assets/gfx/store_turret.png");
 }
 
 }
