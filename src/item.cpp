@@ -246,8 +246,8 @@ void update_render_info(u32 id) {
   if (item.animation_instance_id != -1) {
     animation::set_animation_instance_pos(
       item.animation_instance_id,
-      item.position.x - item_model.texture_pivot_x,
-      item.position.y - item_model.texture_pivot_y,
+      item.position.x,
+      item.position.y,
       (f32) item_model.w,
       (f32) item_model.h,
       z,
