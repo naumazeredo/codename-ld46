@@ -49,17 +49,23 @@ struct ItemInfo {
 namespace item {
 
 void setup();
+void update();
+void render();
+void debug_window();
 
-float dist_to_item(geom::Point position, u32 item);
-u32 closest_item(geom::Point position);
+std::tuple<bool, ItemModel> get_model_by_item_id(u32 item_id);
+std::tuple<bool, Item> get_item_by_id(u32 id);
+
 u32 create_item(u32 model, geom::Point position);
 bool destroy_item(u32 id);
 
+float dist_to_item(geom::Point position, u32 item);
+u32 closest_item(geom::Point position); // @TODO(naum): return pattern std::tuple<bool, u32>
+
 bool item_exists(u32 id);
+
 bool update_position(u32 id, geom::Point position);
 
-void update();
-void render();
 bool hold_item(u32 id);
 bool drop_item(u32 id);
 

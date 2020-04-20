@@ -24,9 +24,13 @@ struct GameInfo {
 };
 
 namespace game {
-  void setup();
-  void update();
-  void render();
-  void take_damage(f64);
-  void feed_king(f64);
+
+void setup();
+void update();
+void render();
+void debug_window();
+
+void take_damage(f64);
+void feed_king(f64);
+
 }

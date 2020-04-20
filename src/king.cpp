@@ -23,10 +23,7 @@ void setup() {
   king_info.position = {(float) SCREEN_WIDTH/2 - king_info.w/2,
     (float) SCREEN_HEIGHT/2 - king_info.h/2};
   king_info.texture = TEX_ARROW_DOWN;
-
   enemy::set_target(king_info.position);
-
-  debug::add_window(debug_window);
 }
 
 void take_damage(f64 damage) {

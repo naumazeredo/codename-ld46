@@ -27,7 +27,6 @@ void debug_window() {
 }
 
 void setup() {
-  debug::add_window(debug_window);
   ShopPlace shop_place;
   shop_place.texture = TEX_BLANK;
   shop_place.trigger = { 3.0f * SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2.0f - 100, 200, 200};

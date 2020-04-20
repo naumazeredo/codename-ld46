@@ -15,10 +15,12 @@ Uint8 old_state[SDL_NUM_SCANCODES];
 
 void debug_window() {
   if (ImGui::TreeNode("Input")) {
-    ImGui::Text("U %d %d\n", old_state[input_info.direction_keys[0]], cur_state[input_info.direction_keys[0]]);
-    ImGui::Text("D %d %d\n", old_state[input_info.direction_keys[1]], cur_state[input_info.direction_keys[1]]);
-    ImGui::Text("L %d %d\n", old_state[input_info.direction_keys[2]], cur_state[input_info.direction_keys[2]]);
-    ImGui::Text("R %d %d\n", old_state[input_info.direction_keys[3]], cur_state[input_info.direction_keys[3]]);
+    ImGui::Text("U %d", cur_state[input_info.direction_keys[0]]);
+    ImGui::Text("D %d", cur_state[input_info.direction_keys[1]]);
+    ImGui::Text("L %d", cur_state[input_info.direction_keys[2]]);
+    ImGui::Text("R %d", cur_state[input_info.direction_keys[3]]);
+
+    ImGui::Text("action %d", cur_state[input_info.action_key]);
 
     ImGui::TreePop();
   }
@@ -31,8 +33,6 @@ void setup() {
   input_info.direction_keys[3] = SDL_SCANCODE_RIGHT;
 
   input_info.action_key = SDL_SCANCODE_SPACE;
-
-  debug::add_window(debug_window);
 }
 
 void handle_input() {
@@ -49,8 +49,8 @@ void handle_input() {
 
   for(int i = 0; i < NUM_DIRECTIONS; i++) {
     if(input::is_key_pressed(input_info.direction_keys[i])) {
-      player_info.position += geom::Point(dx[player_info.direction] * player_info.speed * delta_time,
-                                          dy[player_info.direction] * player_info.speed * delta_time);
+      player_info.position += geom::Point (dx[player_info.direction] * player_info.speed * delta_time,
+                                           dy[player_info.direction] * player_info.speed * delta_time);
       player_info.direction = (Direction) i;
     }
   }

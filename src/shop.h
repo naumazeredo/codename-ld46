@@ -42,5 +42,8 @@ void update();
 
 u32 create_shop(u32 model);
 
+std::tuple<bool, ShopModel> get_model_by_shop_id(u32 shop_id);
+std::tuple<bool, Shop> get_shop_by_id(u32 id);
+
 } // namespace shop
 

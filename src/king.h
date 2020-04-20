@@ -26,5 +26,6 @@ void take_damage(f64 damage);
 
 void setup();
 void render();
+void debug_window();
 
 }

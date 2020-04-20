@@ -3,18 +3,20 @@
 #include "types.h"
 #include "geom.h"
 
-struct PlayerInfo {
+const f32 PLAYER_HOLD_MAX_DIST = 40;
 
+struct PlayerInfo {
   Direction direction;
   u32 textures[NUM_DIRECTIONS];
-  u32 item;
+
+  bool is_holding_item;
+  u32 holding_item_id;
 
   geom::Point position;
   geom::Point item_position;
 
-  int w, h;
+  u32 w, h;
   int speed;
-  float item_max_dist;
 };
 
 namespace player {
@@ -22,6 +24,8 @@ namespace player {
 void setup();
 void render();
 void update();
-void item_interaction();
+void debug_window();
+
+void item_interaction(); // @TODO(naum): remove this. Do into some interaction system
 
 }

@@ -162,9 +162,6 @@ void setup_window() {
     fprintf(stderr, "Failed to initialize OpenGL loader!\n");
     exit(1);
   }
-
-  // add to debug
-  debug::add_window(debug_window);
 }
 
 //internal

@@ -6,7 +6,7 @@
 animation::System animation_system;
 
 namespace animation {
-  void update_animation(Animation& animation, f32 dt){
+  void update_animation(Animation& animation, u32 set_id, u32 animation_id,f32 dt){
     if (!animation.is_looping &&
         animation.n_of_replays >= animation.max_replays) return;
 
@@ -17,15 +17,22 @@ namespace animation {
       animation.frame_time -= current_frame.duration;
       animation.current_frame = (animation.current_frame + 1) % animation.frames.size();
       animation.n_of_replays += 1;
+
+      if (animation.n_of_replays == animation.max_replays) {
+        for (auto callback : animation_system.on_animation_ended) {
+          callback(set_id, animation_id);
+        }
+      }
     }
   }
 
   void update() {
     auto dt = game_time::get_frame_duration();
-    for (auto& animation_set : animation_system.animations_sets) {
+    for (u32 i = 0; i < animation_system.animations_sets.size(); i++) {
+      auto& animation_set = animation_system.animations_sets[i];
       auto animation_id = animation_set.current_animation;
       auto& animation = animation_set.animations[animation_id];
-      update_animation(animation, dt);
+      update_animation(animation, i, animation_id, dt);
     }
   }
 

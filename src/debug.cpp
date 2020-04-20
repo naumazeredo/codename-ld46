@@ -45,6 +45,9 @@ void add_window(DebugWindow window) {
 }
 
 void render(SDL_Window* window) {
+  if (!debug_info.show_window)
+    return;
+
   ImGuiIO& io = ImGui::GetIO();
 
   // Start the Dear ImGui frame

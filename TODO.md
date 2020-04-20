@@ -8,7 +8,6 @@
   - [x] Movement
   - [x] Item holding
   - [x] Item throwing (attacking = item throwing?)
-  - [ ] Building (barricade)
   - [ ] Attack enemies on interaction (idea)
 
 - [ ] King
@@ -20,11 +19,12 @@
   - [ ] Money
   - [ ] Buy item
   - [ ] Resolve collision on polygon
-  - [ ] Upgrade (which key? idea: dont have upgrades and always swap)
-  - [ ] Place shop
+  - [x] Place shop
+  - [~] (removed) Upgrade (which key? idea: dont have upgrades and always swap)
 
 - [ ] Enemies
   - [ ] Types of enemies
+  - [ ] Take damage
   - [ ] AI
   - [ ] Drop money? Drop food? (idea)
 
@@ -35,6 +35,7 @@
 
 - [ ] Items
   - [x] Item types
+  - [ ] Show what it does
 
 - [ ] Extra: Mercenary
 
@@ -75,7 +76,7 @@
   - [x] Audio system basics
   - [ ] Improved rendering
     - [ ] Render from back to front
-    - [ ] Animations
+    - [x] Animations
   - [ ] Logger
   - [ ] Debugger window
     - [ ] Show "object fields"
@@ -85,6 +86,6 @@
 -  Refactor
   - [ ] Remove unused SDL_mixer dependencies
   - [ ] Build with DEBUG to add debug window
-  - [ ] Create debug window on each system
+  - [x] Create debug window on each system
 
 - Bugs

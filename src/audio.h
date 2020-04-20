@@ -16,6 +16,7 @@ namespace audio {
 
 void setup();
 void cleanup();
+void debug_window();
 
 s32 load_music(const char* filename);
 s32 load_sfx(const char* filename);
@@ -35,5 +36,6 @@ inline void stop_music   () { Mix_HaltMusic();   }
 
 inline bool is_music_playing () { return Mix_PlayingMusic(); }
 inline bool is_music_paused  () { return Mix_PlayingMusic() and Mix_PausedMusic(); }
+
 
 }

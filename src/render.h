@@ -58,10 +58,11 @@ namespace render {
 
 void setup();
 void cleanup();
+void debug_window();
+void render();
 
 u32 load_image(const char* filename);
 
 void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture, Color tint = WHITE);
-void render();
 
 }
