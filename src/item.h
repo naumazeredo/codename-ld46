@@ -7,6 +7,8 @@
 #include "types.h"
 #include "geom.h"
 
+const u32 MONEY_PER_COIN = 50;
+
 enum class ItemType {
   CANDY,
   MONEY,

@@ -8,9 +8,6 @@
 #include "types.h"
 #include "geom.h"
 
-const f64 KING_HUNGER_RATE = f64(1.0);
-const f64 KING_MAX_HEALTH = f64(600.0);
-
 enum class GameState {
   RUNNING,
   GAME_OVER

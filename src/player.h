@@ -5,7 +5,6 @@
 #include "geom.h"
 
 const f32 PLAYER_HOLD_MAX_DIST = 40;
-const u32 MONEY_PER_COIN = 50;
 
 struct PlayerInfo {
   Direction direction;

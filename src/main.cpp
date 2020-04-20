@@ -111,6 +111,7 @@ void run() {
     player::update();
     item::update();
     enemy::update();
+    king::update();
     physics::update();
     game::update();
     animation::update();

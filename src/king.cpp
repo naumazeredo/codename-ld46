@@ -51,6 +51,10 @@ void take_damage(f64 damage) {
   }
 }
 
+void update() {
+  take_damage(game_time::get_frame_duration()*KING_HUNGER_RATE);
+}
+
 geom::Point get_position() {
   return king_info.position;
 }

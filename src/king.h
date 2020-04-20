@@ -6,6 +6,9 @@
 #include "types.h"
 #include "geom.h"
 
+const f64 KING_HUNGER_RATE = f64(3.0);
+const f64 KING_MAX_HEALTH = f64(600.0);
+
 using Callback = std::function<void(void)>;
 
 struct KingInfo {
@@ -29,6 +32,7 @@ void take_damage(f64 damage);
 
 void setup();
 void update();
+void render();
 void debug_window();
 
 }
