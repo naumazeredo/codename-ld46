@@ -14,6 +14,8 @@ enum class TextureCode {
   TEX_FACTORY,
   TEX_LOG,
   TEX_LOG_SHADOW,
+  TEX_KING_ROCK,
+  TEX_KING_ROCK_SHADOW,
   // Add a new texture above this line
   TEX_NUM_TEXTURES,
   INVALID

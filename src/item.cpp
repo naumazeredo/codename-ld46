@@ -112,6 +112,19 @@ void setup() {
   tmp.h = 64;
   item_info.models.push_back(tmp);
 
+  tmp.type = ItemType::UNPICKABLE;
+  tmp.texture = TextureCode::TEX_KING_ROCK;
+  tmp.shadow = TextureCode::TEX_KING_ROCK_SHADOW;
+  tmp.animation_set_id = -1;
+  tmp.w = 128;
+  tmp.h = 64;
+  tmp.texture_pivot_x = -((f32)tmp.w/2);
+  tmp.texture_pivot_y = -((f32)tmp.h/2 + 5);
+  item_info.models.push_back(tmp);
+
+  create_item(item_info.models.size()-1,
+              {(float) SCREEN_WIDTH/2, (float) SCREEN_HEIGHT/2});
+
   auto spike_animation = animation::generate_animation_from_files(
     "assets/gfx/animations/spike",
     2
@@ -346,10 +359,11 @@ void render() {
     auto& model = item_info.models[item.model_id];
     if (item.animation_instance_id == -1) {
       auto z = (item.being_held ? player_info.position.y : item.position.y);
-      render::add_to_render(item.position.x - model.w/2 - model.texture_pivot_x, item.position.y - model.texture_pivot_y, model.w, model.h, model.texture, z);
+
+      render::add_to_render(item.position.x + model.texture_pivot_x, item.position.y + model.texture_pivot_y, model.w, model.h, model.texture, z);
 
       if (model.shadow != TextureCode::INVALID) {
-        render::add_to_render(item.position.x - model.w/2 - model.texture_pivot_x, item.position.y - model.texture_pivot_y, model.w, model.h, model.shadow, 99999);
+        render::add_to_render(item.position.x + model.texture_pivot_x, item.position.y + model.texture_pivot_y, model.w, model.h, model.shadow, 99999);
       }
     }
   }

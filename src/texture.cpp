@@ -19,6 +19,8 @@ void load() {
   render::load_image("assets/gfx/temp-factory.png");
   render::load_image("assets/gfx/log.png");
   render::load_image("assets/gfx/log-shadow.png");
+  render::load_image("assets/gfx/king-rock.png");
+  render::load_image("assets/gfx/king-rock-shadow.png");
 }
 
 }

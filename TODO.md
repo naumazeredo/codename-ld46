@@ -8,7 +8,7 @@
   - [ ] Position enemies spawn points
   - [ ] Position out-of-bounds
   - [ ] Position colliders
-  - [ ] Position king rock
+  - [x] Position king rock
 
 ### Logic
 
