@@ -67,7 +67,7 @@ void setup() {
   tmp.texture = TextureCode::TEX_CANDY;
   tmp.shadow = TextureCode::INVALID;
   tmp.texture_pivot_x = -15;
-  tmp.texture_pivot_y = -15;
+  tmp.texture_pivot_y = 0;
   tmp.animation_set_id = -1;
   tmp.w = 30;
   tmp.h = 30;
@@ -181,6 +181,8 @@ void setup() {
   tmp.action_range = 100;
   item_info.models.push_back(tmp);
 
+  create_item(item_info.models.size() - 1, {530, 305});
+
   tmp.type = ItemType::SHOP;
   tmp.texture = TextureCode::TEX_TURRET_SHOP;
   tmp.shadow = TextureCode::INVALID;
@@ -237,7 +239,7 @@ void update_render_info(u32 id) {
 
   s32 z = 9999;
   if (item.being_held) {
-    z = player_info.position.y;
+    z = player_info.position.y - 5;
   } else {
     if (item_model.type == ItemType::TRAP) z = 9999;
     else z = item.position.y;
@@ -400,7 +402,7 @@ void render() {
   for (auto [id, item]: item_info.items) {
     auto& model = item_info.models[item.model_id];
     if (item.animation_instance_id == -1) {
-      auto z = (item.being_held ? player_info.position.y : item.position.y);
+      auto z = (item.being_held ? player_info.position.y - 5 : item.position.y);
 
       render::add_to_render(item.position.x + model.texture_pivot_x, item.position.y + model.texture_pivot_y, model.w, model.h, model.texture, z);
 

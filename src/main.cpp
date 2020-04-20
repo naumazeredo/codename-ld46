@@ -55,10 +55,10 @@ void load_audio() {
 }
 
 void test_setup() {
+  /*
   item::create_item(7, { 200.0, 100.0 });
   item::create_item(2, { 220.0, 100.0 });
   item::create_item(3, { 200.0, 120.0 });
-  /*
   item::create_item(0, { 200.0, 100.0 });
   item::create_item(1, { 300.0, 100.0 });
   item::create_item(2, { 400.0, 100.0 });

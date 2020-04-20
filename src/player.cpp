@@ -14,6 +14,7 @@ void debug_window() {
     ImGui::DragU32("h", &player_info.h);
 
     ImGui::InputInt("speed", &player_info.speed);
+    ImGui::Point("item position", &player_info.item_position);
     ImGui::Text("is holdind item: %d", (int)player_info.is_holding_item);
 
     if (player_info.is_holding_item)
@@ -38,7 +39,8 @@ void setup() {
 
   player_info.money = 100;
 
-  player_info.item_position = {0, (float) player_info.h + 10};
+  //player_info.item_position = {0, (float)player_info.h + 10};
+  player_info.item_position = {0, (float) 10};
 
   player_info.is_holding_item = false;
   auto idle_animation = animation::generate_animation_from_files(
