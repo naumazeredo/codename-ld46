@@ -52,12 +52,9 @@ void load_audio() {
 }
 
 void test_setup() {
-  item::create_item(2, { 700.0, 100.0 });
-  item::create_item(3, { 700.0, 600.0 });
-  item::create_item(4, { 800.0, 100.0 });
-
+  item::create_item(4, { 700.0, 100.0 });
+  
   animation::debug_animation();
-
 }
 
 void debug_window() {
@@ -118,6 +115,7 @@ void run() {
     game::update();
     animation::update();
     king::update();
+    shop_place::update();
 
     enemy::render();
     player::render();

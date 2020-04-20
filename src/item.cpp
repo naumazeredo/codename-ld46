@@ -94,6 +94,13 @@ void setup() {
   tmp.shop_model_id = 0;
   item_info.models.push_back(tmp);
 
+  tmp.type = ItemType::FACTORY;
+  tmp.texture = TextureCode::TEX_FACTORY;
+  tmp.w = 40;
+  tmp.h = 30;
+  tmp.shop_model_id = 1;
+  item_info.models.push_back(tmp);
+
   auto spike_animation = animation::generate_animation_from_files(
     "assets/gfx/animations/spike",
     2
@@ -108,10 +115,12 @@ void setup() {
 
   tmp.type = ItemType::TRAP;
   tmp.animation_set_id = add_animation_set(set);
+
   tmp.damage = 1;
   tmp.action_rate = 5;
   tmp.action_range = 20;
   item_info.models.push_back(tmp);
+  tmp.damage = 10;
 }
 
 std::tuple<bool, ItemModel> get_model_by_item_id(u32 item_id) {

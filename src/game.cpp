@@ -3,6 +3,8 @@
 #include <cstdio>
 #include <string>
 #include <chrono>
+#include <ctime>
+#include <climits>
 
 #include <imgui.h>
 
@@ -67,6 +69,7 @@ void setup() {
 
 void update() {
   f64 delta_time = game_time::get_frame_duration();
+  f64 cur_time   = game_time::get_time();
 
   game_info.wave_remaining_time -= delta_time;
 

@@ -16,6 +16,7 @@ void load() {
   render::load_image("assets/gfx/temp-shop-top.png");
   render::load_image("assets/gfx/temp-candy.png");
   render::load_image("assets/gfx/temp-coin.png");
+  render::load_image("assets/gfx/temp-factory.png");
 }
 
 }

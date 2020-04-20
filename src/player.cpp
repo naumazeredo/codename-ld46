@@ -93,13 +93,14 @@ void drop_item() {
 }
 
 void use_item() {
+  u32 cnt = 0;
   for(auto& shop_place : shop_place_info.shop_places) {
     if (geom::point_inside_convex_polygon(player_info.position, shop_place.trigger)) {
       auto [exist, item_model] = item::get_model_by_item_id(player_info.holding_item_id);
 
       if (exist) {
         shop_place.state = ShopPlaceState::OCCUPIED;
-        shop_place.shop_id = shop::create_shop(item_model.shop_model_id);
+        shop_place.shop_id = shop::create_shop(item_model.shop_model_id, cnt);
 
         item::destroy_item(item_info.items[player_info.holding_item_id].id);
         player_info.is_holding_item = false;
@@ -107,6 +108,7 @@ void use_item() {
 
       return;
     }
+    ++cnt;
   }
   drop_item();
 }
@@ -149,8 +151,8 @@ void world_interaction() {
       player_info.is_holding_item = false;
     }
 
-    auto [_, model] = item::get_model_by_item_id(player_info.holding_item_id);
-    if (model.type == ItemType::SHOP) {
+    auto [found_model, model] = item::get_model_by_item_id(player_info.holding_item_id);
+    if (found_model and (model.type == ItemType::SHOP or model.type == ItemType::FACTORY)){
       use_item();
     }
 

@@ -3,10 +3,7 @@
 
 #include <imgui.h>
 
-#include "shop.h"
-#include "render.h"
-#include "debug.h"
-#include "texture.h"
+#include "externs.h"
 
 ShopInfo shop_info;
 
@@ -34,7 +31,7 @@ void debug_window() {
             ImGui::DragU32("sell_price", &model.sell_price);
           break;
           case ShopType::FACTORY:
-            ImGui::DragU32("make_rate", &model.make_rate);
+            ImGui::DragFloat("make_rate", &model.make_rate);
           break;
         }
 
@@ -50,6 +47,7 @@ void debug_window() {
 
         if (ImGui::TreeNode(label.c_str())) {
           ImGui::SliderContainer("model_id", &shop.model_id, shop_info.models);
+          ImGui::Text("make_time: %lf", shop.last_make_time);
 
           ImGui::TreePop();
         }
@@ -69,16 +67,23 @@ void setup() {
   tmp.texture = TextureCode::TEX_SHOP;
   tmp.item_model_id = 2;
   tmp.sell_price = 10;
+  shop_info.models.push_back(tmp);
 
+  tmp.type = ShopType::FACTORY;
+  tmp.texture = TextureCode::TEX_FACTORY;
+  tmp.item_model_id = 0;
+  tmp.make_rate = 10;
   shop_info.models.push_back(tmp);
 }
 
-u32 create_shop(u32 model_id) {
+u32 create_shop(u32 model_id, u32 shop_place_id) {
   u32 id = ++shop_info.id_count;
   Shop shop;
 
   shop.id = id;
   shop.model_id = model_id;
+  shop.shop_place_id = shop_place_id;
+  shop.last_make_time = game_time::get_time();
 
   shop_info.shops[id] = shop;
 

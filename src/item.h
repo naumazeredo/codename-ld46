@@ -15,7 +15,8 @@ enum class ItemType {
   MONEY,
   TRAP,
   TURRET,
-  SHOP
+  SHOP,
+  FACTORY
 };
 
 struct ItemModel {

@@ -19,7 +19,7 @@ struct ShopPlace {
 
   ShopPlaceState state;
   u32 shop_id;
-  int w, h;
+  u32 w, h;
 };
 
 struct ShopPlaceInfo {
@@ -31,5 +31,6 @@ namespace shop_place {
 void setup();
 void render();
 void debug_window();
+void update();
 
 }

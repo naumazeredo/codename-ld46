@@ -55,6 +55,22 @@ void setup() {
   printf("%zd\n", shop_place_info.shop_places.back().trigger.size());
 }
 
+void update() {
+  f64 cur_time = game_time::get_time();
+
+  for(auto& [id, shop] : shop_info.shops) {
+      auto [have_, shop_model] = shop::get_model_by_shop_id(id);
+
+      if(shop_model.type == ShopType::FACTORY){
+        if(cur_time - shop.last_make_time >= shop_model.make_rate){
+          shop.last_make_time = cur_time;
+          auto shop_place = shop_place_info.shop_places[shop.shop_place_id];
+          item::create_item(shop_model.item_model_id, {shop_place.center.x, shop_place.center.y - 100});
+        }
+    }
+  }
+}
+
 void render() {
   for(auto& shop_place : shop_place_info.shop_places) {
     TextureCode texture = shop_place.texture;
