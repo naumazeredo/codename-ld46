@@ -35,7 +35,7 @@ void setup() {
   player_info.position = {(float) SCREEN_WIDTH/3 - player_info.w/2,
                           (float) SCREEN_HEIGHT/3 - player_info.h/2};
   player_info.direction = Direction::DOWN;
-  player_info.speed = 100;
+  player_info.speed = 250;
 
   player_info.money = 100;
 
