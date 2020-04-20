@@ -36,7 +36,8 @@ DEP_SRCS = ${IMGUI_SRC}/imgui*.cpp \
 					 ${GL_SRC}/gl3w.c
 
 SRCS = ${DEP_SRCS} \
-			 src/main.cpp \
+       $(shell find src/ -name *.cpp)
+#			 src/main.cpp \
 			 src/debug.cpp \
 			 src/render.cpp \
 			 src/input.cpp \
