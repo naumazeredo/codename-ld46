@@ -20,8 +20,8 @@ void debug_window() {
 }
 void setup() {
   king_info.health = KING_MAX_HEALTH;
-  king_info.w = 128;
-  king_info.h = 128;
+  king_info.w = 80;
+  king_info.h = 80;
 
   king_info.position = {(float) SCREEN_WIDTH/2,
                         (float) SCREEN_HEIGHT/2};
