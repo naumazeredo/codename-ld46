@@ -1,5 +1,7 @@
-#include <imgui.h>
 #include <vector>
+#include <string>
+
+#include <imgui.h>
 
 #include "externs.h"
 
@@ -8,16 +10,21 @@ ShopPlaceInfo shop_place_info;
 namespace shop_place {
 
 void debug_window() {
-  if (ImGui::TreeNode("Shop Places")) {
+  if (ImGui::TreeNode("Shop places")) {
     int cnt = 0;
     for(auto& shop_place : shop_place_info.shop_places) {
-      ImGui::Text("Shop place %d: ", cnt++);
-      ImGui::Text("Shop center: %d %d", shop_place.center.x, shop_place.center.y);
-      ImGui::Text("Player inside: %s", geom::point_inside_convex_polygon(player_info.position, shop_place.collider) ? "YES" : "NO");
-      ImGui::Text("State: %s", shop_place.state == ShopPlaceState::FREE ? "FREE" : "OCCUPIED");
-      if(shop_place.state == ShopPlaceState::OCCUPIED)
-        ImGui::Text("Shop ID: %d", shop_place.shop_id);
+      std::string label = "Shops place: " + cnt++;
 
+      if (ImGui::TreeNode(label.c_str())) {
+        ImGui::Text("center: %d %d", shop_place.center.x, shop_place.center.y);
+        ImGui::Text("player inside? %s", geom::point_inside_convex_polygon(player_info.position, shop_place.collider) ? "YES" : "NO");
+
+        ImGui::Text("state: %s", shop_place.state == ShopPlaceState::FREE ? "FREE" : "OCCUPIED");
+        if(shop_place.state == ShopPlaceState::OCCUPIED)
+          ImGui::Text("shop_id: %d", shop_place.shop_id);
+
+        ImGui::TreePop();
+      }
     }
 
     ImGui::TreePop();

@@ -69,9 +69,10 @@ void debug_window() {
   debug::add_window(item::debug_window);
   debug::add_window(enemy::debug_window);
   debug::add_window(player::debug_window);
-  debug::add_window(shop_place::debug_window);
   debug::add_window(game::debug_window);
   debug::add_window(king::debug_window);
+  debug::add_window(shop::debug_window);
+  debug::add_window(shop_place::debug_window);
 }
 
 void run() {

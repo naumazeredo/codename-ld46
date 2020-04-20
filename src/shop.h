@@ -10,11 +10,11 @@
 enum class ShopType {SHOP, FACTORY};
 
 struct ShopModel {
-  ShopType type;
   TextureCode texture;
   u32 w, h;
   u32 item_model_id;
 
+  ShopType type;
   union {
     struct {
       u32 sell_price;
@@ -32,7 +32,7 @@ struct Shop {
 
 struct ShopInfo {
   u32 id_count;
-  std::vector<ShopModel> shop_models;
+  std::vector<ShopModel> models;
   std::map<u32, Shop> shops;
 };
 
@@ -40,6 +40,7 @@ namespace shop {
 
 void setup();
 void update();
+void debug_window();
 
 u32 create_shop(u32 model);
 
