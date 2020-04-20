@@ -280,13 +280,6 @@ void update() {
     if(item.being_held) continue;
 
     const auto &item_model = item_info.models[item.model_id];
-    if (item_model.type == ItemType::TRAP) {
-      auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, 15);
-      if (has_enemy && enemy::try_hit_enemy(enemy_id, item_model.damage)) {
-        destroy_item(id);
-      }
-    }
-
     const f64 current_time = game_time::get_time();
     if (item_model.type == ItemType::TURRET || item_model.type == ItemType::TRAP) {
       if(current_time < item.last_action_time + 1/item_model.action_rate)
