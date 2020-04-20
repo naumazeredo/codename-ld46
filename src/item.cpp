@@ -49,29 +49,29 @@ void setup() {
   ItemModel tmp;
 
   tmp.type = FOOD;
-  tmp.texture = render::load_image("assets/gfx/food-32x32-for-replace.png");
+  tmp.texture = TEX_FOOD;
   tmp.w = 30;
   tmp.h = 30;
   tmp.hunger_count = 5;
   item_info.models.push_back(tmp);
 
   tmp.type = TRAP;
-  tmp.texture = render::load_image("assets/gfx/temp-trap.png");
+  tmp.texture = TEX_TRAP;
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 10;
   item_info.models.push_back(tmp);
 
   tmp.type = TURRET;
-  tmp.texture = render::load_image("assets/gfx/turret-must-replace.png");
+  tmp.texture = TEX_TURRET;
   tmp.w = 40;
   tmp.h = 30;
   tmp.damage = 10;
-  tmp.fire_rate = 0.1; // Shots Per Second
+  tmp.fire_rate = 1; // Shots Per Second
   item_info.models.push_back(tmp);
 
   tmp.type = SHOP;
-  tmp.texture = render::load_image("assets/gfx/temp-shop-top.png");
+  tmp.texture = TEX_SHOP;
   tmp.w = 40;
   tmp.h = 30;
   tmp.shop_model = 0;
@@ -98,11 +98,27 @@ bool update_position(u32 id, geom::Point position) {
   return true;
 }
 
+bool hold_item(u32 id) {
+  if (!exists_item(id) || item_info.items[id].being_held) return false;
+  item_info.items[id].being_held = true;
+
+  return true;
+}
+
+bool drop_item(u32 id) {
+  if (!exists_item(id) || !item_info.items[id].being_held) return false;
+  item_info.items[id].being_held = false;
+
+  return true;
+}
+
 void update() {
   for(auto &[item_id, item]: item_info.items) {
+    if(item.being_held) continue;
+
     const auto &item_model = item_info.models[item.model];
     if (item_model.type == TRAP) {
-      u32 enemy_id = enemy::closest_enemy_in(item.position, 50);
+      u32 enemy_id = enemy::closest_enemy_in(item.position, 15);
       if (enemy_id >= 0 && enemy::hit_enemy(enemy_id, item_model.damage)) {
         destroy_item(item_id);
       }
@@ -110,12 +126,12 @@ void update() {
 
     if (item_model.type == TURRET) {
       const f64 current_time = game_time::get_current_time();
-      if(current_time < item.last_action_time + 1000/item_model.fire_rate)
+      if(current_time < item.last_action_time + 1/item_model.fire_rate)
        continue;
 
       item.last_action_time = current_time;
 
-      u32 enemy_id = enemy::closest_enemy_in(item.position, 500);
+      u32 enemy_id = enemy::closest_enemy_in(item.position, 70);
       enemy_id >= 0 && enemy::hit_enemy(enemy_id, item_model.damage);
     }
   }
@@ -151,6 +167,7 @@ u32 create_item(u32 model, geom::Point position) {
   item.id = id;
   item.model = model;
   item.last_action_time = game_time::get_current_time();
+  item.being_held = false;
 
   item.position = position;
 

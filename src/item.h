@@ -35,6 +35,7 @@ struct ItemModel {
 struct Item {
   u32 id;
   u32 model;
+  bool being_held;
   geom::Point position;
   f64 last_action_time;
 };
@@ -59,5 +60,7 @@ bool update_position(u32 id, geom::Point position);
 
 void update();
 void render();
+bool hold_item(u32 id);
+bool drop_item(u32 id);
 
 }

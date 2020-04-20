@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 #include "externs.h"
+#include "king.h"
 
 void setup();
 void load_textures();
@@ -36,13 +37,13 @@ void setup() {
   shop_place::setup();
   physics::setup();
   game::setup();
+  king::setup();
 
-  load_textures();
+  texture::load();
+
+
   load_audio();
-}
 
-void load_textures() {
-  // @TODO(naum): store into names variables
 }
 
 void load_audio() {
@@ -52,7 +53,9 @@ void load_audio() {
 }
 
 void test_setup() {
-  item::create_item(3, { 700.0, 100.0 });
+  item::create_item(3, { 800.0, 100.0 });
+  item::create_item(1, { 700.0, 100.0 });
+  item::create_item(2, { 700.0, 600.0 });
 }
 
 void run() {
@@ -99,6 +102,7 @@ void run() {
     item::render();
     game::render();
     shop_place::render();
+    king::render();
 
     // Rendering
     render::render();

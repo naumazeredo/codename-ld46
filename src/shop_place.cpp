@@ -29,7 +29,7 @@ void debug_window() {
 void setup() {
   debug::add_window(debug_window);
   ShopPlace shop_place;
-  shop_place.texture = render::load_image("assets/gfx/template-32x32.png");
+  shop_place.texture = TEX_BLANK;
   shop_place.trigger = {{ 3.0f * SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2.0f }, 400, 400};
   shop_place.collider = {{ 3.0f * SCREEN_WIDTH / 4, SCREEN_HEIGHT / 2.0f }, 300, 300};
   shop_place.state = FREE;

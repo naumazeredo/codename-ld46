@@ -42,7 +42,7 @@ void setup() {
 
   game_info.on_game_over.push_back(on_game_over_debug);
 
-  game_info.bar_texture = render::load_image("assets/gfx/blank.png");
+  game_info.bar_texture = TEX_BLANK;
   game_info.bar_h = 32;
   game_info.bar_w = 320;
   game_info.bar_position = geom::Point{};

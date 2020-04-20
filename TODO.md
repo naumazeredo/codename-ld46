@@ -12,6 +12,7 @@
   - [ ] Attack enemies on interaction (idea)
 
 - [ ] King
+  - [x] Basic structure
   - [ ] Feed
   - [ ] Die
 

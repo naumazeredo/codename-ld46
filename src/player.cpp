@@ -21,20 +21,20 @@ void debug_window() {
 }
 
 void setup() {
-  player_info.position = {(float) SCREEN_WIDTH/2 - player_info.w/2,
-                          (float) SCREEN_HEIGHT/2 - player_info.h/2};
   player_info.w = 50;
   player_info.h = 100;
+  player_info.position = {(float) SCREEN_WIDTH/3 - player_info.w/2,
+                          (float) SCREEN_HEIGHT/3 - player_info.h/2};
   player_info.direction = DOWN;
   player_info.speed = 100;
 
   player_info.item_position = {0, (float) player_info.h};
   player_info.item_max_dist = 40;
 
-  player_info.textures[0] = render::load_image("assets/gfx/template-32x32-up.png");
-  player_info.textures[1] = render::load_image("assets/gfx/template-32x32-down.png");
-  player_info.textures[2] = render::load_image("assets/gfx/template-32x32-left.png");
-  player_info.textures[3] = render::load_image("assets/gfx/template-32x32-right.png");
+  player_info.textures[0] = TEX_ARROW_UP;
+  player_info.textures[1] = TEX_ARROW_DOWN;
+  player_info.textures[2] = TEX_ARROW_LEFT;
+  player_info.textures[3] = TEX_ARROW_RIGHT;
 
   // add debug window
   debug::add_window(debug_window);
@@ -50,6 +50,8 @@ void update() {
 }
 
 void drop_item() {
+  if(!item::drop_item(player_info.item)) return;
+
   item::update_position(player_info.item, player_info.position);
   player_info.item = 0;
 }
@@ -81,6 +83,7 @@ void item_interaction() {
     if(!item)
       return;
     if(item::dist_to_item(position, item) < player_info.item_max_dist) {
+      item::hold_item(item);
       player_info.item = item;
     }
   }

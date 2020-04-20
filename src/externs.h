@@ -1,7 +1,11 @@
 #pragma once
 
+#include "texture.h"
 #include "types.h"
 #include "physics.h"
+#include "geom.h"
+#include "game.h"
+
 #include "time.h"
 #include "render.h"
 #include "audio.h"
@@ -14,6 +18,7 @@
 #include "geom.h"
 #include "game.h"
 #include "shop_place.h"
+#include "king.h"
 
 extern TimeInfo time_info;
 extern RenderInfo render_info;
@@ -25,3 +30,4 @@ extern ItemInfo item_info;
 extern EnemyInfo enemy_info;
 extern ShopInfo shop_info;
 extern ShopPlaceInfo shop_place_info;
+extern KingInfo king_info;

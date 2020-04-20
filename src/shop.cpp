@@ -4,6 +4,7 @@
 #include "shop.h"
 #include "render.h"
 #include "debug.h"
+#include "texture.h"
 
 ShopInfo shop_info;
 
@@ -18,7 +19,7 @@ void setup() {
   ShopModel tmp;
 
   tmp.type = ShopType::SHOP;
-  tmp.texture = render::load_image("assets/gfx/temp-shop-top.png");
+  tmp.texture = TEX_SHOP;
   tmp.item = 2;
   tmp.sell_price = 10;
 

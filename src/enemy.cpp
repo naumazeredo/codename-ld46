@@ -25,7 +25,7 @@ void debug_window() {
 void setup() {
   debug::add_window(debug_window);
   enemy_info.target = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
-  enemy_info.textures.push_back(render::load_image("assets/gfx/template-32x32-up.png"));
+  enemy_info.textures.push_back(TEX_ARROW_UP);
   geom::Point pos = enemy_info.target;
   for(int i = 0; i < 1; ++i)
     spawn_enemy(pos, 10, rand() % 101);
@@ -35,9 +35,9 @@ void update() {
   f64 delta_time = game_time::get_frame_duration();
   for(auto &[e_id, e] : enemy_info.enemies) {
     geom::Point diff = enemy_info.target - e.position;
-    if(diff.abs2() < geom::EPS)
+    if(diff.abs() < geom::EPS)
       continue;
-    if(diff.abs2() > 1)
+    if(diff.abs() > 1)
       diff.normalize();
     diff.x *= delta_time * e.speed, diff.y *= delta_time * e.speed;
     e.position += diff;
@@ -49,7 +49,7 @@ u32 closest_enemy_in(geom::Point position, f64 range) {
   f64 smallest_distance = range + geom::EPS;
 
   for(const auto &[e_id, e] : enemy_info.enemies) {
-    f64 distance = (e.position - position).abs2();
+    f64 distance = (e.position - position).abs();
     if(distance < smallest_distance) {
       enemy_id = e_id;
       smallest_distance = distance;
