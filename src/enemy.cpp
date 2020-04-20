@@ -136,7 +136,6 @@ void update() {
   for(const auto &enemy_id : enemy_ids) {
     if(try_attack_king(enemy_id)) {
       try_destroy_enemy(enemy_id);
-      continue;
     }
   }
 

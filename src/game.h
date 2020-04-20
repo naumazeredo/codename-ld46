@@ -37,8 +37,8 @@ void update();
 void render();
 void debug_window();
 
-void take_damage(f64);
 void spawn_wave(u32 enemy_count);
-void feed_king(f64);
+
+u64 rand();
 
 }

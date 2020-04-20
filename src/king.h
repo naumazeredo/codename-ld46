@@ -6,6 +6,7 @@
 #include "types.h"
 #include "geom.h"
 
+const u8 STORE_DROP_RATE = 20; // Percentage
 const f64 KING_HUNGER_RATE = f64(3.0);
 const f64 KING_MAX_HEALTH = f64(600.0);
 
@@ -15,6 +16,7 @@ struct KingInfo {
   f64 health;
   geom::Point position;
   geom::Point texture_pivot;
+  std::vector<u64> drop_model_ids;
 
   int w, h;
 

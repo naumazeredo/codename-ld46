@@ -101,6 +101,10 @@ void spawn_wave(u32 enemy_count) {
   }
 }
 
+u64 rand() {
+  return game_info.rand();
+}
+
 void render() {
   float health_percentage = king::get_health() / KING_MAX_HEALTH;
   int w = game_info.bar_w * health_percentage;

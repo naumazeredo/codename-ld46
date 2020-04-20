@@ -20,8 +20,9 @@ void debug_window() {
 }
 void setup() {
   king_info.health = KING_MAX_HEALTH;
-  king_info.w = 80;
-  king_info.h = 80;
+  king_info.drop_model_ids = {2, 3};
+  king_info.w = 128;
+  king_info.h = 128;
 
   king_info.position = {(float) SCREEN_WIDTH/2,
                         (float) SCREEN_HEIGHT/2};
@@ -62,6 +63,13 @@ geom::Point get_position() {
 
 void feed_king(f64 amount){
   king_info.health = std::min(king_info.health + amount, KING_MAX_HEALTH);
+
+  const u64 drop_try = game::rand();
+  if(drop_try%100 <=  STORE_DROP_RATE) {
+    auto &drop_model_ids = king_info.drop_model_ids;
+    auto &drop_model_id = drop_model_ids[drop_try%drop_model_ids.size()];
+    item::create_item(drop_model_id, king_info.position + geom::Point(-10, -20));
+  } 
 
   for (auto callback : king_info.on_feed_king){
     callback();
