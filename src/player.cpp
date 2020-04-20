@@ -129,7 +129,16 @@ void item_interaction() {
     u32 item_id = item::closest_item(position); // @TODO(naum): refactor like enemy: closest_in_range
     if(!item_id)
       return;
+
     if(item::dist_to_item(position, item_id) < PLAYER_HOLD_MAX_DIST) {
+      auto [_, item_model] = item::get_model_by_item_id(item_id);
+
+      if(item_model.type == ItemType::MONEY) {
+        player_info.money += MONEY_PER_COIN;
+        item::destroy_item(item_id);
+        return;
+      }
+
       item::hold_item(item_id);
       player_info.is_holding_item = true;
       player_info.holding_item_id = item_id;

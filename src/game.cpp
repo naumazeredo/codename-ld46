@@ -1,6 +1,7 @@
 #include <imgui.h>
 #include <string>
 #include <iostream>
+#include <ctime>
 #include "game.h"
 #include "externs.h"
 
@@ -37,6 +38,7 @@ void on_game_over_debug() {
 }
 
 void setup() {
+  srand(time(0));
   game_info.current_state = GameState::RUNNING;
 
   game_info.on_game_over.push_back(on_game_over_debug);
