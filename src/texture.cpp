@@ -23,6 +23,17 @@ void load() {
   render::load_image("assets/gfx/king-rock-shadow.png");
   render::load_image("assets/gfx/construction_site_1.png");
   render::load_image("assets/gfx/store_turret.png");
+  render::load_image("assets/gfx/hud.png");
+  render::load_image("assets/gfx/digit_0.png");
+  render::load_image("assets/gfx/digit_1.png");
+  render::load_image("assets/gfx/digit_2.png");
+  render::load_image("assets/gfx/digit_3.png");
+  render::load_image("assets/gfx/digit_4.png");
+  render::load_image("assets/gfx/digit_5.png");
+  render::load_image("assets/gfx/digit_6.png");
+  render::load_image("assets/gfx/digit_7.png");
+  render::load_image("assets/gfx/digit_8.png");
+  render::load_image("assets/gfx/digit_9.png");
 }
 
 }

@@ -127,6 +127,7 @@ void run() {
     animation::update();
     shop_place::update();
     physics::update();
+    hud::update();
 
     enemy::render();
     player::render();

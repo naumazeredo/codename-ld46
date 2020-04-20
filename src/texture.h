@@ -18,6 +18,17 @@ enum class TextureCode {
   TEX_KING_ROCK_SHADOW,
   TEX_CONSTRUCTION_SITE,
   TEX_TURRET_SHOP,
+  TEX_HUD,
+  TEX_DIGIT_0,
+  TEX_DIGIT_1,
+  TEX_DIGIT_2,
+  TEX_DIGIT_3,
+  TEX_DIGIT_4,
+  TEX_DIGIT_5,
+  TEX_DIGIT_6,
+  TEX_DIGIT_7,
+  TEX_DIGIT_8,
+  TEX_DIGIT_9,
   // Add a new texture above this line
   TEX_NUM_TEXTURES,
   INVALID

@@ -21,6 +21,7 @@
 #include "king.h"
 #include "animation.h"
 #include "bound.h"
+#include "hud.h"
 #undef min
 #undef max
 
