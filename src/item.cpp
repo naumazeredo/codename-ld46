@@ -91,8 +91,24 @@ bool update_position(u32 id, geom::Point position) {
   return true;
 }
 
+bool hold_item(u32 id) {
+  if (!exists_item(id) || item_info.items[id].being_held) return false;
+  item_info.items[id].being_held = true;
+
+  return true;
+}
+
+bool drop_item(u32 id) {
+  if (!exists_item(id) || !item_info.items[id].being_held) return false;
+  item_info.items[id].being_held = false;
+
+  return true;
+}
+
 void update() {
   for(auto &[item_id, item]: item_info.items) {
+    if(item.being_held) continue;
+
     const auto &item_model = item_info.models[item.model];
     if (item_model.type == TRAP) {
       u32 enemy_id = enemy::closest_enemy_in(item.position, 15);
@@ -142,6 +158,7 @@ u32 create_item(u32 model, geom::Point position) {
   item.id = id;
   item.model = model;
   item.last_action_time = game_time::get_current_time();
+  item.being_held = false;
 
   item.position = position;
 

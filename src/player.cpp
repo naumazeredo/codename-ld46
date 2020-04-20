@@ -48,6 +48,8 @@ void update() {
 }
 
 void drop_item() {
+  if(!item::drop_item(player_info.item)) return;
+
   item::update_position(player_info.item, player_info.position);
   player_info.item = 0;
 }
@@ -61,6 +63,7 @@ void item_interaction() {
 
     u32 item = item::closest_item(position);
     if(item::dist_to_item(position, item) < player_info.item_max_dist) {
+      item::hold_item(item);
       player_info.item = item;
     }
   }
