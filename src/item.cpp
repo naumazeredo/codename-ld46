@@ -2,6 +2,7 @@
 
 #include <string>
 #include <stdio.h>
+#include <vector>
 
 #include "externs.h"
 
@@ -96,8 +97,8 @@ void setup() {
   tmp.type = ItemType::FACTORY;
   tmp.texture = TextureCode::TEX_FACTORY;
   tmp.shadow = TextureCode::INVALID;
-  tmp.texture_pivot_x = 20;
-  tmp.texture_pivot_y = 10;
+  tmp.texture_pivot_x = -40;
+  tmp.texture_pivot_y = -10;
   tmp.animation_set_id = -1;
   tmp.w = 40;
   tmp.h = 30;
@@ -111,6 +112,11 @@ void setup() {
   tmp.w = 64;
   tmp.h = 64;
   item_info.models.push_back(tmp);
+
+  create_logs_line(item_info.models.size() - 1, {939, 456}, 1, 1);
+  create_logs_line(item_info.models.size() - 1, {963, 235}, 1, -1);
+  create_logs_line(item_info.models.size() - 1, {362, 456}, -1, 1);
+  create_logs_line(item_info.models.size() - 1, {341, 240}, -1, -1);
 
   tmp.type = ItemType::UNPICKABLE;
   tmp.texture = TextureCode::TEX_KING_ROCK;
@@ -345,6 +351,33 @@ u32 create_item(u32 model_id, geom::Point position) {
 
 
   return id;
+}
+
+void create_logs_line(u32 model_id, geom::Point base, int x_dir, int y_dir) {
+  x_dir /= abs(x_dir);
+  y_dir /= abs(y_dir);
+  std::vector<geom::Point> tmp;
+
+  tmp.push_back({28, 10});
+  tmp.push_back({60, 18});
+  tmp.push_back({90, 29});
+  tmp.push_back({126, 33});
+  tmp.push_back({161, 46});
+  tmp.push_back({192, 49});
+
+  for(auto &p: tmp) p.y *= y_dir;
+  for(auto &p: tmp) p.x *= x_dir;
+
+  create_item(item_info.models.size()-1, base);
+  for(auto p: tmp) create_item(item_info.models.size() - 1, base + p);
+  base += tmp.back();
+  for(auto p: tmp) create_item(item_info.models.size() - 1, base + p);
+
+  create_item(item_info.models.size()-1, base);
+  for(auto &p: tmp) p.y = -p.y;
+  for(auto p: tmp) create_item(item_info.models.size() - 1, base + p);
+  base += tmp.back();
+  for(auto p: tmp) create_item(item_info.models.size() - 1, base + p);
 }
 
 void render() {

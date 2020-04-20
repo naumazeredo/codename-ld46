@@ -9,6 +9,7 @@
   - [ ] Position out-of-bounds
   - [ ] Position colliders
   - [x] Position king rock
+  - [x] Position logs (bounds)
 
 ### Logic
 
