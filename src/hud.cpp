@@ -67,6 +67,7 @@ void update() {
 
   render::add_to_render(health_x, health_y, health_width, health_height, TextureCode::TEX_HUD_HEALTH, -3e5);
   render::add_to_render(coins_x, coins_y, coins_width, coins_height, TextureCode::TEX_HUD_COINS, -2e5);
+  render::add_to_render(SCREEN_WIDTH - 40, SCREEN_HEIGHT - 60, 40, 40, TextureCode::TEX_MONEY, -3e5);
   display_number(SCREEN_WIDTH - 40, SCREEN_HEIGHT - 28, player_info.money);
 }
 
