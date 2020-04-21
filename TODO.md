@@ -5,7 +5,7 @@
 - [ ] Terrain
   - [x] Position king
   - [x] Position shop places
-  - [ ] Position enemies spawn points
+  - [x] Position enemies spawn points
   - [x] Position out-of-bounds
   - [ ] Position colliders
   - [x] Position king rock
@@ -17,7 +17,7 @@
   - [x] Movement
   - [x] Item holding
   - [x] Item throwing (attacking = item throwing?)
-  - [ ] Attack enemies on interaction (idea)
+  - [~] Attack enemies on interaction (idea)
 
 - [ ] King
   - [x] Basic structure
@@ -35,7 +35,7 @@
   - [ ] Types of enemies
   - [x] Take damage
   - [ ] AI
-  - [ ] Drop money? Drop food? (idea)
+  - [x] Drop money? Drop food? (idea)
 
 - [ ] Items
   - [x] Traps
