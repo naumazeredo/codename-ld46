@@ -23,7 +23,7 @@ struct GameInfo {
   int bar_h, bar_w;
 
   std::vector<geom::Rect> spawn_pool;
-  f64 wave_remaining_time, wave_time;
+  f64 wave_remaining_time, wave_time, time_until_next_wave;
   u32 last_wave_cnt, wave_enemy_increase;
   std::mt19937_64 rand;
 

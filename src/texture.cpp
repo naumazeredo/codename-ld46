@@ -36,6 +36,7 @@ void load() {
   render::load_image("assets/gfx/digit_8.png");
   render::load_image("assets/gfx/digit_9.png");
   render::load_image("assets/gfx/game_over_screen.png");
+  render::load_image("assets/gfx/time until.png");
 }
 
 }

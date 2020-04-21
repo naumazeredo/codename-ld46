@@ -106,11 +106,14 @@ void update() {
   }
 
   game_info.wave_remaining_time -= delta_time;
+  game_info.time_until_next_wave -= delta_time;
 
-  if (enemy_info.enemies.size() != 0)
+  if (enemy_info.enemies.size() != 0){
     game_info.wave_remaining_time = game_info.wave_time;
+    game_info.time_until_next_wave = 10;
+  }
 
-  if (game_info.wave_remaining_time < 0) {
+  if (game_info.wave_remaining_time < 0 and game_info.time_until_next_wave <= 0) {
     game_info.last_wave_cnt += game_info.wave_enemy_increase;
     spawn_wave(game_info.last_wave_cnt);
   }

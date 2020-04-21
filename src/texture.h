@@ -31,6 +31,7 @@ enum class TextureCode {
   TEX_DIGIT_8,
   TEX_DIGIT_9,
   GAME_OVER_SCREEN,
+  TEX_TIME_UNTIL,
   // Add a new texture above this line
   TEX_NUM_TEXTURES,
   INVALID
