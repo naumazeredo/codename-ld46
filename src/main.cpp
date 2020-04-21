@@ -45,7 +45,7 @@ void setup() {
 
   load_audio();
 
-  bg_tex = render::load_image("assets/gfx/bg.png");
+  bg_tex = render::load_image("assets/gfx/bg.png.1");
 }
 
 void load_audio() {

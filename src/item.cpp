@@ -130,8 +130,7 @@ void setup() {
   tmp.texture_pivot_y = -((f32)tmp.h/2 + 5);
   item_info.models.push_back(tmp);
 
-  create_item(item_info.models.size()-1,
-              {(float) SCREEN_WIDTH/2, (float) SCREEN_HEIGHT/2 + 2});
+  //create_item(item_info.models.size()-1, {(float) SCREEN_WIDTH/2, (float) SCREEN_HEIGHT/2 + 2});
 
   auto spike_animation = animation::generate_animation_from_files(
     "assets/gfx/animations/spike",
