@@ -86,7 +86,7 @@ void render() {
             160,
             10,
             TextureCode::TEX_BLANK,
-            -999
+            shop_place.center.y - shop_place.h / 2 - 1
           );
 
           Shop shop = shop_info.shops[shop_place.shop_id];
@@ -99,7 +99,7 @@ void render() {
             160 * (current / total),
             10,
             TextureCode::TEX_BLANK,
-            -999,
+            shop_place.center.y - shop_place.h / 2 - 2,
             { 0.2, 0, 0, 1 }
           );
         }

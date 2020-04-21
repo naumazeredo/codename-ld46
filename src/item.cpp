@@ -244,7 +244,7 @@ void update_render_info(u32 id) {
 
   s32 z = 9999;
   if (item.being_held) {
-    z = player_info.position.y - 5;
+    z = player_info.position.y - 1;
   } else {
     if (item_model.type == ItemType::TRAP) z = 9999;
     else z = item.position.y;
@@ -410,7 +410,7 @@ void render() {
   for (auto [id, item]: item_info.items) {
     auto& model = item_info.models[item.model_id];
     if (item.animation_instance_id == -1) {
-      auto z = (item.being_held ? player_info.position.y - 5 : item.position.y);
+      auto z = (item.being_held ? player_info.position.y - 1 : item.position.y);
 
       render::add_to_render(item.position.x + model.texture_pivot_x, item.position.y + model.texture_pivot_y, model.w, model.h, model.texture, z);
 

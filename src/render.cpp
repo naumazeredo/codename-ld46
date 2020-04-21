@@ -141,7 +141,7 @@ void setup_window() {
   SDL_GL_SetSwapInterval(1); // vsync
 
   auto& window = render_info.window;
-  window = SDL_CreateWindow("Codename Pets",
+  window = SDL_CreateWindow("Codename LD46",
                             SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                             SCREEN_WIDTH, SCREEN_HEIGHT,
                             SDL_WINDOW_OPENGL);

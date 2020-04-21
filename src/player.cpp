@@ -37,7 +37,7 @@ void setup() {
   player_info.direction = Direction::DOWN;
   player_info.speed = 250;
 
-  player_info.money = 100;
+  player_info.money = 0;
 
   //player_info.item_position = {0, (float)player_info.h + 10};
   player_info.item_position = {0, (float) 10};
