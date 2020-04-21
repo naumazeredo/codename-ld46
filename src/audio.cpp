@@ -67,6 +67,19 @@ void setup() {
     printf("Could not start mixer: %s\n", Mix_GetError());
     exit(1);
   }
+
+  load_music("assets/sfx/MetalTheme.ogg");
+  set_music_volume(4);
+
+  load_sfx("assets/sfx/coin.wav"); //  COIN,
+  load_sfx("assets/sfx/shop.wav"); //SHOP_CREATE
+  load_sfx("assets/sfx/shot.wav");
+  load_sfx("assets/sfx/duck.wav"); 
+  load_sfx("assets/sfx/shop-produce.wav"); //SHOP_PRODUCE
+
+  set_sfx_volume(16);
+
+  play_music(0, -1);
 }
 
 void cleanup() {
@@ -79,7 +92,7 @@ void cleanup() {
   Mix_CloseAudio();
 }
 
-s32 load_music(const char* filename) {
+u32 load_music(const char* filename) {
   Mix_Music* music;
 
   music = Mix_LoadMUS(filename);
@@ -92,7 +105,7 @@ s32 load_music(const char* filename) {
   return audio_info.music.size() - 1;
 }
 
-s32 load_sfx(const char* filename) {
+u32 load_sfx(const char* filename) {
   Mix_Chunk* sample;
 
   sample = Mix_LoadWAV(filename);

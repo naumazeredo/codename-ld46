@@ -49,9 +49,11 @@ void setup() {
 }
 
 void load_audio() {
+  /*
   audio::load_music("assets/sfx/MetalTheme.ogg");
   audio::load_sfx("assets/sfx/player-shoot.wav");
   audio::load_sfx("assets/sfx/piercing-shoot.wav");
+  */
 }
 
 void test_setup() {
@@ -70,7 +72,7 @@ void test_setup() {
 }
 
 void debug_window() {
-  debug_info.show_window = true;
+  debug_info.show_window = false;
 
   debug::add_window(game_time::debug_window);
   debug::add_window(game::debug_window);

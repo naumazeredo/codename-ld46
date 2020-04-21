@@ -151,8 +151,8 @@ void setup() {
   tmp.animation_set_id = animation_set_id;
 
   tmp.shadow = TextureCode::INVALID;
-  tmp.texture_pivot_x = 16;
-  tmp.texture_pivot_y = 16;
+  tmp.texture_pivot_x = -16;
+  tmp.texture_pivot_y = -16;
   tmp.damage = 1;
   tmp.action_rate = 5;
   tmp.action_range = 20;
@@ -305,8 +305,11 @@ void update() {
       item.last_action_time = current_time;
 
       auto [has_enemy, enemy_id] = enemy::closest_enemy_in(item.position, item_model.action_range);
-      if (has_enemy)
-        enemy::try_hit_enemy(enemy_id, item_model.damage);
+      if (has_enemy) {
+        if (enemy::try_hit_enemy(enemy_id, item_model.damage) and item_model.type == ItemType::TURRET) {
+          audio::play_sfx((u32)SfxEnum::SHOT);
+        }
+      }
     }
 
     update_render_info(id);

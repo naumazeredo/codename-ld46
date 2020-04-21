@@ -63,6 +63,7 @@ geom::Point get_position() {
 
 void feed_king(f64 amount){
   king_info.health = std::min(king_info.health + amount, KING_MAX_HEALTH);
+  audio::play_sfx((u32)SfxEnum::DUCK);
 
   const u64 drop_try = game::rand();
   if(drop_try%100 <=  STORE_DROP_RATE) {

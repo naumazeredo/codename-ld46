@@ -64,6 +64,7 @@ void update() {
           drop_place.x += game::rand()%1000/(f64)100 - 5;
 
           item::create_item(shop_model.item_model_id, drop_place);
+          audio::play_sfx(SfxEnum::SHOP_PRODUCE);
         }
     }
   }

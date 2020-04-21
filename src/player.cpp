@@ -112,6 +112,8 @@ void use_item() {
       item::destroy_item(item_info.items[player_info.holding_item_id].id);
       player_info.is_holding_item = false;
 
+      audio::play_sfx(SfxEnum::SHOP_CREATE);
+
       return;
     }
     ++cnt;
@@ -189,6 +191,7 @@ void world_interaction() {
     if(item_model.type == ItemType::MONEY) {
       player_info.money += MONEY_PER_COIN;
       item::destroy_item(item_id);
+      audio::play_sfx((u32)SfxEnum::COIN);
       return;
     }
 
