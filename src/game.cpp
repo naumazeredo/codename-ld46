@@ -46,6 +46,7 @@ void on_game_over_debug() {
 }
 
 void on_game_over_pause() {
+  audio::pause_music();
   game_time::pause();
 }
 
@@ -91,6 +92,8 @@ void restart_game() {
   shop_place::setup();
   shop::setup();
   player::setup();
+
+  audio::play_music(0, -1);
 }
 
 void update() {
