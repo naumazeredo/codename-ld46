@@ -41,6 +41,7 @@ struct ShopInfo {
 namespace shop {
 
 void setup();
+void cleanup();
 void update();
 void debug_window();
 

@@ -50,6 +50,7 @@ namespace animation {
 
 void update();
 void render();
+void cleanup();
 
 Animation generate_animation_from_files(const char* prefix, u32 n_of_frames);
 

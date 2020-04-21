@@ -33,13 +33,16 @@ void debug_window() {
 }
 
 void setup() {
-
   create_shop_place({440, 153}, 200, 128);
   create_shop_place({640, 133}, 200, 128);
   create_shop_place({840, 153}, 200, 128);
   create_shop_place({440, 566}, 200, 128);
   create_shop_place({640, 586}, 200, 128);
   create_shop_place({840, 566}, 200, 128);
+}
+
+void cleanup() {
+  shop_place_info.shop_places.clear();
 }
 
 void update() {

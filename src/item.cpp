@@ -195,6 +195,12 @@ void setup() {
   item_info.models.push_back(tmp);
 }
 
+void cleanup() {
+  item_info.items.clear();
+  item_info.models.clear();
+  item_info.num_item = 0;
+}
+
 std::tuple<bool, ItemModel> get_model_by_item_id(u32 item_id) {
   auto [item_found, item] = get_item_by_id(item_id);
   if (!item_found) {

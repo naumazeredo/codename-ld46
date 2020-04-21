@@ -40,6 +40,11 @@ void update_instance(u32 id, f64 dt){
 
 }
 
+void cleanup() {
+  animation_info.animation_sets.clear();
+  animation_info.instance_count = 0;
+  animation_info.instances.clear();
+}
 
 void update() {
   auto dt = game_time::get_frame_duration();

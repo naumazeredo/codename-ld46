@@ -82,6 +82,12 @@ void setup() {
   enemy_info.target = {SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f};
 }
 
+void cleanup() {
+  enemy_info.enemies.clear();
+  enemy_info.models.clear();
+  enemy_info.num_enemies = 0;
+}
+
 EnemyModel& get_enemy_model(u32 id) {
   return enemy_info.models[enemy_info.enemies[id].model_id];
 }

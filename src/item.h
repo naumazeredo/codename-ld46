@@ -60,6 +60,7 @@ struct ItemInfo {
 namespace item {
 
 void setup();
+void cleanup();
 void update();
 void render();
 void debug_window();

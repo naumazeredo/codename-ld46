@@ -82,6 +82,12 @@ void setup() {
   shop_info.models.push_back(tmp);
 }
 
+void cleanup() {
+  shop_info.models.clear();
+  shop_info.id_count = 0;
+  shop_info.shops.clear();
+}
+
 u32 create_shop(u32 model_id, u32 shop_place_id) {
   u32 id = ++shop_info.id_count;
   Shop shop;

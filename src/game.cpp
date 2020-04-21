@@ -72,9 +72,38 @@ void setup() {
   game_info.bar_position = geom::Point{SCREEN_WIDTH/2 - (f32) game_info.bar_w/2, SCREEN_HEIGHT - (f32) game_info.bar_h};
 }
 
+void cleanup() {
+  game_info.spawn_pool.clear();
+  game_info.on_game_over.clear();
+}
+
+void restart_game() {
+  animation::cleanup();
+  shop::cleanup();
+  shop_place::cleanup();
+  item::cleanup();
+  enemy::cleanup();
+
+  setup();
+  king::setup();
+  enemy::setup();
+  item::setup();
+  shop_place::setup();
+  shop::setup();
+  player::setup();
+}
+
 void update() {
   f64 delta_time = game_time::get_frame_duration();
   f64 cur_time   = game_time::get_time();
+
+  if(game_info.current_state == GameState::GAME_OVER) {
+    if(input::is_key_pressed(SDL_SCANCODE_SPACE)) {
+      restart_game();
+      game_time::play();
+    }
+    return;
+  }
 
   game_info.wave_remaining_time -= delta_time;
 
@@ -89,7 +118,7 @@ void update() {
   if (king::get_health() <= 0 ) {
     if (game_info.current_state != GameState::GAME_OVER) {
       game_info.current_state = GameState::GAME_OVER;
-      for (auto callback : game_info.on_game_over){
+      for (auto callback : game_info.on_game_over) {
         callback();
       }
     }

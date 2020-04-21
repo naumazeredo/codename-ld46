@@ -36,6 +36,7 @@ struct EnemyInfo {
 namespace enemy {
 
 void setup();
+void cleanup();
 void render();
 void update();
 void debug_window();

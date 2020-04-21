@@ -29,6 +29,7 @@ struct ShopPlaceInfo {
 namespace shop_place {
 
 void setup();
+void cleanup();
 void render();
 void debug_window();
 void update();

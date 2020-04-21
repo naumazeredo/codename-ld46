@@ -151,7 +151,7 @@ void shop_interaction() {
 }
 
 void world_interaction() {
-  if(player_info.is_holding_item) {
+  if (player_info.is_holding_item) {
     if(!item::item_exists(player_info.holding_item_id)) {
       printf("player holding item doesn't exists!\n");
       player_info.is_holding_item = false;
