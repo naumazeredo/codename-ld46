@@ -67,8 +67,8 @@ void setup() {
   game_info.on_game_over.push_back(on_game_over_pause);
 
   game_info.bar_texture = TextureCode::TEX_BLANK;
-  game_info.bar_h = 32;
-  game_info.bar_w = 320;
+  game_info.bar_h = 24;
+  game_info.bar_w = 460;
   game_info.bar_position = geom::Point{SCREEN_WIDTH/2 - (f32) game_info.bar_w/2, SCREEN_HEIGHT - (f32) game_info.bar_h};
 }
 

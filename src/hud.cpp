@@ -6,8 +6,8 @@ namespace hud {
 
 void setup() {}
 
-const int DIGIT_WIDTH = 10;
-const int DIGIT_HEIGHT = 23;
+const int DIGIT_WIDTH = 7;
+const int DIGIT_HEIGHT = 15;
 
 void display_digit(int x, int y, int digit) {
     switch (digit) {
@@ -57,12 +57,17 @@ void display_number(int x, int y, int number) {
 }
 
 void update() {
-  int width = 800, height = 100;
-  int x = SCREEN_WIDTH / 2 - width / 2;
-  int y = SCREEN_HEIGHT - height + 20;
+  int health_width = 480, health_height = 48;
+  int health_x = SCREEN_WIDTH / 2 - health_width / 2;
+  int health_y = SCREEN_HEIGHT - health_height;
 
-  render::add_to_render(x, y, width, height, TextureCode::TEX_HUD, 9999);
-  display_number(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, 253);
+  int coins_width = 160, coins_height = 64;
+  int coins_x = SCREEN_WIDTH - coins_width;
+  int coins_y = SCREEN_HEIGHT - coins_height;
+
+  render::add_to_render(health_x, health_y, health_width, health_height, TextureCode::TEX_HUD_HEALTH, 9999);
+  render::add_to_render(coins_x, coins_y, coins_width, coins_height, TextureCode::TEX_HUD_COINS, 9999);
+  display_number(SCREEN_WIDTH - 40, SCREEN_HEIGHT - 28, player_info.money);
 }
 
 } // namespace hud

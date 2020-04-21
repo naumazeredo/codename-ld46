@@ -23,7 +23,8 @@ void load() {
   render::load_image("assets/gfx/king-rock-shadow.png");
   render::load_image("assets/gfx/construction_site_1.png");
   render::load_image("assets/gfx/store_turret.png");
-  render::load_image("assets/gfx/hud.png");
+  render::load_image("assets/gfx/hud_health.png");
+  render::load_image("assets/gfx/hud_coins.png");
   render::load_image("assets/gfx/digit_0.png");
   render::load_image("assets/gfx/digit_1.png");
   render::load_image("assets/gfx/digit_2.png");
