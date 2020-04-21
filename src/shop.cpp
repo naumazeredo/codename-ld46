@@ -78,7 +78,7 @@ void setup() {
   tmp.type = ShopType::FACTORY;
   tmp.texture = TextureCode::TEX_FACTORY;
   tmp.item_model_id = 0;
-  tmp.make_rate = 10;
+  tmp.make_rate = 25;
   shop_info.models.push_back(tmp);
 }
 

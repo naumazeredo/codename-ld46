@@ -35,7 +35,7 @@ struct RenderInfo {
   std::vector<f32> uv_buffer;
   std::vector<GLuint> element_buffer;
 
-  std::vector<s32> order;
+  std::vector<f32> order;
 
   // draw call
   std::vector<u32> draw_texture;
@@ -67,8 +67,8 @@ void render();
 
 u32 load_image(const char* filename);
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture, s32 z = -9900, Color tint = WHITE, bool flip_horizontal = false);
-void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, s32 z = -9800, Color tint = WHITE);
+void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 texture, f32 z = -9900, Color tint = WHITE, bool flip_horizontal = false);
+void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, f32 z = -9800, Color tint = WHITE);
 void render();
 
 }

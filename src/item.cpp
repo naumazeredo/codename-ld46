@@ -155,7 +155,7 @@ void setup() {
   tmp.damage = 1;
   tmp.action_rate = 5;
   tmp.action_range = 20;
-  tmp.damage = 10;
+  tmp.damage = 7;
   item_info.models.push_back(tmp);
 
   auto turret_animation = animation::generate_animation_from_files(

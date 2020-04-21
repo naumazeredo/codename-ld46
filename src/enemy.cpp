@@ -191,9 +191,11 @@ bool try_hit_enemy(u32 id, u32 damage) {
     const auto &enemy_model = get_enemy_model(id);
     const auto &drop_model_ids = enemy_model.drop_model_ids;
 
-    if(drop_model_ids.size() > 0) {
-      u32 drop_model_id = drop_model_ids[game_info.rand()%drop_model_ids.size()];
-      item::create_item(drop_model_id, enemy.position);
+    if ((rand() % 100) < 50) {
+      if(drop_model_ids.size() > 0) {
+        u32 drop_model_id = drop_model_ids[game_info.rand()%drop_model_ids.size()];
+        item::create_item(drop_model_id, enemy.position);
+      }
     }
 
     try_destroy_enemy(id);

@@ -244,11 +244,11 @@ u32 load_image(const char* filename) {
   return render_info.texture.size() - 1;
 }
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, s32 z, Color tint) {
+void add_to_render(s32 x, s32 y, s32 w, s32 h, TextureCode tex, f32 z, Color tint) {
   add_to_render(x, y, w, h, (u32)tex, z, tint);
 }
 
-void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, s32 z, Color tint, bool flip_horizontal) {
+void add_to_render(s32 x, s32 y, s32 w, s32 h, u32 tex, f32 z, Color tint, bool flip_horizontal) {
   auto start_vertex = render_info.vertex_buffer.size() / 3;
 
   f32 x0 = 2 * x/f32(SCREEN_WIDTH) - 1;

@@ -76,8 +76,34 @@ void render() {
     if(shop_place.state == ShopPlaceState::OCCUPIED) {
       auto [exist, shop_model] = shop::get_model_by_shop_id(shop_place.shop_id);
 
-      if (exist)
+      if (exist) {
         texture = shop_model.texture;
+
+        if (shop_model.type == ShopType::FACTORY) {
+          render::add_to_render(
+            shop_place.center.x - shop_place.w / 2 + 20,
+            shop_place.center.y - 55,
+            160,
+            10,
+            TextureCode::TEX_BLANK,
+            -999
+          );
+
+          Shop shop = shop_info.shops[shop_place.shop_id];
+          f64 total = shop_model.make_rate;
+          f64 current = game_time::get_time() - shop.last_make_time;
+
+          render::add_to_render(
+            shop_place.center.x - shop_place.w / 2 + 20,
+            shop_place.center.y - 55,
+            160 * (current / total),
+            10,
+            TextureCode::TEX_BLANK,
+            -999,
+            { 0.2, 0, 0, 1 }
+          );
+        }
+      }
     }
 
     render::add_to_render(shop_place.center.x - shop_place.w / 2,
@@ -86,6 +112,7 @@ void render() {
                           shop_place.h,
                           texture,
                           shop_place.center.y - shop_place.h / 2);
+
   }
 }
 
