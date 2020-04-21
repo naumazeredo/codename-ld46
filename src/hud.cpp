@@ -68,13 +68,13 @@ void update() {
   int coins_y = SCREEN_HEIGHT - coins_height;
 
   render::add_to_render(health_x, health_y, health_width, health_height, TextureCode::TEX_HUD_HEALTH, -3e5);
-  if (player_info.money) {
     render::add_to_render(coins_x, coins_y, coins_width, coins_height, TextureCode::TEX_HUD_COINS, -2e5);
-  } else {
-    render::add_to_render(coins_x, coins_y, coins_width, coins_height, TextureCode::TEX_DIGIT_0, -2e5);
-  }
   render::add_to_render(SCREEN_WIDTH - 40, SCREEN_HEIGHT - 60, 40, 40, TextureCode::TEX_MONEY, -3e5);
-  display_number(SCREEN_WIDTH - 40, SCREEN_HEIGHT - 28, player_info.money);
+  if (player_info.money) {
+    display_number(SCREEN_WIDTH - 45, SCREEN_HEIGHT - 28, player_info.money);
+  } else {
+    render::add_to_render(SCREEN_WIDTH - 45, SCREEN_HEIGHT - 28, DIGIT_WIDTH, DIGIT_HEIGHT, TextureCode::TEX_DIGIT_0, -3e5);
+  }
 
   DIGIT_WIDTH = 10;
   DIGIT_HEIGHT = 23;
