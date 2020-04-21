@@ -8,7 +8,7 @@ set FLAGS=/std:c++latest /FC /MP
 
 if "%1" == "release" (
   echo [Release build]
-  set FLAGS=%FLAGS% /MD /EHsc /O2
+  set FLAGS=%FLAGS% /MD /EHsc /O2 /permissive-
 ) else (
   echo [Debug build]
   @REM set FLAGS=%FLAGS% /Zi /MDd /EHsc /Od /permissive-
